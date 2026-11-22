@@ -1,0 +1,14 @@
+[gd_scene format=3]
+
+[node name="BaseVfxBurst" type="Node2D"]
+
+[node name="Particles" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 16
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.85
+spread = 180.0
+gravity = Vector2(0, 200)
+initial_velocity_min = 80.0
+initial_velocity_max = 180.0

@@ -1,0 +1,58 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+*.translation
+override.cfg
+export_credentials.cfg
+
+# LƯU Ý QUAN TRỌNG CHO GODOT 4.4+:
+# KHÔNG ignore *.import và *.uid vì cả team cần đồng bộ UID và metadata import của tài nguyên.
+
+# C# / .NET build artifacts & user-specific files
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.DotSettings.user
+packages/
+*.nupkg
+TestResults/
+
+# Build / Export outputs & Mobile signing secrets
+builds/
+exports/
+*.apk
+*.aab
+*.ipa
+*.pck
+*.keystore
+*.jks
+*.p12
+*.mobileprovision
+.env
+.env.local
+
+# IDEs (giữ lại cấu hình dùng chung trong .vscode)
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# OS & Temp files
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+*~
+*.tmp
+*.bak
+*.swp
+*.log

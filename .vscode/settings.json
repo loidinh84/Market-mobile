@@ -1,0 +1,21 @@
+{
+  "files.eol": "\n",
+  "editor.formatOnSave": true,
+  "files.exclude": {
+    "**/.godot": true,
+    "**/bin": true,
+    "**/obj": true
+  },
+  "search.exclude": {
+    "**/.godot": true,
+    "**/bin": true,
+    "**/obj": true,
+    "**/*.import": true,
+    "**/*.uid": true
+  },
+  "files.watcherExclude": {
+    "**/.godot/**": true,
+    "**/bin/**": true,
+    "**/obj/**": true
+  }
+}

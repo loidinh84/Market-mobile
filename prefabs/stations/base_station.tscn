@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(128, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interact"]
+size = Vector2(176, 144)
+
+[node name="BaseStation" type="StaticBody2D"]
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Visual"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_body")
+
+[node name="InteractionZone" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionZone"]
+shape = SubResource("RectangleShape2D_interact")
+
+[node name="ItemSlots" type="Node2D" parent="."]
+
+[node name="QueueAnchor" type="Marker2D" parent="."]
+position = Vector2(0, 96)
+
+[node name="ProgressAnchor" type="Marker2D" parent="."]
+position = Vector2(0, -84)
