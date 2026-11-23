@@ -28,6 +28,10 @@ window/handheld/orientation=4
 
 pointing/emulate_touch_from_mouse=true
 
+[layer_names]
+
+2d_physics/layer_1="CombatUnit"
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
