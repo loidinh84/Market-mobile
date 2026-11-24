@@ -4,24 +4,11 @@
 [ext_resource type="PackedScene" uid="uid://cqikuvhbt1mqq" path="res://prefabs/ui/game_background.tscn" id="2_25ghd"]
 [ext_resource type="PackedScene" uid="uid://xb5wn208lxi0" path="res://prefabs/ui/game_title.tscn" id="3_atvl1"]
 [ext_resource type="Texture2D" uid="uid://cwsdpyash00i6" path="res://assets/sprites/icons/google.png" id="3_nik8v"]
-[ext_resource type="Texture2D" path="res://assets/sprites/icons/eye_closed.svg" id="4_eye_closed"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3ydn5"]
 content_margin_left = 20.0
 content_margin_top = 10.0
 content_margin_right = 20.0
-content_margin_bottom = 10.0
-bg_color = Color(1, 1, 1, 1)
-border_color = Color(0, 0, 0, 1)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wyblv"]
-content_margin_left = 20.0
-content_margin_top = 10.0
-content_margin_right = 95.0
 content_margin_bottom = 10.0
 bg_color = Color(1, 1, 1, 1)
 border_color = Color(0, 0, 0, 1)
@@ -41,6 +28,18 @@ border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
 border_color = Color(1, 0.78039217, 0.17254902, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wyblv"]
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 95.0
+content_margin_bottom = 10.0
+bg_color = Color(1, 1, 1, 1)
+border_color = Color(0, 0, 0, 1)
 corner_radius_top_left = 12
 corner_radius_top_right = 12
 corner_radius_bottom_right = 12
@@ -72,16 +71,16 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_klgks_hover"]
-bg_color = Color(0.9607843, 0.8784314, 0.6666667, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_klgks_pressed"]
+bg_color = Color(0.9019608, 0.81960785, 0.60784316, 1)
 border_color = Color(0, 0, 0, 1)
 corner_radius_top_left = 12
 corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_klgks_pressed"]
-bg_color = Color(0.9019608, 0.81960785, 0.60784316, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_klgks_hover"]
+bg_color = Color(0.9607843, 0.8784314, 0.6666667, 1)
 border_color = Color(0, 0, 0, 1)
 corner_radius_top_left = 12
 corner_radius_top_right = 12
@@ -96,16 +95,16 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_107jk_hover"]
-bg_color = Color(0.4627451, 0.8509804, 0.78431374, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_107jk_pressed"]
+bg_color = Color(0.40392157, 0.78431374, 0.7176471, 1)
 border_color = Color(0, 0, 0, 1)
 corner_radius_top_left = 12
 corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_107jk_pressed"]
-bg_color = Color(0.40392157, 0.78431374, 0.7176471, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_107jk_hover"]
+bg_color = Color(0.4627451, 0.8509804, 0.78431374, 1)
 border_color = Color(0, 0, 0, 1)
 corner_radius_top_left = 12
 corner_radius_top_right = 12
@@ -123,22 +122,22 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gax2i_hover"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gax2i_pressed"]
 content_margin_left = 170.0
 content_margin_top = 14.0
 content_margin_bottom = 14.0
-bg_color = Color(0.96862745, 0.96862745, 0.96862745, 1)
+bg_color = Color(0.92156863, 0.92156863, 0.92156863, 1)
 border_color = Color(0, 0, 0, 1)
 corner_radius_top_left = 12
 corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gax2i_pressed"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gax2i_hover"]
 content_margin_left = 170.0
 content_margin_top = 14.0
 content_margin_bottom = 14.0
-bg_color = Color(0.92156863, 0.92156863, 0.92156863, 1)
+bg_color = Color(0.96862745, 0.96862745, 0.96862745, 1)
 border_color = Color(0, 0, 0, 1)
 corner_radius_top_left = 12
 corner_radius_top_right = 12
@@ -156,11 +155,6 @@ script = ExtResource("1_vtwjt")
 
 [node name="Background" parent="." unique_id=215031108 instance=ExtResource("2_25ghd")]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=572197174]
 layout_mode = 1
@@ -194,8 +188,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.13333334, 0.13333334, 0.13333334, 1)
 theme_override_font_sizes/font_size = 32
-theme_override_styles/focus = SubResource("StyleBoxFlat_input_focus")
 theme_override_styles/normal = SubResource("StyleBoxFlat_3ydn5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_input_focus")
 
 [node name="PasswordBox" type="HBoxContainer" parent="CenterContainer/MainVBox" unique_id=471253220]
 layout_mode = 2
@@ -213,8 +207,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.13333334, 0.13333334, 0.13333334, 1)
 theme_override_font_sizes/font_size = 32
-theme_override_styles/focus = SubResource("StyleBoxFlat_password_focus")
 theme_override_styles/normal = SubResource("StyleBoxFlat_wyblv")
+theme_override_styles/focus = SubResource("StyleBoxFlat_password_focus")
 secret = true
 
 [node name="TogglePasswordButton" type="Button" parent="CenterContainer/MainVBox/PasswordBox/PasswordInput" unique_id=1987654321]
@@ -232,14 +226,14 @@ offset_bottom = 24.0
 grow_horizontal = 0
 grow_vertical = 2
 focus_mode = 0
-theme_override_colors/font_color = Color(0.35, 0.22, 0.48, 1)
-theme_override_colors/font_hover_color = Color(0.25, 0.15, 0.38, 1)
+theme_override_colors/font_color = Color(1, 0.78039217, 0.17254902, 1)
 theme_override_colors/font_pressed_color = Color(0.2, 0.1, 0.3, 1)
+theme_override_colors/font_hover_color = Color(0.25, 0.15, 0.38, 1)
 theme_override_font_sizes/font_size = 24
-theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_focus")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_focus")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_focus")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_focus")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_focus")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
 text = "Hiện"
 flat = true
 
@@ -261,13 +255,13 @@ layout_mode = 2
 focus_mode = 0
 theme_override_colors/font_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
 theme_override_colors/font_focus_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
-theme_override_colors/font_hover_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
 theme_override_colors/font_pressed_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
+theme_override_colors/font_hover_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
 theme_override_font_sizes/font_size = 38
-theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
-theme_override_styles/hover = SubResource("StyleBoxFlat_klgks_hover")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_klgks_pressed")
 theme_override_styles/normal = SubResource("StyleBoxFlat_klgks")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_klgks_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_klgks_hover")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
 text = "Đăng nhập"
 
 [node name="Register" type="Button" parent="CenterContainer/MainVBox/ButtonsRow/ButtonsVBox" unique_id=1385624117]
@@ -276,13 +270,13 @@ layout_mode = 2
 focus_mode = 0
 theme_override_colors/font_color = Color(0.8462849, 0, 0.13245791, 1)
 theme_override_colors/font_focus_color = Color(0.8462849, 0, 0.13245791, 1)
-theme_override_colors/font_hover_color = Color(0.8462849, 0, 0.13245791, 1)
 theme_override_colors/font_pressed_color = Color(0.8462849, 0, 0.13245791, 1)
+theme_override_colors/font_hover_color = Color(0.8462849, 0, 0.13245791, 1)
 theme_override_font_sizes/font_size = 38
-theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
-theme_override_styles/hover = SubResource("StyleBoxFlat_107jk_hover")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_107jk_pressed")
 theme_override_styles/normal = SubResource("StyleBoxFlat_107jk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_107jk_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_107jk_hover")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
 text = "Tạo tài khoản mới"
 
 [node name="LoginWithGoogle" type="Button" parent="CenterContainer/MainVBox/ButtonsRow/ButtonsVBox" unique_id=856633792]
@@ -291,15 +285,15 @@ layout_mode = 2
 focus_mode = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
 theme_override_constants/h_separation = 16
 theme_override_font_sizes/font_size = 38
 theme_override_icons/icon = ExtResource("3_nik8v")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
-theme_override_styles/hover = SubResource("StyleBoxFlat_gax2i_hover")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_gax2i_pressed")
 theme_override_styles/normal = SubResource("StyleBoxFlat_gax2i")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_gax2i_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_gax2i_hover")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
 text = "Đăng nhập bằng Google"
 alignment = 0
 expand_icon = true

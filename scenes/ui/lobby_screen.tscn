@@ -1,0 +1,711 @@
+[gd_scene format=3 uid="uid://c4xtt2ahtfjnt"]
+
+[ext_resource type="PackedScene" uid="uid://cqikuvhbt1mqq" path="res://prefabs/ui/game_background.tscn" id="1_770pb"]
+[ext_resource type="Script" uid="uid://ekahc0usb1g3" path="res://scripts/UI/LobbyScreen.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bhpfaoskgd5o1" path="res://assets/sprites/icons/coin.png" id="2_pxkqu"]
+[ext_resource type="Texture2D" uid="uid://c6316kqnef77g" path="res://assets/sprites/icons/Add.svg" id="3_1dyjb"]
+[ext_resource type="Texture2D" uid="uid://py6k86kkpec5" path="res://assets/sprites/icons/rau.png" id="4_rau"]
+[ext_resource type="FontFile" uid="uid://cjd25dmr5o11b" path="res://assets/fonts/FZ-Orcish.ttf" id="5_font"]
+[ext_resource type="Texture2D" uid="uid://ds6hdmpgg38bf" path="res://assets/sprites/ui/name_banner.svg" id="6_banner"]
+[ext_resource type="Script" uid="uid://q8sf68eptkfl" path="res://scripts/UI/SidebarTab.cs" id="7_tab_script"]
+[ext_resource type="Texture2D" uid="uid://cfpcheaj7fsph" path="res://assets/sprites/icons/background_navbar.png" id="8_navbg"]
+[ext_resource type="Texture2D" uid="uid://cy7sikbvc35k0" path="res://assets/sprites/icons/tab_ticked.png" id="9_tab_ticked"]
+[ext_resource type="Texture2D" uid="uid://c0xjqmty7e2qt" path="res://assets/sprites/icons/tab_untick.png" id="10_tab_untick"]
+[ext_resource type="Texture2D" uid="uid://dq0icct61slao" path="res://assets/sprites/icons/tab_lobby.png" id="11_tab_lobby"]
+[ext_resource type="Texture2D" uid="uid://4b781ymxkumt" path="res://assets/sprites/icons/tab_characters.png" id="12_tab_characters"]
+[ext_resource type="Texture2D" uid="uid://c4nltk5ryqhsf" path="res://assets/sprites/icons/tab_events.png" id="13_tab_events"]
+[ext_resource type="Texture2D" uid="uid://db5h6pt774bp7" path="res://assets/sprites/icons/tab_shop.png" id="14_tab_shop"]
+[ext_resource type="Texture2D" uid="uid://cwan2oe3rh2gk" path="res://assets/sprites/icons/tab_setting.png" id="15_tab_setting"]
+[ext_resource type="Texture2D" uid="uid://derv2cl1xb4a3" path="res://assets/sprites/icons/friends.png" id="16_friends"]
+[ext_resource type="Texture2D" uid="uid://uclx23ccin4k" path="res://assets/sprites/icons/mode_frame.png" id="17_mode_frame"]
+[ext_resource type="Texture2D" uid="uid://dwelvoakfja5o" path="res://assets/sprites/icons/mode_map1.png" id="18_mode_map1"]
+[ext_resource type="Texture2D" uid="uid://cajiq13wffdbu" path="res://assets/sprites/icons/mode_1vs1.png" id="19_mode_1vs1"]
+[ext_resource type="Texture2D" uid="uid://cy0tpb827u41e" path="res://assets/sprites/icons/mode_style_play.png" id="20_mode_style_play"]
+[ext_resource type="Texture2D" uid="uid://cn8muhs4fbfks" path="res://assets/sprites/icons/start.png" id="21_start"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tabbtn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_currency"]
+content_margin_left = 12.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0.12156863, 0.050980393, 0.21960784, 0.9019608)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.78431374)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_btn"]
+
+[node name="LobbyScreen" type="Control" unique_id=1218370626 node_paths=PackedStringArray("_sidebarTabs")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+_sidebarTabs = []
+
+[node name="Background" parent="." unique_id=215031108 instance=ExtResource("1_770pb")]
+layout_mode = 1
+
+[node name="LeftSidebar" type="Control" parent="." unique_id=987654321]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 460.0
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="YellowBg" type="TextureRect" parent="LeftSidebar" unique_id=987654322]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 310.0
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("8_navbg")
+expand_mode = 1
+
+[node name="TabsVBox" type="VBoxContainer" parent="LeftSidebar" unique_id=987654323]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_top = 110.0
+offset_right = 460.0
+grow_vertical = 2
+theme_override_constants/separation = 26
+
+[node name="Tab0_Sanh" type="Control" parent="LeftSidebar/TabsVBox" unique_id=987000000]
+custom_minimum_size = Vector2(460, 158)
+layout_mode = 2
+size_flags_horizontal = 0
+script = ExtResource("7_tab_script")
+
+[node name="BgTexture" type="TextureRect" parent="LeftSidebar/TabsVBox/Tab0_Sanh" unique_id=461592502]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_tab_ticked")
+expand_mode = 1
+
+[node name="IconRect" type="TextureRect" parent="LeftSidebar/TabsVBox/Tab0_Sanh" unique_id=842326140]
+layout_mode = 0
+offset_left = 245.0
+offset_top = 32.0
+offset_right = 355.0
+offset_bottom = 142.0
+texture = ExtResource("11_tab_lobby")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TitleLabel" type="Label" parent="LeftSidebar/TabsVBox/Tab0_Sanh" unique_id=417843953]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 45.0
+offset_right = 270.0
+offset_bottom = 110.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 80
+text = "Sảnh"
+vertical_alignment = 1
+
+[node name="ClickBtn" type="Button" parent="LeftSidebar/TabsVBox/Tab0_Sanh" unique_id=1580348720]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tabbtn")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_tabbtn")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_tabbtn")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_tabbtn")
+flat = true
+
+[node name="Tab1_NhanVat" type="Control" parent="LeftSidebar/TabsVBox" unique_id=987000001]
+custom_minimum_size = Vector2(380, 158)
+layout_mode = 2
+size_flags_horizontal = 0
+script = ExtResource("7_tab_script")
+
+[node name="BgTexture" type="TextureRect" parent="LeftSidebar/TabsVBox/Tab1_NhanVat" unique_id=583643034]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_tab_untick")
+expand_mode = 1
+
+[node name="IconRect" type="TextureRect" parent="LeftSidebar/TabsVBox/Tab1_NhanVat" unique_id=952196144]
+layout_mode = 0
+offset_left = 120.0
+offset_top = -25.0
+offset_right = 220.0
+offset_bottom = 75.0
+texture = ExtResource("12_tab_characters")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TitleLabel" type="Label" parent="LeftSidebar/TabsVBox/Tab1_NhanVat" unique_id=1167946081]
+layout_mode = 0
+offset_top = 85.0
+offset_right = 310.0
+offset_bottom = 151.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 65
+text = "Nhân vật"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ClickBtn" type="Button" parent="LeftSidebar/TabsVBox/Tab1_NhanVat" unique_id=1056339620]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tabbtn")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_tabbtn")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_tabbtn")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_tabbtn")
+flat = true
+
+[node name="Tab2_SuKien" type="Control" parent="LeftSidebar/TabsVBox" unique_id=987000002]
+custom_minimum_size = Vector2(380, 158)
+layout_mode = 2
+size_flags_horizontal = 0
+script = ExtResource("7_tab_script")
+
+[node name="BgTexture" type="TextureRect" parent="LeftSidebar/TabsVBox/Tab2_SuKien" unique_id=761849500]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_tab_untick")
+expand_mode = 1
+
+[node name="IconRect" type="TextureRect" parent="LeftSidebar/TabsVBox/Tab2_SuKien" unique_id=1908239331]
+layout_mode = 0
+offset_left = 120.0
+offset_top = -25.0
+offset_right = 220.0
+offset_bottom = 75.0
+texture = ExtResource("13_tab_events")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TitleLabel" type="Label" parent="LeftSidebar/TabsVBox/Tab2_SuKien" unique_id=1741974872]
+layout_mode = 0
+offset_top = 85.0
+offset_right = 310.0
+offset_bottom = 137.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 65
+text = "Sự kiện"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ClickBtn" type="Button" parent="LeftSidebar/TabsVBox/Tab2_SuKien" unique_id=467168007]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tabbtn")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_tabbtn")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_tabbtn")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_tabbtn")
+flat = true
+
+[node name="Tab3_CuaHang" type="Control" parent="LeftSidebar/TabsVBox" unique_id=987000003]
+custom_minimum_size = Vector2(380, 158)
+layout_mode = 2
+size_flags_horizontal = 0
+script = ExtResource("7_tab_script")
+
+[node name="BgTexture" type="TextureRect" parent="LeftSidebar/TabsVBox/Tab3_CuaHang" unique_id=470614057]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_tab_untick")
+expand_mode = 1
+
+[node name="IconRect" type="TextureRect" parent="LeftSidebar/TabsVBox/Tab3_CuaHang" unique_id=1226384634]
+layout_mode = 0
+offset_left = 120.0
+offset_top = -20.0
+offset_right = 220.0
+offset_bottom = 80.0
+texture = ExtResource("14_tab_shop")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TitleLabel" type="Label" parent="LeftSidebar/TabsVBox/Tab3_CuaHang" unique_id=1399888755]
+layout_mode = 0
+offset_top = 85.0
+offset_right = 310.0
+offset_bottom = 137.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 65
+text = "Cửa hàng"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ClickBtn" type="Button" parent="LeftSidebar/TabsVBox/Tab3_CuaHang" unique_id=1200299234]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tabbtn")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_tabbtn")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_tabbtn")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_tabbtn")
+flat = true
+
+[node name="Tab4_CaiDat" type="Control" parent="LeftSidebar/TabsVBox" unique_id=987000004]
+custom_minimum_size = Vector2(380, 158)
+layout_mode = 2
+size_flags_horizontal = 0
+script = ExtResource("7_tab_script")
+
+[node name="BgTexture" type="TextureRect" parent="LeftSidebar/TabsVBox/Tab4_CaiDat" unique_id=931087873]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_tab_untick")
+expand_mode = 1
+
+[node name="IconRect" type="TextureRect" parent="LeftSidebar/TabsVBox/Tab4_CaiDat" unique_id=1490451430]
+layout_mode = 0
+offset_left = 110.0
+offset_top = -40.0
+offset_right = 250.0
+offset_bottom = 100.0
+texture = ExtResource("15_tab_setting")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TitleLabel" type="Label" parent="LeftSidebar/TabsVBox/Tab4_CaiDat" unique_id=1881719993]
+layout_mode = 0
+offset_top = 85.0
+offset_right = 310.0
+offset_bottom = 137.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 65
+text = "Cài đặt"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ClickBtn" type="Button" parent="LeftSidebar/TabsVBox/Tab4_CaiDat" unique_id=1123518918]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tabbtn")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_tabbtn")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_tabbtn")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_tabbtn")
+flat = true
+
+[node name="TopBar" type="MarginContainer" parent="." unique_id=1777802512]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 90.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 40
+
+[node name="TopHBox" type="HBoxContainer" parent="TopBar" unique_id=1043463493]
+custom_minimum_size = Vector2(0, 75)
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="LeftSpacer" type="Control" parent="TopBar/TopHBox" unique_id=1082522479]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CurrenciesHBox" type="HBoxContainer" parent="TopBar/TopHBox" unique_id=-800944581]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="CoinBar" type="PanelContainer" parent="TopBar/TopHBox/CurrenciesHBox" unique_id=1718561001]
+custom_minimum_size = Vector2(200, 56)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_currency")
+
+[node name="HBox" type="HBoxContainer" parent="TopBar/TopHBox/CurrenciesHBox/CoinBar" unique_id=272068384]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="CoinIcon" type="TextureRect" parent="TopBar/TopHBox/CurrenciesHBox/CoinBar/HBox" unique_id=160958520]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_pxkqu")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CoinNumber" type="Label" parent="TopBar/TopHBox/CurrenciesHBox/CoinBar/HBox" unique_id=876958614]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 28
+text = "123,456"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AddCoinBtn" type="Button" parent="TopBar/TopHBox/CurrenciesHBox/CoinBar/HBox" unique_id=406393956]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_btn")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_btn")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_btn")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_btn")
+icon = ExtResource("3_1dyjb")
+flat = true
+expand_icon = true
+
+[node name="GemBar" type="PanelContainer" parent="TopBar/TopHBox/CurrenciesHBox" unique_id=-950410619]
+custom_minimum_size = Vector2(200, 56)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_currency")
+
+[node name="HBox" type="HBoxContainer" parent="TopBar/TopHBox/CurrenciesHBox/GemBar" unique_id=160700492]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="GemIcon" type="TextureRect" parent="TopBar/TopHBox/CurrenciesHBox/GemBar/HBox" unique_id=1271811603]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("4_rau")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="GemNumber" type="Label" parent="TopBar/TopHBox/CurrenciesHBox/GemBar/HBox" unique_id=-1912044692]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 28
+text = "123,456"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AddGemBtn" type="Button" parent="TopBar/TopHBox/CurrenciesHBox/GemBar/HBox" unique_id=-800944570]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_btn")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_btn")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_btn")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_btn")
+icon = ExtResource("3_1dyjb")
+flat = true
+expand_icon = true
+
+[node name="RightSpacer" type="Control" parent="TopBar/TopHBox" unique_id=309066530]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NameBanner" type="Control" parent="." unique_id=1310177641]
+custom_minimum_size = Vector2(460, 150)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -460.0
+offset_bottom = 150.0
+grow_horizontal = 0
+
+[node name="BannerTexture" type="TextureRect" parent="NameBanner" unique_id=1234567890]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_banner")
+expand_mode = 1
+
+[node name="HeaderContent" type="VBoxContainer" parent="NameBanner" unique_id=1122334455]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -38.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="NameLabel" type="Label" parent="NameBanner/HeaderContent" unique_id=1100223344]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.4)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 50
+text = "Nguyễn Văn A"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="IdLabel" type="Label" parent="NameBanner/HeaderContent" unique_id=1398842063]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.95)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.35)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 30
+text = "ID: 123467"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RightColumn" type="Control" parent="." unique_id=2000000000]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -460.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="FriendsBtn" type="TextureButton" parent="RightColumn" unique_id=2000000001]
+custom_minimum_size = Vector2(250, 75)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -390.0
+offset_top = 375.0
+offset_right = 10.0
+offset_bottom = 495.0
+grow_horizontal = 0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("16_friends")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="RightColumn/FriendsBtn" unique_id=2000000002]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.4)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 60
+text = "Bạn bè"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ModeCard" type="Control" parent="RightColumn" unique_id=2000000003]
+custom_minimum_size = Vector2(450, 320)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -440.0
+offset_top = 465.0
+offset_right = 10.0
+offset_bottom = 785.0
+grow_horizontal = 0
+
+[node name="MapTexture" type="TextureRect" parent="RightColumn/ModeCard" unique_id=2000000004]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = 12.0
+offset_right = -14.0
+offset_bottom = -83.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("18_mode_map1")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="FrameTexture" type="TextureRect" parent="RightColumn/ModeCard" unique_id=2000000005]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("17_mode_frame")
+expand_mode = 1
+
+[node name="ButtonsRow" type="Control" parent="RightColumn/ModeCard" unique_id=1222447645]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = -80.0
+offset_right = -12.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Btn1vs1" type="TextureButton" parent="RightColumn/ModeCard/ButtonsRow" unique_id=2000000007]
+layout_mode = 0
+offset_left = 2.0
+offset_top = -4.0
+offset_right = 182.0
+offset_bottom = 68.0
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("19_mode_1vs1")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="RightColumn/ModeCard/ButtonsRow/Btn1vs1" unique_id=2000000008]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.45)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 50
+text = "1 VS 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnStyle" type="TextureButton" parent="RightColumn/ModeCard/ButtonsRow" unique_id=2000000009]
+layout_mode = 0
+offset_left = 180.0
+offset_top = -4.0
+offset_right = 425.0
+offset_bottom = 66.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.38
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("20_mode_style_play")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="RightColumn/ModeCard/ButtonsRow/BtnStyle" unique_id=2000000010]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.45)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 55
+text = "Thường"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StartBtn" type="TextureButton" parent="RightColumn" unique_id=2000000011]
+custom_minimum_size = Vector2(420, 226)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -450.0
+offset_top = -310.0
+offset_bottom = -60.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("21_start")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="RightColumn/StartBtn" unique_id=2000000012]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 65.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.45)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 90
+text = "Bắt đầu!"
+horizontal_alignment = 1
+vertical_alignment = 1
