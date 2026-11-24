@@ -8,6 +8,7 @@ public partial class LoginScreen : Control
 	private Button _loginButton;
 	private Button _registerButton;
 	private Button _googleButton;
+	private Button _togglePasswordButton;
 
 	public override void _Ready()
 	{
@@ -17,11 +18,27 @@ public partial class LoginScreen : Control
 		_loginButton = GetNode<Button>("CenterContainer/MainVBox/ButtonsRow/ButtonsVBox/Login");
 		_registerButton = GetNode<Button>("CenterContainer/MainVBox/ButtonsRow/ButtonsVBox/Register");
 		_googleButton = GetNode<Button>("CenterContainer/MainVBox/ButtonsRow/ButtonsVBox/LoginWithGoogle");
+		_togglePasswordButton = GetNodeOrNull<Button>("CenterContainer/MainVBox/PasswordBox/PasswordInput/TogglePasswordButton");
 
 		// Đăng ký sự kiện click nút
 		_loginButton.Pressed += OnLoginButtonPressed;
 		_registerButton.Pressed += OnRegisterButtonPressed;
 		_googleButton.Pressed += OnGoogleButtonPressed;
+
+		if (_togglePasswordButton != null)
+		{
+			_togglePasswordButton.Text = _passwordInput.Secret ? "Hiện" : "Ẩn";
+			_togglePasswordButton.Pressed += OnTogglePasswordPressed;
+		}
+	}
+
+	private void OnTogglePasswordPressed()
+	{
+		_passwordInput.Secret = !_passwordInput.Secret;
+		if (_togglePasswordButton != null)
+		{
+			_togglePasswordButton.Text = _passwordInput.Secret ? "Hiện" : "Ẩn";
+		}
 	}
 
 	private void OnLoginButtonPressed()
