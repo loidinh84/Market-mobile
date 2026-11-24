@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Market-mobile"
-run/main_scene="res://scenes/ui/login_screen.tscn"
+run/main_scene="uid://b8ovt6esabkt"
 config/features=PackedStringArray("4.7", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 

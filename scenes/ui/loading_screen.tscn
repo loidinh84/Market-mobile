@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://b8ovt6esabkt"]
+
+[ext_resource type="Script" uid="uid://7o0lj8bddssf" path="res://scripts/UI/LoadingScreen.cs" id="1_5fj0j"]
+[ext_resource type="PackedScene" uid="uid://cqikuvhbt1mqq" path="res://prefabs/ui/game_background.tscn" id="1_q4fso"]
+[ext_resource type="PackedScene" uid="uid://xb5wn208lxi0" path="res://prefabs/ui/game_title.tscn" id="2_5fj0j"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3ydn5"]
+bg_color = Color(1, 1, 1, 0.87058824)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7n77a"]
+bg_color = Color(1, 0.78039217, 0.17254902, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="LoadingScreen" type="Control" unique_id=851153970]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5fj0j")
+
+[node name="Background" parent="." unique_id=215031108 instance=ExtResource("1_q4fso")]
+layout_mode = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1160941594]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainVBox" type="VBoxContainer" parent="CenterContainer" unique_id=800868378]
+custom_minimum_size = Vector2(1000, 0)
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="Title" parent="CenterContainer/MainVBox" unique_id=909955131 instance=ExtResource("2_5fj0j")]
+layout_mode = 2
+
+[node name="StatusLabel" type="Label" parent="CenterContainer/MainVBox" unique_id=1601781698]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Đang tải tiến trình..."
+horizontal_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="CenterContainer/MainVBox" unique_id=1344456142]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.85)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 30
+theme_override_styles/background = SubResource("StyleBoxFlat_3ydn5")
+theme_override_styles/fill = SubResource("StyleBoxFlat_7n77a")

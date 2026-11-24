@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://xb5wn208lxi0"]
+
+[ext_resource type="FontFile" uid="uid://cjd25dmr5o11b" path="res://assets/fonts/FZ-Orcish.ttf" id="1_60nu7"]
+
+[node name="Title" type="Label" unique_id=909955131]
+theme_override_colors/font_color = Color(1, 0.78039217, 0.17254902, 1)
+theme_override_fonts/font = ExtResource("1_60nu7")
+theme_override_font_sizes/font_size = 160
+text = "Market
+Mobile"
+horizontal_alignment = 1
