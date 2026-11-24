@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dgnx2ifms1aoq"
-path="res://.godot/imported/eye_closed.svg-0e3f6f94aa99ed38d9055456a2c1ccdc.ctex"
+uid="uid://cs2fec7qe5rtm"
+path="res://.godot/imported/name_banner.png-2868903106786705e8a72f37dd8c4db1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/icons/eye_closed.svg"
-dest_files=["res://.godot/imported/eye_closed.svg-0e3f6f94aa99ed38d9055456a2c1ccdc.ctex"]
+source_file="res://assets/sprites/icons/name_banner.png"
+dest_files=["res://.godot/imported/name_banner.png-2868903106786705e8a72f37dd8c4db1.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

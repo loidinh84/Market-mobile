@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d34epp0s00fbf"
-path="res://.godot/imported/eye_open.svg-3835186f5f4fa978510fb46443e401b6.ctex"
+uid="uid://piikf3p7tdr8"
+path="res://.godot/imported/gem.svg-59faaa20ebd75a210149ed935cdbc070.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/icons/eye_open.svg"
-dest_files=["res://.godot/imported/eye_open.svg-3835186f5f4fa978510fb46443e401b6.ctex"]
+source_file="res://assets/sprites/icons/gem.svg"
+dest_files=["res://.godot/imported/gem.svg-59faaa20ebd75a210149ed935cdbc070.ctex"]
 
 [params]
 
