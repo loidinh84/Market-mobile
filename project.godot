@@ -11,7 +11,8 @@ config_version=5
 [application]
 
 config/name="Market-mobile"
-config/features=PackedStringArray("4.7", "GL Compatibility")
+run/main_scene="res://scenes/ui/login_screen.tscn"
+config/features=PackedStringArray("4.7", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [display]
@@ -23,6 +24,14 @@ window/size/window_height_override=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation=4
+
+[dotnet]
+
+project/assembly_name="Market-mobile"
+
+[gui]
+
+theme/custom_font="uid://cjd25dmr5o11b"
 
 [input_devices]
 

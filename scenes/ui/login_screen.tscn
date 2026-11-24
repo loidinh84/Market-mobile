@@ -1,0 +1,164 @@
+[gd_scene format=3 uid="uid://d2mbvewmiejwj"]
+
+[ext_resource type="Script" uid="uid://b71srwvrrkv3y" path="res://scenes/ui/LoginScreen.cs" id="1_vtwjt"]
+[ext_resource type="FontFile" uid="uid://cjd25dmr5o11b" path="res://assets/fonts/FZ-Orcish.ttf" id="2_nik8v"]
+[ext_resource type="Texture2D" uid="uid://cwsdpyash00i6" path="res://assets/sprites/icons/google.png" id="3_nik8v"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3ydn5"]
+bg_color = Color(1, 1, 1, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wyblv"]
+bg_color = Color(1, 1, 1, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_klgks"]
+bg_color = Color(0.9882353, 0.9098039, 0.69803923, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_107jk"]
+bg_color = Color(0.49019608, 0.8862745, 0.81960785, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gax2i"]
+content_margin_left = 170.0
+content_margin_top = 14.0
+content_margin_bottom = 14.0
+bg_color = Color(1, 1, 1, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="LoginScreen" type="Control" unique_id=1675925490]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vtwjt")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1138964899]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.23921569, 0.11764706, 0.42745098, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=572197174]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainVBox" type="VBoxContainer" parent="CenterContainer" unique_id=1286588680]
+custom_minimum_size = Vector2(1000, 0)
+layout_mode = 2
+theme_override_constants/separation = 28
+
+[node name="Title" type="Label" parent="CenterContainer/MainVBox" unique_id=1070010853]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.78039217, 0.17254902, 1)
+theme_override_fonts/font = ExtResource("2_nik8v")
+theme_override_font_sizes/font_size = 160
+text = "Market
+Mobile"
+horizontal_alignment = 1
+
+[node name="AccountBox" type="HBoxContainer" parent="CenterContainer/MainVBox" unique_id=1468032187]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/MainVBox/AccountBox" unique_id=583702457]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.78039217, 0.17254902, 1)
+theme_override_font_sizes/font_size = 38
+text = "Tên tài khoản:"
+
+[node name="AccountInput" type="LineEdit" parent="CenterContainer/MainVBox/AccountBox" unique_id=176796790]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.13333334, 0.13333334, 0.13333334, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_3ydn5")
+
+[node name="PasswordBox" type="HBoxContainer" parent="CenterContainer/MainVBox" unique_id=471253220]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/MainVBox/PasswordBox" unique_id=329354483]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.78039217, 0.17254902, 1)
+theme_override_font_sizes/font_size = 38
+text = "Mật khẩu:"
+
+[node name="PasswordInput" type="LineEdit" parent="CenterContainer/MainVBox/PasswordBox" unique_id=1350856448]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.13333334, 0.13333334, 0.13333334, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_wyblv")
+secret = true
+
+[node name="ButtonsRow" type="HBoxContainer" parent="CenterContainer/MainVBox" unique_id=537491985]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="CenterContainer/MainVBox/ButtonsRow" unique_id=33461714]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="ButtonsVBox" type="VBoxContainer" parent="CenterContainer/MainVBox/ButtonsRow" unique_id=842944053]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 16
+
+[node name="Login" type="Button" parent="CenterContainer/MainVBox/ButtonsRow/ButtonsVBox" unique_id=644597866]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
+theme_override_font_sizes/font_size = 38
+theme_override_styles/normal = SubResource("StyleBoxFlat_klgks")
+text = "Đăng nhập"
+
+[node name="Register" type="Button" parent="CenterContainer/MainVBox/ButtonsRow/ButtonsVBox" unique_id=1385624117]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8462849, 0, 0.13245791, 1)
+theme_override_font_sizes/font_size = 38
+theme_override_styles/normal = SubResource("StyleBoxFlat_107jk")
+text = "Tạo tài khoản mới"
+
+[node name="LoginWithGoogle" type="Button" parent="CenterContainer/MainVBox/ButtonsRow/ButtonsVBox" unique_id=856633792]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/h_separation = 16
+theme_override_font_sizes/font_size = 38
+theme_override_icons/icon = ExtResource("3_nik8v")
+theme_override_styles/normal = SubResource("StyleBoxFlat_gax2i")
+text = "Đăng nhập bằng Google"
+alignment = 0
+expand_icon = true
