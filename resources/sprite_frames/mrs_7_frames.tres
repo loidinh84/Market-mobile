@@ -101,10 +101,6 @@ region = Rect2(6144, 0, 1024, 1024)
 atlas = ExtResource("3_64kdk")
 region = Rect2(7168, 0, 1024, 1024)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7fmeh"]
-atlas = ExtResource("1_b8ixq")
-region = Rect2(0, 0, 1024, 1024)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_su3wh"]
 atlas = ExtResource("1_b8ixq")
 region = Rect2(1024, 0, 1024, 1024)
@@ -132,6 +128,10 @@ region = Rect2(6144, 0, 1024, 1024)
 [sub_resource type="AtlasTexture" id="AtlasTexture_8yqhl"]
 atlas = ExtResource("1_b8ixq")
 region = Rect2(7168, 0, 1024, 1024)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7fmeh"]
+atlas = ExtResource("1_b8ixq")
+region = Rect2(0, 0, 1024, 1024)
 
 [resource]
 animations = [{
@@ -224,9 +224,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_7fmeh")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_su3wh")
 }, {
 "duration": 1.0,
@@ -246,6 +243,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_8yqhl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7fmeh")
 }],
 "loop": 1,
 "name": &"walk",

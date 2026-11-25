@@ -89,6 +89,59 @@ public partial class LobbyScreen : Control
         if (btn1vs1 != null) btn1vs1.Pressed += OnMode1vs1Pressed;
         if (btnStyle != null) btnStyle.Pressed += OnModeStylePressed;
         if (startBtn != null) startBtn.Pressed += OnStartPressed;
+
+        // Setup ChatBox
+        var chatInput = GetNodeOrNull<LineEdit>("ChatBox/VBox/InputHBox/InputField");
+        var chatSendBtn = GetNodeOrNull<Button>("ChatBox/VBox/InputHBox/SendBtn");
+        var chatEmojiBtn = GetNodeOrNull<BaseButton>("ChatBox/VBox/InputHBox/EmojiBtn");
+        var messagesLabel = GetNodeOrNull<RichTextLabel>("ChatBox/VBox/MessagesScroll/MessagesLabel");
+
+        if (chatSendBtn != null && chatInput != null)
+        {
+            chatSendBtn.Pressed += () => SendChatMessage(chatInput, messagesLabel);
+            chatInput.TextSubmitted += (_) => SendChatMessage(chatInput, messagesLabel);
+        }
+
+        if (chatEmojiBtn != null && chatInput != null)
+        {
+            chatEmojiBtn.Pressed += () =>
+            {
+                chatInput.Text += "😊";
+                chatInput.GrabFocus();
+                chatInput.CaretColumn = chatInput.Text.Length;
+            };
+        }
+
+        // Setup Channel Tabs
+        var tabWorld = GetNodeOrNull<Button>("ChatBox/VBox/ChannelsHBox/TabWorld");
+        var tabFriends = GetNodeOrNull<Button>("ChatBox/VBox/ChannelsHBox/TabFriends");
+        var tabTeam = GetNodeOrNull<Button>("ChatBox/VBox/ChannelsHBox/TabTeam");
+
+        if (tabWorld != null) tabWorld.Pressed += () => SwitchChatChannel(0, tabWorld, tabFriends, tabTeam);
+        if (tabFriends != null) tabFriends.Pressed += () => SwitchChatChannel(1, tabWorld, tabFriends, tabTeam);
+        if (tabTeam != null) tabTeam.Pressed += () => SwitchChatChannel(2, tabWorld, tabFriends, tabTeam);
+    }
+
+    private void SendChatMessage(LineEdit input, RichTextLabel messages)
+    {
+        if (input == null || string.IsNullOrWhiteSpace(input.Text) || messages == null)
+            return;
+
+        messages.AppendText($"\n[b]Bạn:[/b] {input.Text}");
+        input.Text = string.Empty;
+    }
+
+    private void SwitchChatChannel(int channel, Button tabWorld, Button tabFriends, Button tabTeam)
+    {
+        var activeColor = new Color(1, 1, 1, 1);
+        var inactiveColor = new Color(0.8f, 0.8f, 0.85f, 0.8f);
+
+        if (tabWorld != null) tabWorld.AddThemeColorOverride("font_color", channel == 0 ? activeColor : inactiveColor);
+        if (tabFriends != null) tabFriends.AddThemeColorOverride("font_color", channel == 1 ? activeColor : inactiveColor);
+        if (tabTeam != null) tabTeam.AddThemeColorOverride("font_color", channel == 2 ? activeColor : inactiveColor);
+
+        string channelName = channel switch { 0 => "Thế giới", 1 => "Bạn bè", 2 => "Tổ đội", _ => "" };
+        GD.Print($"[LobbyScreen] Chuyển kênh chat sang: {channelName}");
     }
 
     private void OnFriendsPressed()
