@@ -13,6 +13,12 @@ public partial class LobbyScreen : Control
     [Export] private Button _changeNameBtn;
     [Export] private Button _logoutBtn;
 
+    private SettingsPanel _settingsPanel;
+    private Node2D _characterDisplay;
+    private Control _topBar;
+    private Control _rightColumn;
+    private Control _chatBox;
+
     private int _currentTabIndex = 0;
     private bool _isDropdownOpen = false;
     private Tween _bannerTween;
@@ -120,6 +126,19 @@ public partial class LobbyScreen : Control
         if (tabWorld != null) tabWorld.Pressed += () => SwitchChatChannel(0, tabWorld, tabFriends, tabTeam);
         if (tabFriends != null) tabFriends.Pressed += () => SwitchChatChannel(1, tabWorld, tabFriends, tabTeam);
         if (tabTeam != null) tabTeam.Pressed += () => SwitchChatChannel(2, tabWorld, tabFriends, tabTeam);
+
+        // Setup Lobby content refs & SettingsPanel
+        _characterDisplay = GetNodeOrNull<Node2D>("CharacterDisplay");
+        _topBar = GetNodeOrNull<Control>("TopBar");
+        _rightColumn = GetNodeOrNull<Control>("RightColumn");
+        _chatBox = GetNodeOrNull<Control>("ChatBox");
+
+        _settingsPanel = GetNodeOrNull<SettingsPanel>("SettingsPanel");
+        if (_settingsPanel != null)
+        {
+            _settingsPanel.Visible = false;
+            _settingsPanel.LogoutRequested += OnLogoutPressed;
+        }
     }
 
     private void SendChatMessage(LineEdit input, RichTextLabel messages)
@@ -183,6 +202,22 @@ public partial class LobbyScreen : Control
         {
             _sidebarTabs[_currentTabIndex].SetActive(true, true);
         }
+
+        // Toggle visibility between Lobby UI and SettingsPanel
+        bool isLobby = tabIndex == 0;
+        bool isSettings = tabIndex == 4;
+
+        if (!isLobby && _isDropdownOpen)
+        {
+            CloseDropdown();
+        }
+
+        if (_characterDisplay != null) _characterDisplay.Visible = isLobby;
+        if (_topBar != null) _topBar.Visible = isLobby;
+        if (_nameBanner != null) _nameBanner.Visible = isLobby;
+        if (_rightColumn != null) _rightColumn.Visible = isLobby;
+        if (_chatBox != null) _chatBox.Visible = isLobby;
+        if (_settingsPanel != null) _settingsPanel.Visible = isSettings;
     }
 
     private void ToggleDropdown()

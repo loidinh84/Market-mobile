@@ -1,5 +1,37 @@
 [gd_scene format=3 uid="uid://doo0fbyyhpvuf"]
 
+[ext_resource type="FontFile" uid="uid://cjd25dmr5o11b" path="res://assets/fonts/FZ-Orcish.ttf" id="1_font"]
+[ext_resource type="Texture2D" uid="uid://cusqy2oiuerwj" path="res://assets/sprites/icons/sound.png" id="2_sound"]
+[ext_resource type="Texture2D" uid="uid://fnjig16aph6b" path="res://assets/sprites/icons/btn_sound.png" id="3_btn_sound"]
+[ext_resource type="Texture2D" uid="uid://m2na6cn0x5wy" path="res://assets/sprites/icons/check_sound.png" id="4_check"]
+[ext_resource type="Texture2D" uid="uid://cb8riuvk06j1x" path="res://assets/sprites/icons/language_name.png" id="5_lang_name"]
+[ext_resource type="Texture2D" uid="uid://d17aqb1jbwo6y" path="res://assets/sprites/icons/logout.png" id="6_logout"]
+[ext_resource type="Texture2D" uid="uid://dffk8rviacr1f" path="res://assets/sprites/icons/logout_name.png" id="7_logout_name"]
+[ext_resource type="Script" path="res://scripts/UI/SettingsPanel.cs" id="8_script"]
+[ext_resource type="Texture2D" uid="uid://cvo0wueq5dvmu" path="res://assets/sprites/icons/language.png" id="9_language"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_divider"]
+color = Color(1, 1, 1, 0.55)
+thickness = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slider_bg"]
+bg_color = Color(0.84, 0.86, 0.9, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slider_fill"]
+bg_color = Color(0.31, 0.63, 0.96, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
 [node name="SettingsPanel" type="Control" unique_id=921039950]
 layout_mode = 3
 anchors_preset = 15
@@ -7,3 +39,239 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("8_script")
+
+[node name="ContentMargin" type="MarginContainer" parent="." unique_id=175658334]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 520
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 80
+
+[node name="MainVBox" type="VBoxContainer" parent="ContentMargin" unique_id=532230849]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 32
+
+[node name="SoundHeaderHBox" type="HBoxContainer" parent="ContentMargin/MainVBox" unique_id=1644258681]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 20
+
+[node name="SoundIcon" type="TextureRect" parent="ContentMargin/MainVBox/SoundHeaderHBox" unique_id=368364807]
+custom_minimum_size = Vector2(72, 66)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("2_sound")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SoundTitle" type="Label" parent="ContentMargin/MainVBox/SoundHeaderHBox" unique_id=193670028]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 56
+text = "Âm thanh"
+
+[node name="Divider" type="HSeparator" parent="ContentMargin/MainVBox" unique_id=1854397898]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_divider")
+
+[node name="VolumeRow" type="HBoxContainer" parent="ContentMargin/MainVBox" unique_id=1128866387]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 28
+
+[node name="VolumeLabel" type="Label" parent="ContentMargin/MainVBox/VolumeRow" unique_id=1720969439]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 44
+text = "Âm lượng:"
+
+[node name="VolumeSlider" type="HSlider" parent="ContentMargin/MainVBox/VolumeRow" unique_id=620682114]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/slider = SubResource("StyleBoxFlat_slider_bg")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_slider_fill")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_slider_fill")
+value = 80.0
+
+[node name="VolumeValueLabel" type="Label" parent="ContentMargin/MainVBox/VolumeRow" unique_id=1394156858]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 44
+text = "80/100"
+horizontal_alignment = 2
+
+[node name="SoundToggleRow" type="HBoxContainer" parent="ContentMargin/MainVBox" unique_id=147640178]
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 20
+
+[node name="MuteLabel" type="Label" parent="ContentMargin/MainVBox/SoundToggleRow" unique_id=858791771]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 44
+text = "Bật/Tắt:"
+
+[node name="Spacer" type="Control" parent="ContentMargin/MainVBox/SoundToggleRow" unique_id=1848404288]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="MuteStatusLabel" type="Label" parent="ContentMargin/MainVBox/SoundToggleRow" unique_id=204815588]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 40
+text = "Đang bật"
+horizontal_alignment = 2
+
+[node name="SoundSwitchBtn" type="TextureButton" parent="ContentMargin/MainVBox/SoundToggleRow" unique_id=323617823]
+custom_minimum_size = Vector2(119, 59)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("3_btn_sound")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Knob" type="TextureRect" parent="ContentMargin/MainVBox/SoundToggleRow/SoundSwitchBtn" unique_id=716117856]
+layout_mode = 0
+offset_left = 65.0
+offset_top = 6.0
+offset_right = 111.0
+offset_bottom = 52.0
+mouse_filter = 2
+texture = ExtResource("4_check")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LanguageRow" type="HBoxContainer" parent="ContentMargin/MainVBox" unique_id=1502643341]
+custom_minimum_size = Vector2(0, 77)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 20
+
+[node name="LangIcon" type="TextureRect" parent="ContentMargin/MainVBox/LanguageRow" unique_id=2018636370]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("9_language")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LangLabel" type="Label" parent="ContentMargin/MainVBox/LanguageRow" unique_id=920264159]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 48
+text = "Ngôn ngữ"
+
+[node name="LangBtn" type="TextureButton" parent="ContentMargin/MainVBox/LanguageRow" unique_id=1400546903]
+custom_minimum_size = Vector2(220, 77)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("5_lang_name")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="ContentMargin/MainVBox/LanguageRow/LangBtn" unique_id=1193670883]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 12.0
+offset_right = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.08, 0.08, 0.1, 1)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 36
+text = "Tiếng Việt"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LogoutBtn" type="TextureButton" parent="." unique_id=698792807]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -330.0
+offset_top = -146.0
+offset_right = -80.0
+offset_bottom = -60.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("7_logout_name")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="HBox" type="HBoxContainer" parent="LogoutBtn" unique_id=1341510042]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 10.0
+offset_right = -18.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Icon" type="TextureRect" parent="LogoutBtn/HBox" unique_id=1194206423]
+custom_minimum_size = Vector2(40, 38)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("6_logout")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="LogoutBtn/HBox" unique_id=1425260167]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 36
+text = "Đăng xuất"
