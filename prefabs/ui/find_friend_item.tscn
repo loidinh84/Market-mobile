@@ -1,0 +1,108 @@
+[gd_scene format=3]
+
+[ext_resource type="FontFile" uid="uid://cjd25dmr5o11b" path="res://assets/fonts/FZ-Orcish.ttf" id="1_font"]
+[ext_resource type="Script" path="res://scripts/UI/FindFriendItem.cs" id="2_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avatar"]
+bg_color = Color(0.835, 0.863, 0.886, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_add_normal"]
+content_margin_left = 18.0
+content_margin_top = 8.0
+content_margin_right = 18.0
+content_margin_bottom = 8.0
+bg_color = Color(0.24, 0.62, 0.92, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_add_hover"]
+content_margin_left = 18.0
+content_margin_top = 8.0
+content_margin_right = 18.0
+content_margin_bottom = 8.0
+bg_color = Color(0.32, 0.70, 0.98, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_add_disabled"]
+content_margin_left = 18.0
+content_margin_top = 8.0
+content_margin_right = 18.0
+content_margin_bottom = 8.0
+bg_color = Color(0.45, 0.43, 0.55, 0.9)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="FindFriendItem" type="VBoxContainer"]
+size_flags_horizontal = 3
+theme_override_constants/separation = 14
+script = ExtResource("2_script")
+
+[node name="RowHBox" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="AvatarFrame" type="PanelContainer" parent="RowHBox"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_avatar")
+
+[node name="AvatarTexture" type="TextureRect" parent="RowHBox/AvatarFrame"]
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="InfoVBox" type="VBoxContainer" parent="RowHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 4
+
+[node name="NameLabel" type="Label" parent="RowHBox/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 42
+text = "Thành Lợi"
+
+[node name="IdLabel" type="Label" parent="RowHBox/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.85, 0.96, 0.9)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 28
+text = "ID: 200101"
+
+[node name="AddFriendBtn" type="Button" parent="RowHBox"]
+custom_minimum_size = Vector2(210, 62)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.92, 0.92, 0.95, 0.85)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_add_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_add_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_add_hover")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_add_disabled")
+text = "Kết bạn"
+
+[node name="BottomDivider" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0.92)

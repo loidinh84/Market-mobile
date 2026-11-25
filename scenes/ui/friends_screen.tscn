@@ -1,0 +1,799 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" uid="uid://cqikuvhbt1mqq" path="res://prefabs/ui/game_background.tscn" id="1_bg"]
+[ext_resource type="FontFile" uid="uid://cjd25dmr5o11b" path="res://assets/fonts/FZ-Orcish.ttf" id="2_font"]
+[ext_resource type="Texture2D" uid="uid://bbq64ldrfdvte" path="res://assets/sprites/icons/back.png" id="3_back"]
+[ext_resource type="PackedScene" path="res://prefabs/ui/friend_item.tscn" id="5_friend_item"]
+[ext_resource type="Script" path="res://scripts/UI/FriendsScreen.cs" id="6_script"]
+[ext_resource type="Texture2D" uid="uid://cvlo6rthho87x" path="res://assets/sprites/icons/emotion.png" id="7_emotion"]
+[ext_resource type="Shader" path="res://assets/shaders/tab_highlight_sweep.gdshader" id="8_tab_shader"]
+[ext_resource type="PackedScene" path="res://prefabs/ui/find_friend_item.tscn" id="9_find_friend_item"]
+[ext_resource type="Script" path="res://scripts/UI/FriendChatDrawer.cs" id="10_chat_drawer_script"]
+[ext_resource type="PackedScene" path="res://prefabs/ui/chat_friend_item.tscn" id="11_chat_friend_item"]
+[ext_resource type="PackedScene" path="res://prefabs/ui/friend_request_item.tscn" id="12_friend_request_item"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tab_highlight"]
+shader = ExtResource("8_tab_shader")
+shader_parameter/color_left = Color(0.325, 0.204, 0.624, 0)
+shader_parameter/color_mid = Color(0.62, 0.5, 0.82, 0.48)
+shader_parameter/color_right = Color(1, 0.96, 0.74, 0.95)
+shader_parameter/edge_glow_color = Color(1, 0.99, 0.9, 1)
+shader_parameter/sweep_pos = -0.5
+shader_parameter/sweep_width = 0.22
+shader_parameter/sweep_strength = 0.42
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tab"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_search_input"]
+content_margin_left = 18.0
+content_margin_top = 10.0
+content_margin_right = 18.0
+content_margin_bottom = 10.0
+bg_color = Color(0.92, 0.92, 0.96, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.22, 0.14, 0.45, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_primary_btn"]
+content_margin_left = 24.0
+content_margin_top = 10.0
+content_margin_right = 24.0
+content_margin_bottom = 10.0
+bg_color = Color(0.95, 0.72, 0.16, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.55, 0.25, 0.05, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dialog"]
+content_margin_left = 36.0
+content_margin_top = 30.0
+content_margin_right = 36.0
+content_margin_bottom = 30.0
+bg_color = Color(0.18, 0.1, 0.36, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 0.7)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cancel_btn"]
+content_margin_left = 28.0
+content_margin_top = 10.0
+content_margin_right = 28.0
+content_margin_bottom = 10.0
+bg_color = Color(0.42, 0.4, 0.52, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_danger_btn"]
+content_margin_left = 28.0
+content_margin_top = 10.0
+content_margin_right = 28.0
+content_margin_bottom = 10.0
+bg_color = Color(0.68, 0.18, 0.16, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chat_drawer"]
+bg_color = Color(0.173, 0.122, 0.361, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chat_avatar"]
+bg_color = Color(0.78, 0.82, 0.855, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_drawer_input"]
+content_margin_left = 18.0
+content_margin_top = 10.0
+content_margin_right = 18.0
+content_margin_bottom = 10.0
+bg_color = Color(0.392, 0.353, 0.502, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.1, 0.07, 0.18, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_drawer_send"]
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 10.0
+bg_color = Color(0.412, 0.376, 0.522, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.1, 0.07, 0.18, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_badge"]
+content_margin_left = 8.0
+content_margin_top = 2.0
+content_margin_right = 8.0
+content_margin_bottom = 2.0
+bg_color = Color(0.88, 0.2, 0.18, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[node name="FriendsScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_script")
+_friendItemScene = ExtResource("5_friend_item")
+_findFriendItemScene = ExtResource("9_find_friend_item")
+_friendRequestItemScene = ExtResource("12_friend_request_item")
+
+[node name="Background" parent="." instance=ExtResource("1_bg")]
+layout_mode = 1
+
+[node name="HeaderHBox" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 34.0
+offset_right = 620.0
+offset_bottom = 134.0
+theme_override_constants/separation = 36
+
+[node name="BackBtn" type="TextureButton" parent="HeaderHBox"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("3_back")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="TitleLabel" type="Label" parent="HeaderHBox"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 64
+text = "Bạn bè"
+vertical_alignment = 1
+
+[node name="LeftTabsArea" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_top = 185.0
+offset_right = 410.0
+offset_bottom = -95.0
+grow_vertical = 2
+
+[node name="SlidingHighlight" type="ColorRect" parent="LeftTabsArea"]
+material = SubResource("ShaderMaterial_tab_highlight")
+layout_mode = 0
+offset_right = 410.0
+offset_bottom = 118.0
+mouse_filter = 2
+
+[node name="LeftTabsVBox" type="VBoxContainer" parent="LeftTabsArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="TabFriends" type="Control" parent="LeftTabsArea/LeftTabsVBox"]
+custom_minimum_size = Vector2(410, 118)
+layout_mode = 2
+
+[node name="HoverBg" type="ColorRect" parent="LeftTabsArea/LeftTabsVBox/TabFriends"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0)
+
+[node name="Label" type="Label" parent="LeftTabsArea/LeftTabsVBox/TabFriends"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(205, 59)
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 56
+text = "Bạn bè"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ClickBtn" type="Button" parent="LeftTabsArea/LeftTabsVBox/TabFriends"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tab")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_tab")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_tab")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_tab")
+flat = true
+
+[node name="TabFind" type="Control" parent="LeftTabsArea/LeftTabsVBox"]
+custom_minimum_size = Vector2(410, 118)
+layout_mode = 2
+
+[node name="HoverBg" type="ColorRect" parent="LeftTabsArea/LeftTabsVBox/TabFind"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0)
+
+[node name="Label" type="Label" parent="LeftTabsArea/LeftTabsVBox/TabFind"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(205, 59)
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 56
+text = "Tìm Bạn"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ClickBtn" type="Button" parent="LeftTabsArea/LeftTabsVBox/TabFind"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tab")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_tab")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_tab")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_tab")
+flat = true
+
+[node name="TabRequests" type="Control" parent="LeftTabsArea/LeftTabsVBox"]
+custom_minimum_size = Vector2(410, 118)
+layout_mode = 2
+
+[node name="HoverBg" type="ColorRect" parent="LeftTabsArea/LeftTabsVBox/TabRequests"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0)
+
+[node name="Label" type="Label" parent="LeftTabsArea/LeftTabsVBox/TabRequests"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(205, 59)
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 56
+text = "Yêu cầu"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Badge" type="PanelContainer" parent="LeftTabsArea/LeftTabsVBox/TabRequests"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -74.0
+offset_top = -22.0
+offset_right = -26.0
+offset_bottom = 22.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_badge")
+
+[node name="CountLabel" type="Label" parent="LeftTabsArea/LeftTabsVBox/TabRequests/Badge"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 26
+text = "6"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ClickBtn" type="Button" parent="LeftTabsArea/LeftTabsVBox/TabRequests"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tab")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_tab")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_tab")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_tab")
+flat = true
+
+[node name="VerticalDivider" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 410.0
+offset_top = 185.0
+offset_right = 414.0
+offset_bottom = -95.0
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0.92)
+
+[node name="RightContent" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 414.0
+offset_top = 165.0
+offset_right = -75.0
+offset_bottom = -55.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 65
+theme_override_constants/margin_right = 15
+
+[node name="FriendsListPanel" type="VBoxContainer" parent="RightContent"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="FriendsScroll" type="ScrollContainer" parent="RightContent/FriendsListPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ContentMargin" type="MarginContainer" parent="RightContent/FriendsListPanel/FriendsScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_right = 28
+
+[node name="FriendsVBox" type="VBoxContainer" parent="RightContent/FriendsListPanel/FriendsScroll/ContentMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 14
+
+[node name="EmptyLabel" type="Label" parent="RightContent/FriendsListPanel"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(1, 1, 1, 0.78)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 44
+text = "Chưa có bạn bè nào"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FindFriendPanel" type="VBoxContainer" parent="RightContent"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="SearchHBox" type="HBoxContainer" parent="RightContent/FindFriendPanel"]
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="SearchInput" type="LineEdit" parent="RightContent/FindFriendPanel/SearchHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.12, 0.1, 0.2, 1)
+theme_override_colors/font_placeholder_color = Color(0.42, 0.4, 0.5, 0.85)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 34
+theme_override_styles/normal = SubResource("StyleBoxFlat_search_input")
+theme_override_styles/focus = SubResource("StyleBoxFlat_search_input")
+placeholder_text = "Nhập tên hoặc ID người chơi..."
+
+[node name="SearchBtn" type="Button" parent="RightContent/FindFriendPanel/SearchHBox"]
+custom_minimum_size = Vector2(180, 64)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.28, 0.12, 0.02, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxFlat_primary_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_primary_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_primary_btn")
+text = "Tìm"
+
+[node name="ResultScroll" type="ScrollContainer" parent="RightContent/FindFriendPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ContentMargin" type="MarginContainer" parent="RightContent/FindFriendPanel/ResultScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_right = 28
+
+[node name="ResultVBox" type="VBoxContainer" parent="RightContent/FindFriendPanel/ResultScroll/ContentMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 14
+
+[node name="FindEmptyLabel" type="Label" parent="RightContent/FindFriendPanel"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(1, 1, 1, 0.78)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 42
+text = "Không tìm thấy người chơi phù hợp"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RequestsPanel" type="VBoxContainer" parent="RightContent"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="RequestsScroll" type="ScrollContainer" parent="RightContent/RequestsPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ContentMargin" type="MarginContainer" parent="RightContent/RequestsPanel/RequestsScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_right = 28
+
+[node name="RequestsVBox" type="VBoxContainer" parent="RightContent/RequestsPanel/RequestsScroll/ContentMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 14
+
+[node name="RequestsEmptyLabel" type="Label" parent="RightContent/RequestsPanel"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(1, 1, 1, 0.78)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 44
+text = "Không có yêu cầu kết bạn nào"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ConfirmDeleteOverlay" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="DialogPanel" type="PanelContainer" parent="ConfirmDeleteOverlay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -360.0
+offset_top = -140.0
+offset_right = 360.0
+offset_bottom = 140.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dialog")
+
+[node name="VBox" type="VBoxContainer" parent="ConfirmDeleteOverlay/DialogPanel"]
+layout_mode = 2
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="MessageLabel" type="Label" parent="ConfirmDeleteOverlay/DialogPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 38
+text = "Xóa bạn này khỏi danh sách?"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="ButtonsHBox" type="HBoxContainer" parent="ConfirmDeleteOverlay/DialogPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 36
+alignment = 1
+
+[node name="CancelBtn" type="Button" parent="ConfirmDeleteOverlay/DialogPanel/VBox/ButtonsHBox"]
+custom_minimum_size = Vector2(180, 60)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 34
+theme_override_styles/normal = SubResource("StyleBoxFlat_cancel_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cancel_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cancel_btn")
+text = "Hủy"
+
+[node name="ConfirmBtn" type="Button" parent="ConfirmDeleteOverlay/DialogPanel/VBox/ButtonsHBox"]
+custom_minimum_size = Vector2(180, 60)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 34
+theme_override_styles/normal = SubResource("StyleBoxFlat_danger_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_danger_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_danger_btn")
+text = "Xóa"
+
+[node name="ChatOverlay" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("10_chat_drawer_script")
+_chatFriendItemScene = ExtResource("11_chat_friend_item")
+
+[node name="Backdrop" type="ColorRect" parent="ChatOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ChatDrawer" type="Panel" parent="ChatOverlay"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 1100.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_chat_drawer")
+
+[node name="HeaderLabel" type="Label" parent="ChatOverlay/ChatDrawer"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 48.0
+offset_right = 420.0
+offset_bottom = 132.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 58
+text = "Bạn bè"
+vertical_alignment = 1
+
+[node name="ChatFriendsScroll" type="ScrollContainer" parent="ChatOverlay/ChatDrawer"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_top = 180.0
+offset_right = 390.0
+offset_bottom = -125.0
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="ChatFriendsVBox" type="VBoxContainer" parent="ChatOverlay/ChatDrawer/ChatFriendsScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="DrawerVerticalDivider" type="ColorRect" parent="ChatOverlay/ChatDrawer"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 390.0
+offset_top = 180.0
+offset_right = 394.0
+offset_bottom = -125.0
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0.92)
+
+[node name="ConversationArea" type="VBoxContainer" parent="ChatOverlay/ChatDrawer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 434.0
+offset_top = 196.0
+offset_right = -42.0
+offset_bottom = -125.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 24
+
+[node name="PartnerHeaderHBox" type="HBoxContainer" parent="ChatOverlay/ChatDrawer/ConversationArea"]
+custom_minimum_size = Vector2(0, 82)
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="PartnerAvatar" type="PanelContainer" parent="ChatOverlay/ChatDrawer/ConversationArea/PartnerHeaderHBox"]
+custom_minimum_size = Vector2(78, 78)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_chat_avatar")
+
+[node name="PartnerNameLabel" type="Label" parent="ChatOverlay/ChatDrawer/ConversationArea/PartnerHeaderHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 34
+text = "Nguyễn Trọng Nhân"
+vertical_alignment = 1
+
+[node name="MessagesScroll" type="ScrollContainer" parent="ChatOverlay/ChatDrawer/ConversationArea"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="MessagesLabel" type="RichTextLabel" parent="ChatOverlay/ChatDrawer/ConversationArea/MessagesScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_fonts/normal_font = ExtResource("2_font")
+theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/bold_font_size = 30
+bbcode_enabled = true
+fit_content = true
+
+[node name="InputHBox" type="HBoxContainer" parent="ChatOverlay/ChatDrawer"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 18.0
+offset_top = -94.0
+offset_right = -24.0
+offset_bottom = -22.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 16
+
+[node name="ChatInput" type="LineEdit" parent="ChatOverlay/ChatDrawer/InputHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_placeholder_color = Color(0.84, 0.82, 0.92, 0.75)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_drawer_input")
+theme_override_styles/focus = SubResource("StyleBoxFlat_drawer_input")
+placeholder_text = "Nhập tin nhắn..."
+
+[node name="EmojiBtn" type="TextureButton" parent="ChatOverlay/ChatDrawer/InputHBox"]
+custom_minimum_size = Vector2(62, 62)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("7_emotion")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="SendBtn" type="Button" parent="ChatOverlay/ChatDrawer/InputHBox"]
+custom_minimum_size = Vector2(165, 64)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 34
+theme_override_styles/normal = SubResource("StyleBoxFlat_drawer_send")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_drawer_send")
+theme_override_styles/hover = SubResource("StyleBoxFlat_drawer_send")
+text = "Gửi"
+
+[node name="CollapseBtn" type="Button" parent="ChatOverlay/ChatDrawer"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -42.0
+offset_top = -54.0
+offset_right = 42.0
+offset_bottom = 54.0
+grow_horizontal = 0
+grow_vertical = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tab")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_tab")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_tab")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_tab")
+flat = true
+
+[node name="HexBg" type="Polygon2D" parent="ChatOverlay/ChatDrawer/CollapseBtn"]
+color = Color(0.24, 0.18, 0.48, 1)
+polygon = PackedVector2Array(42, 0, 84, 26, 84, 82, 42, 108, 0, 82, 0, 26)
+
+[node name="ChevronLabel" type="Label" parent="ChatOverlay/ChatDrawer/CollapseBtn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.72, 0.22, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 54
+text = "<"
+horizontal_alignment = 1
+vertical_alignment = 1
