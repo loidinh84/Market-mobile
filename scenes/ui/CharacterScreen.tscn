@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://iu8nshbrftqj"]
+
+[ext_resource type="Texture2D" uid="uid://iuithbsk4sn3" path="res://assets/sprites/icons/background_character.png" id="1_skmd1"]
+[ext_resource type="SpriteFrames" uid="uid://eme5isxr5x2a" path="res://resources/sprite_frames/mrs_7_frames.tres" id="2_g28ar"]
+
+[node name="CharacterScreen" type="Control" unique_id=364955856]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="." unique_id=58945365]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("1_skmd1")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CharacterDisplay" type="AnimatedSprite2D" parent="." unique_id=2062655257]
+position = Vector2(800, 577)
+scale = Vector2(0.5, 0.5)
+sprite_frames = ExtResource("2_g28ar")
+animation = &"walk"
+autoplay = "walk"
