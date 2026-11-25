@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c4xtt2ahtfjnt"]
 
 [ext_resource type="PackedScene" uid="uid://cqikuvhbt1mqq" path="res://prefabs/ui/game_background.tscn" id="1_770pb"]
+[ext_resource type="PackedScene" uid="uid://doo0fbyyhpvuf" path="res://scenes/ui/settings_panel.tscn" id="99_settings"]
 [ext_resource type="Script" uid="uid://ekahc0usb1g3" path="res://scripts/UI/LobbyScreen.cs" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://bhpfaoskgd5o1" path="res://assets/sprites/icons/coin.png" id="2_pxkqu"]
 [ext_resource type="Texture2D" uid="uid://c6316kqnef77g" path="res://assets/sprites/icons/Add.svg" id="3_1dyjb"]
@@ -104,6 +105,10 @@ scale = Vector2(0.5, 0.5)
 sprite_frames = ExtResource("19_b8k5i")
 animation = &"walk"
 autoplay = "walk"
+
+[node name="SettingsPanel" parent="." instance=ExtResource("99_settings")]
+visible = false
+layout_mode = 1
 
 [node name="LeftSidebar" parent="." unique_id=426392741 instance=ExtResource("4_b515e")]
 layout_mode = 1
@@ -590,3 +595,4 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_chat_send")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_chat_send")
 theme_override_styles/hover = SubResource("StyleBoxFlat_chat_send")
 text = "Gửi"
+
