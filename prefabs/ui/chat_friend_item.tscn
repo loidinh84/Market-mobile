@@ -1,0 +1,114 @@
+[gd_scene format=3]
+
+[ext_resource type="FontFile" uid="uid://cjd25dmr5o11b" path="res://assets/fonts/FZ-Orcish.ttf" id="1_font"]
+[ext_resource type="Shader" path="res://assets/shaders/tab_highlight_sweep.gdshader" id="2_shader"]
+[ext_resource type="Script" path="res://scripts/UI/ChatFriendItem.cs" id="3_script"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_drawer_highlight"]
+resource_local_to_scene = true
+shader = ExtResource("2_shader")
+shader_parameter/color_left = Color(0.173, 0.122, 0.361, 0)
+shader_parameter/color_mid = Color(0.56, 0.44, 0.78, 0.52)
+shader_parameter/color_right = Color(1, 0.96, 0.74, 0.95)
+shader_parameter/edge_glow_color = Color(1, 0.99, 0.9, 1)
+shader_parameter/sweep_pos = -0.5
+shader_parameter/sweep_width = 0.22
+shader_parameter/sweep_strength = 0.42
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avatar"]
+bg_color = Color(0.78, 0.82, 0.855, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_btn"]
+
+[node name="ChatFriendItem" type="VBoxContainer"]
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+script = ExtResource("3_script")
+
+[node name="RowRoot" type="Control" parent="."]
+custom_minimum_size = Vector2(390, 108)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HighlightBg" type="ColorRect" parent="RowRoot"]
+modulate = Color(1, 1, 1, 0)
+material = SubResource("ShaderMaterial_drawer_highlight")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="HoverBg" type="ColorRect" parent="RowRoot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0)
+
+[node name="ContentHBox" type="HBoxContainer" parent="RowRoot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 18.0
+offset_right = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 18
+
+[node name="Avatar" type="PanelContainer" parent="RowRoot/ContentHBox"]
+custom_minimum_size = Vector2(76, 76)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_avatar")
+
+[node name="NameLabel" type="Label" parent="RowRoot/ContentHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 28
+text = "Nguyễn Trọng Nhân"
+vertical_alignment = 1
+clip_text = true
+
+[node name="ClickBtn" type="Button" parent="RowRoot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_btn")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_btn")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_btn")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_btn")
+flat = true
+
+[node name="DividerMargin" type="MarginContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+
+[node name="BottomDivider" type="ColorRect" parent="DividerMargin"]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0.9)

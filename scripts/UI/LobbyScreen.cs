@@ -14,10 +14,15 @@ public partial class LobbyScreen : Control
     [Export] private Button _changeNameBtn;
     [Export] private Button _logoutBtn;
 
+    private SettingsPanel _settingsPanel;
+    private Node2D _characterDisplay;
+    private Control _topBar;
+    private Control _rightColumn;
+    private Control _chatBox;
+
     private int _currentTabIndex = 0;
     private bool _isDropdownOpen = false;
     private Tween _bannerTween;
-    private Node2D _characterDisplay;
 
     private const float CollapsedHeight = 150f;
     private const float ExpandedHeight = 460f;
@@ -123,8 +128,20 @@ public partial class LobbyScreen : Control
         if (tabFriends != null) tabFriends.Pressed += () => SwitchChatChannel(1, tabWorld, tabFriends, tabTeam);
         if (tabTeam != null) tabTeam.Pressed += () => SwitchChatChannel(2, tabWorld, tabFriends, tabTeam);
 
-        // Responsive character layout
+        // Setup Lobby content refs & SettingsPanel
         _characterDisplay = GetNodeOrNull<Node2D>("CharacterDisplay");
+        _topBar = GetNodeOrNull<Control>("TopBar");
+        _rightColumn = GetNodeOrNull<Control>("RightColumn");
+        _chatBox = GetNodeOrNull<Control>("ChatBox");
+
+        _settingsPanel = GetNodeOrNull<SettingsPanel>("SettingsPanel");
+        if (_settingsPanel != null)
+        {
+            _settingsPanel.Visible = false;
+            _settingsPanel.LogoutRequested += OnLogoutPressed;
+        }
+
+        // Responsive character layout
         GetViewport().SizeChanged += UpdateLobbyLayout;
         UpdateLobbyLayout();
 
@@ -173,7 +190,7 @@ public partial class LobbyScreen : Control
 
     private void OnFriendsPressed()
     {
-        GD.Print("[LobbyScreen] Nút Bạn bè được bấm!");
+        GetTree().ChangeSceneToFile("res://scenes/ui/friends_screen.tscn");
     }
 
     private void OnMode1vs1Pressed()
@@ -210,6 +227,22 @@ public partial class LobbyScreen : Control
         {
             _sidebarTabs[_currentTabIndex].SetActive(true, true);
         }
+
+        // Toggle visibility between Lobby UI and SettingsPanel
+        bool isLobby = tabIndex == 0;
+        bool isSettings = tabIndex == 4;
+
+        if (!isLobby && _isDropdownOpen)
+        {
+            CloseDropdown();
+        }
+
+        if (_characterDisplay != null) _characterDisplay.Visible = isLobby;
+        if (_topBar != null) _topBar.Visible = isLobby;
+        if (_nameBanner != null) _nameBanner.Visible = isLobby;
+        if (_rightColumn != null) _rightColumn.Visible = isLobby;
+        if (_chatBox != null) _chatBox.Visible = isLobby;
+        if (_settingsPanel != null) _settingsPanel.Visible = isSettings;
     }
 
     private void ToggleDropdown()
