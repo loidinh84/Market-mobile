@@ -165,7 +165,7 @@ public partial class LobbyScreen : Control
 
     private void OnFriendsPressed()
     {
-        GD.Print("[LobbyScreen] Nút Bạn bè được bấm!");
+        GetTree().ChangeSceneToFile("res://scenes/ui/friends_screen.tscn");
     }
 
     private void OnMode1vs1Pressed()

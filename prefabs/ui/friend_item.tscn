@@ -1,0 +1,71 @@
+[gd_scene format=3]
+
+[ext_resource type="FontFile" uid="uid://cjd25dmr5o11b" path="res://assets/fonts/FZ-Orcish.ttf" id="1_font"]
+[ext_resource type="Texture2D" uid="uid://dai6lrwkwrs2w" path="res://assets/sprites/icons/chat.png" id="2_chat"]
+[ext_resource type="Texture2D" uid="uid://dobs1qjiisva0" path="res://assets/sprites/icons/bin.png" id="3_bin"]
+[ext_resource type="Script" path="res://scripts/UI/FriendItem.cs" id="4_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avatar"]
+bg_color = Color(0.835, 0.863, 0.886, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="FriendItem" type="VBoxContainer"]
+size_flags_horizontal = 3
+theme_override_constants/separation = 14
+script = ExtResource("4_script")
+
+[node name="RowHBox" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 134)
+layout_mode = 2
+theme_override_constants/separation = 36
+
+[node name="AvatarFrame" type="PanelContainer" parent="RowHBox"]
+custom_minimum_size = Vector2(114, 114)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_avatar")
+
+[node name="AvatarTexture" type="TextureRect" parent="RowHBox/AvatarFrame"]
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="RowHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 44
+text = "Nguyễn Trọng Nhân"
+vertical_alignment = 1
+
+[node name="ChatBtn" type="TextureButton" parent="RowHBox"]
+custom_minimum_size = Vector2(88, 88)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("2_chat")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="DeleteBtn" type="TextureButton" parent="RowHBox"]
+custom_minimum_size = Vector2(88, 88)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("3_bin")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="BottomDivider" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0.92)
