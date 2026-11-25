@@ -1,4 +1,5 @@
 using Godot;
+using MarketMobile.Utils;
 
 namespace MarketMobile.UI;
 
@@ -16,6 +17,7 @@ public partial class LobbyScreen : Control
     private int _currentTabIndex = 0;
     private bool _isDropdownOpen = false;
     private Tween _bannerTween;
+    private Node2D _characterDisplay;
 
     private const float CollapsedHeight = 150f;
     private const float ExpandedHeight = 460f;
@@ -120,6 +122,31 @@ public partial class LobbyScreen : Control
         if (tabWorld != null) tabWorld.Pressed += () => SwitchChatChannel(0, tabWorld, tabFriends, tabTeam);
         if (tabFriends != null) tabFriends.Pressed += () => SwitchChatChannel(1, tabWorld, tabFriends, tabTeam);
         if (tabTeam != null) tabTeam.Pressed += () => SwitchChatChannel(2, tabWorld, tabFriends, tabTeam);
+
+        // Responsive character layout
+        _characterDisplay = GetNodeOrNull<Node2D>("CharacterDisplay");
+        GetViewport().SizeChanged += UpdateLobbyLayout;
+        UpdateLobbyLayout();
+
+        // Gắn hiệu ứng nhún (bounce) và tắt hover cho toàn bộ các nút bấm
+        UIButtonHelper.AttachToAllButtons(this);
+    }
+
+    public override void _ExitTree()
+    {
+        if (GetViewport() != null)
+        {
+            GetViewport().SizeChanged -= UpdateLobbyLayout;
+        }
+    }
+
+    private void UpdateLobbyLayout()
+    {
+        var center = GetViewportRect().Size / 2f;
+        if (_characterDisplay != null)
+        {
+            _characterDisplay.Position = new Vector2(center.X, center.Y - 63f);
+        }
     }
 
     private void SendChatMessage(LineEdit input, RichTextLabel messages)

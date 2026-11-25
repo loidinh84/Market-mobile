@@ -7,7 +7,7 @@ public partial class SidebarTab : Control
     [Signal]
     public delegate void TabSelectedEventHandler(int tabIndex);
 
-    [Export] public string Title { get; set; } = "Sảnh";
+    [Export] public string Title { get; set; } = "";
     [Export] public Texture2D IconTexture { get; set; }
     [Export] public int TabIndex { get; set; } = 0;
     [Export] public bool IsActive { get; set; } = false;
@@ -25,17 +25,42 @@ public partial class SidebarTab : Control
     public const float InactiveWidth = 380f;
     public const float TabHeight = 158f;
 
-    private static readonly Vector2 ActiveIconPos = new(245f, 32f);
-    private static readonly Vector2 ActiveIconSize = new(92f, 92f);
-    private static readonly Vector2 ActiveLabelPos = new(50f, 45f);
-    private static readonly Vector2 ActiveLabelSize = new(220f, 65f);
 
-    private Vector2 _inactiveIconPos = new(120f, -25f);
-    private Vector2 _inactiveIconSize = new(100f, 100f);
-    private Vector2 _inactiveLabelPos = new(0f, 85f);
-    private Vector2 _inactiveLabelSize = new(310f, 65f);
-    private int _inactiveFontSize = 65;
+    public Vector2 GetActiveIconPos()
+    {
+        string t = Title?.Trim() ?? "";
 
+        if (TabIndex == 0 || t == "Sảnh")
+            return new Vector2(220f, 10f);
+
+        if (TabIndex == 1 || t == "Nhân vật")
+            return new Vector2(250f, 10f);
+
+        if (TabIndex == 2 || t == "Sự kiện")
+            return new Vector2(225f, 10f);
+
+        if (TabIndex == 3 || t == "Cửa hàng")
+            return new Vector2(250f, 10f);
+
+        if (TabIndex == 4 || t == "Cài đặt")
+            return new Vector2(225f, 10f);
+
+        return new Vector2(250f, 10f);
+    }
+
+    private static readonly Vector2 ActiveIconSize = new(140f, 140f);
+    private static readonly Vector2 ActiveLabelPos = new(45f, 46f);
+    private static readonly Vector2 ActiveLabelSize = new(250f, 66f);
+    private static readonly Vector2 InactiveIconPos = new(96f, -30f);
+    private static readonly Vector2 InactiveIconSize = new(118f, 118f);
+    private static readonly Vector2 InactiveLabelPos = new(0f, 80f);
+    private static readonly Vector2 InactiveLabelSize = new(310f, 60f);
+    private const int InactiveFontSize = 65;
+
+    private int GetActiveFontSize()
+    {
+        return (Title != null && Title.Length <= 4) ? 68 : 58;
+    }
     public override void _Ready()
     {
         _bgTexture = GetNodeOrNull<TextureRect>("BgTexture");
@@ -49,28 +74,16 @@ public partial class SidebarTab : Control
         if (_iconRect != null && IconTexture != null)
             _iconRect.Texture = IconTexture;
 
-        if (_titleLabel != null && !string.IsNullOrEmpty(Title))
-            _titleLabel.Text = Title;
+        if (_titleLabel != null)
+        {
+            if (!string.IsNullOrEmpty(Title))
+                _titleLabel.Text = Title;
+            else
+                Title = _titleLabel.Text;
+        }
 
         if (_clickBtn != null)
             _clickBtn.Pressed += OnClick;
-
-        // Cache the custom positions and sizes saved in the scene
-        if (!IsActive)
-        {
-            if (_iconRect != null)
-            {
-                _inactiveIconPos = _iconRect.Position;
-                _inactiveIconSize = _iconRect.Size;
-            }
-            if (_titleLabel != null)
-            {
-                _inactiveLabelPos = _titleLabel.Position;
-                _inactiveLabelSize = _titleLabel.Size;
-                _inactiveFontSize = _titleLabel.GetThemeFontSize("font_size");
-                if (_inactiveFontSize <= 0) _inactiveFontSize = 65;
-            }
-        }
     }
 
     private void OnClick()
@@ -91,23 +104,28 @@ public partial class SidebarTab : Control
 
         _animTween?.Kill();
 
+        int targetFontSize = active ? GetActiveFontSize() : InactiveFontSize;
+        int currentFontSize = _titleLabel.GetThemeFontSize("font_size");
+        if (currentFontSize <= 0) currentFontSize = targetFontSize;
+
         if (active)
         {
             if (_tickedTexture != null)
                 _bgTexture.Texture = _tickedTexture;
 
             _titleLabel.HorizontalAlignment = HorizontalAlignment.Left;
-            _titleLabel.AddThemeFontSizeOverride("font_size", 75);
+            var activeIconPos = GetActiveIconPos();
 
             if (animate && !Engine.IsEditorHint())
             {
                 _animTween = CreateTween().SetParallel(true);
+
                 _animTween.TweenProperty(this, "custom_minimum_size:x", ActiveWidth, 0.22f)
                     .SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
                 _animTween.TweenProperty(this, "size:x", ActiveWidth, 0.22f)
                     .SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
 
-                _animTween.TweenProperty(_iconRect, "position", ActiveIconPos, 0.22f)
+                _animTween.TweenProperty(_iconRect, "position", activeIconPos, 0.22f)
                     .SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
                 _animTween.TweenProperty(_iconRect, "size", ActiveIconSize, 0.22f)
                     .SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
@@ -116,15 +134,18 @@ public partial class SidebarTab : Control
                     .SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
                 _animTween.TweenProperty(_titleLabel, "size", ActiveLabelSize, 0.22f)
                     .SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
+                _animTween.TweenMethod(Callable.From<int>(size => _titleLabel.AddThemeFontSizeOverride("font_size", size)),
+                    currentFontSize, targetFontSize, 0.22f);
             }
             else
             {
                 CustomMinimumSize = new Vector2(ActiveWidth, TabHeight);
                 Size = new Vector2(ActiveWidth, TabHeight);
-                _iconRect.Position = ActiveIconPos;
+                _iconRect.Position = activeIconPos;
                 _iconRect.Size = ActiveIconSize;
                 _titleLabel.Position = ActiveLabelPos;
                 _titleLabel.Size = ActiveLabelSize;
+                _titleLabel.AddThemeFontSizeOverride("font_size", targetFontSize);
             }
         }
         else
@@ -133,34 +154,37 @@ public partial class SidebarTab : Control
                 _bgTexture.Texture = _untickTexture;
 
             _titleLabel.HorizontalAlignment = HorizontalAlignment.Center;
-            _titleLabel.AddThemeFontSizeOverride("font_size", _inactiveFontSize);
 
             if (animate && !Engine.IsEditorHint())
             {
                 _animTween = CreateTween().SetParallel(true);
+
                 _animTween.TweenProperty(this, "custom_minimum_size:x", InactiveWidth, 0.2f)
                     .SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
                 _animTween.TweenProperty(this, "size:x", InactiveWidth, 0.2f)
                     .SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
 
-                _animTween.TweenProperty(_iconRect, "position", _inactiveIconPos, 0.2f)
+                _animTween.TweenProperty(_iconRect, "position", InactiveIconPos, 0.2f)
                     .SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
-                _animTween.TweenProperty(_iconRect, "size", _inactiveIconSize, 0.2f)
+                _animTween.TweenProperty(_iconRect, "size", InactiveIconSize, 0.2f)
                     .SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
 
-                _animTween.TweenProperty(_titleLabel, "position", _inactiveLabelPos, 0.2f)
+                _animTween.TweenProperty(_titleLabel, "position", InactiveLabelPos, 0.2f)
                     .SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
-                _animTween.TweenProperty(_titleLabel, "size", _inactiveLabelSize, 0.2f)
+                _animTween.TweenProperty(_titleLabel, "size", InactiveLabelSize, 0.2f)
                     .SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
+                _animTween.TweenMethod(Callable.From<int>(size => _titleLabel.AddThemeFontSizeOverride("font_size", size)),
+                    currentFontSize, targetFontSize, 0.2f);
             }
             else
             {
                 CustomMinimumSize = new Vector2(InactiveWidth, TabHeight);
                 Size = new Vector2(InactiveWidth, TabHeight);
-                _iconRect.Position = _inactiveIconPos;
-                _iconRect.Size = _inactiveIconSize;
-                _titleLabel.Position = _inactiveLabelPos;
-                _titleLabel.Size = _inactiveLabelSize;
+                _iconRect.Position = InactiveIconPos;
+                _iconRect.Size = InactiveIconSize;
+                _titleLabel.Position = InactiveLabelPos;
+                _titleLabel.Size = InactiveLabelSize;
+                _titleLabel.AddThemeFontSizeOverride("font_size", targetFontSize);
             }
         }
     }
