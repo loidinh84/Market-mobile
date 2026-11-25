@@ -19,10 +19,10 @@ public partial class SettingsPanel : Control
     private bool _isSoundOn = true;
     private Tween _knobTween;
 
-    // Knob X positions (pixels inside btn_sound 119x59)
-    private const float KnobOnX = 65f;
-    private const float KnobOffX = 8f;
-    private const float KnobWidth = 46f;
+    // Knob X positions (pixels inside btn_sound 119x59, opaque pill X: 10..98)
+    private const float KnobOnX = 54f;
+    private const float KnobOffX = 6f;
+    private const float KnobWidth = 50f;
 
     public override void _Ready()
     {

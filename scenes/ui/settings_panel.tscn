@@ -1,14 +1,16 @@
 [gd_scene format=3 uid="uid://doo0fbyyhpvuf"]
 
 [ext_resource type="FontFile" uid="uid://cjd25dmr5o11b" path="res://assets/fonts/FZ-Orcish.ttf" id="1_font"]
+[ext_resource type="PackedScene" uid="uid://cqikuvhbt1mqq" path="res://prefabs/ui/game_background.tscn" id="2_75ucs"]
 [ext_resource type="Texture2D" uid="uid://cusqy2oiuerwj" path="res://assets/sprites/icons/sound.png" id="2_sound"]
 [ext_resource type="Texture2D" uid="uid://fnjig16aph6b" path="res://assets/sprites/icons/btn_sound.png" id="3_btn_sound"]
 [ext_resource type="Texture2D" uid="uid://m2na6cn0x5wy" path="res://assets/sprites/icons/check_sound.png" id="4_check"]
 [ext_resource type="Texture2D" uid="uid://cb8riuvk06j1x" path="res://assets/sprites/icons/language_name.png" id="5_lang_name"]
 [ext_resource type="Texture2D" uid="uid://d17aqb1jbwo6y" path="res://assets/sprites/icons/logout.png" id="6_logout"]
 [ext_resource type="Texture2D" uid="uid://dffk8rviacr1f" path="res://assets/sprites/icons/logout_name.png" id="7_logout_name"]
-[ext_resource type="Script" path="res://scripts/UI/SettingsPanel.cs" id="8_script"]
+[ext_resource type="Script" uid="uid://bnshi5qdlbwhf" path="res://scripts/UI/SettingsPanel.cs" id="8_script"]
 [ext_resource type="Texture2D" uid="uid://cvo0wueq5dvmu" path="res://assets/sprites/icons/language.png" id="9_language"]
+[ext_resource type="PackedScene" uid="uid://bo1iw1air8xno" path="res://prefabs/ui/left_sidebar.tscn" id="11_hhl7b"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_divider"]
 color = Color(1, 1, 1, 0.55)
@@ -41,6 +43,9 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("8_script")
+
+[node name="Background" parent="." unique_id=215031108 instance=ExtResource("2_75ucs")]
+layout_mode = 1
 
 [node name="ContentMargin" type="MarginContainer" parent="." unique_id=175658334]
 layout_mode = 1
@@ -77,7 +82,6 @@ stretch_mode = 5
 
 [node name="SoundTitle" type="Label" parent="ContentMargin/MainVBox/SoundHeaderHBox" unique_id=193670028]
 layout_mode = 2
-size_flags_vertical = 4
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("1_font")
 theme_override_font_sizes/font_size = 56
@@ -98,7 +102,6 @@ theme_override_constants/separation = 28
 [node name="VolumeLabel" type="Label" parent="ContentMargin/MainVBox/VolumeRow" unique_id=1720969439]
 custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
-size_flags_vertical = 4
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("1_font")
 theme_override_font_sizes/font_size = 44
@@ -119,7 +122,6 @@ value = 80.0
 [node name="VolumeValueLabel" type="Label" parent="ContentMargin/MainVBox/VolumeRow" unique_id=1394156858]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
-size_flags_vertical = 4
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("1_font")
 theme_override_font_sizes/font_size = 44
@@ -135,7 +137,6 @@ theme_override_constants/separation = 20
 [node name="MuteLabel" type="Label" parent="ContentMargin/MainVBox/SoundToggleRow" unique_id=858791771]
 custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
-size_flags_vertical = 4
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("1_font")
 theme_override_font_sizes/font_size = 44
@@ -149,7 +150,6 @@ mouse_filter = 2
 [node name="MuteStatusLabel" type="Label" parent="ContentMargin/MainVBox/SoundToggleRow" unique_id=204815588]
 custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
-size_flags_vertical = 4
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("1_font")
 theme_override_font_sizes/font_size = 40
@@ -168,10 +168,10 @@ stretch_mode = 0
 
 [node name="Knob" type="TextureRect" parent="ContentMargin/MainVBox/SoundToggleRow/SoundSwitchBtn" unique_id=716117856]
 layout_mode = 0
-offset_left = 65.0
-offset_top = 6.0
-offset_right = 111.0
-offset_bottom = 52.0
+offset_left = 54.0
+offset_top = 8.0
+offset_right = 104.0
+offset_bottom = 50.0
 mouse_filter = 2
 texture = ExtResource("4_check")
 expand_mode = 1
@@ -195,7 +195,6 @@ stretch_mode = 5
 [node name="LangLabel" type="Label" parent="ContentMargin/MainVBox/LanguageRow" unique_id=920264159]
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
-size_flags_vertical = 4
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("1_font")
 theme_override_font_sizes/font_size = 48
@@ -216,7 +215,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 12.0
+offset_top = 21.0
 offset_right = -24.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -260,7 +259,7 @@ theme_override_constants/separation = 12
 alignment = 1
 
 [node name="Icon" type="TextureRect" parent="LogoutBtn/HBox" unique_id=1194206423]
-custom_minimum_size = Vector2(40, 38)
+custom_minimum_size = Vector2(33, 37)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
@@ -270,8 +269,10 @@ stretch_mode = 5
 
 [node name="Label" type="Label" parent="LogoutBtn/HBox" unique_id=1425260167]
 layout_mode = 2
-size_flags_vertical = 4
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("1_font")
 theme_override_font_sizes/font_size = 36
 text = "Đăng xuất"
+
+[node name="LeftSidebar" parent="." unique_id=426392741 instance=ExtResource("11_hhl7b")]
+layout_mode = 1
