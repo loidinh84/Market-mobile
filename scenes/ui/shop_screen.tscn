@@ -1,0 +1,1039 @@
+[gd_scene format=3 uid="uid://cgc7tpfp6jj1l"]
+
+[ext_resource type="PackedScene" uid="uid://cqikuvhbt1mqq" path="res://prefabs/ui/game_background.tscn" id="1_bg"]
+[ext_resource type="PackedScene" uid="uid://bo1iw1air8xno" path="res://prefabs/ui/left_sidebar.tscn" id="2_sidebar"]
+[ext_resource type="PackedScene" path="res://prefabs/ui/coin_bar.tscn" id="3_coinbar"]
+[ext_resource type="Script" uid="uid://jitrneoxq65d" path="res://scripts/UI/ShopScreen.cs" id="4_script"]
+[ext_resource type="Texture2D" uid="uid://py6k86kkpec5" path="res://assets/sprites/icons/rau.png" id="5_rau"]
+[ext_resource type="Texture2D" uid="uid://bhpfaoskgd5o1" path="res://assets/sprites/icons/coin.png" id="6_coin"]
+[ext_resource type="Texture2D" uid="uid://iet6ido3sk2t" path="res://assets/sprites/icons/close.png" id="7_close"]
+[ext_resource type="Texture2D" uid="uid://2xluolj4bpjd" path="res://assets/sprites/icons/hat_pink.png" id="8_preview"]
+[ext_resource type="PackedScene" uid="uid://ps2cwmwtip0p" path="res://prefabs/ui/shop_character_card.tscn" id="9_charcard"]
+[ext_resource type="PackedScene" uid="uid://cxu8ae1tuef1t" path="res://prefabs/ui/shop_skin_card.tscn" id="10_skincard"]
+[ext_resource type="PackedScene" uid="uid://do1ld3x0c4x8y" path="res://prefabs/ui/shop_compact_card.tscn" id="11_compactcard"]
+[ext_resource type="PackedScene" uid="uid://ccu7qg55dnheb" path="res://prefabs/ui/shop_market_card.tscn" id="12_marketcard"]
+[ext_resource type="PackedScene" uid="uid://cdr7dhulrq3ux" path="res://prefabs/ui/shop_price_button.tscn" id="13_pricebtn"]
+[ext_resource type="Texture2D" uid="uid://c6316kqnef77g" path="res://assets/sprites/icons/Add.svg" id="14_add"]
+[ext_resource type="Texture2D" path="res://assets/sprites/icons/remove.svg" id="15_remove"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_shop_panel"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.23529412, 0.14117648, 0.42745098, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45, 0.34, 0.68, 0.65)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tab_active"]
+content_margin_left = 22.0
+content_margin_top = 12.0
+content_margin_right = 22.0
+content_margin_bottom = 12.0
+bg_color = Color(0.36, 0.66, 0.92, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_color = Color(0.75, 0.92, 1, 0.9)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tab_inactive"]
+content_margin_left = 22.0
+content_margin_top = 12.0
+content_margin_right = 22.0
+content_margin_bottom = 12.0
+bg_color = Color(0.88, 0.9, 0.93, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_color = Color(0.7, 0.72, 0.8, 0.8)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_post_trade"]
+content_margin_left = 22.0
+content_margin_top = 10.0
+content_margin_right = 22.0
+content_margin_bottom = 10.0
+bg_color = Color(0.16, 0.64, 0.38, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.78, 1, 0.86, 0.95)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_toast"]
+content_margin_left = 30.0
+content_margin_top = 14.0
+content_margin_right = 30.0
+content_margin_bottom = 14.0
+bg_color = Color(0.11, 0.56, 0.32, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.55, 1, 0.72, 0.95)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_buy_dialog"]
+content_margin_left = 36.0
+content_margin_top = 30.0
+content_margin_right = 36.0
+content_margin_bottom = 26.0
+bg_color = Color(0.18, 0.12, 0.32, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.61, 0.88, 0.7)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_buy_preview"]
+content_margin_left = 18.0
+content_margin_top = 18.0
+content_margin_right = 18.0
+content_margin_bottom = 18.0
+bg_color = Color(0.12, 0.08, 0.22, 0.88)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.42, 0.32, 0.64, 0.7)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qty_btn"]
+content_margin_left = 12.0
+content_margin_top = 4.0
+content_margin_right = 12.0
+content_margin_bottom = 4.0
+bg_color = Color(0.28, 0.2, 0.48, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.55, 0.45, 0.82, 0.9)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_cancel"]
+content_margin_left = 26.0
+content_margin_top = 10.0
+content_margin_right = 26.0
+content_margin_bottom = 10.0
+bg_color = Color(0.28, 0.2, 0.42, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.48, 0.38, 0.68, 0.8)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_buy"]
+content_margin_left = 30.0
+content_margin_top = 10.0
+content_margin_right = 30.0
+content_margin_bottom = 10.0
+bg_color = Color(0.15, 0.68, 0.35, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_buy_pressed"]
+content_margin_left = 30.0
+content_margin_top = 10.0
+content_margin_right = 30.0
+content_margin_bottom = 10.0
+bg_color = Color(0.1, 0.5, 0.25, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fail_detail"]
+content_margin_left = 26.0
+content_margin_top = 20.0
+content_margin_right = 26.0
+content_margin_bottom = 20.0
+bg_color = Color(0.12, 0.08, 0.22, 0.88)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.48, 0.25, 0.35, 0.7)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_orange"]
+content_margin_left = 26.0
+content_margin_top = 10.0
+content_margin_right = 26.0
+content_margin_bottom = 10.0
+bg_color = Color(0.9, 0.55, 0.15, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.9, 0.6, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_option_btn"]
+content_margin_left = 18.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 10.0
+bg_color = Color(0.16, 0.11, 0.31, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.55, 0.45, 0.85, 0.92)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="ShopScreen" type="Control" unique_id=1529583373]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_script")
+_characterCardScene = ExtResource("9_charcard")
+_skinCardScene = ExtResource("10_skincard")
+_compactCardScene = ExtResource("11_compactcard")
+_marketCardScene = ExtResource("12_marketcard")
+_priceButtonScene = ExtResource("13_pricebtn")
+
+[node name="Background" parent="." unique_id=729661545 instance=ExtResource("1_bg")]
+layout_mode = 1
+
+[node name="CurrenciesHBox" type="HBoxContainer" parent="." unique_id=654099457]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -660.0
+offset_top = 34.0
+offset_right = -40.0
+offset_bottom = 112.0
+grow_horizontal = 0
+theme_override_constants/separation = 20
+alignment = 2
+
+[node name="CoinBar" parent="CurrenciesHBox" unique_id=584900286 instance=ExtResource("3_coinbar")]
+layout_mode = 2
+
+[node name="RauBar" parent="CurrenciesHBox" unique_id=164879442 instance=ExtResource("3_coinbar")]
+layout_mode = 2
+CurrencyIcon = ExtResource("5_rau")
+
+[node name="ShopPanel" type="PanelContainer" parent="." unique_id=85370715]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 480.0
+offset_top = 122.0
+offset_right = -40.0
+offset_bottom = -28.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_shop_panel")
+
+[node name="MainVBox" type="VBoxContainer" parent="ShopPanel" unique_id=1753695119]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="TabsHeader" type="VBoxContainer" parent="ShopPanel/MainVBox" unique_id=1431672105]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="TabsMargin" type="MarginContainer" parent="ShopPanel/MainVBox/TabsHeader" unique_id=1086890599]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 24
+
+[node name="SubTabsHBox" type="HBoxContainer" parent="ShopPanel/MainVBox/TabsHeader/TabsMargin" unique_id=672859479]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TabChars" type="Button" parent="ShopPanel/MainVBox/TabsHeader/TabsMargin/SubTabsHBox" unique_id=394598889]
+custom_minimum_size = Vector2(225, 72)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 38
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_active")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tab_active")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tab_active")
+text = "Nhân vật"
+
+[node name="TabItems" type="Button" parent="ShopPanel/MainVBox/TabsHeader/TabsMargin/SubTabsHBox" unique_id=1408911033]
+custom_minimum_size = Vector2(225, 72)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.18, 0.12, 0.32, 1)
+theme_override_font_sizes/font_size = 35
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_inactive")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tab_inactive")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tab_inactive")
+text = "Vật phẩm"
+
+[node name="TabSkins" type="Button" parent="ShopPanel/MainVBox/TabsHeader/TabsMargin/SubTabsHBox" unique_id=2069201317]
+custom_minimum_size = Vector2(240, 72)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.18, 0.12, 0.32, 1)
+theme_override_font_sizes/font_size = 35
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_inactive")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tab_inactive")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tab_inactive")
+text = "Trang phục"
+
+[node name="TabExchange" type="Button" parent="ShopPanel/MainVBox/TabsHeader/TabsMargin/SubTabsHBox" unique_id=1914491881]
+custom_minimum_size = Vector2(275, 72)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.18, 0.12, 0.32, 1)
+theme_override_font_sizes/font_size = 35
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_inactive")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tab_inactive")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tab_inactive")
+text = "Đổi Vàng/Rau"
+
+[node name="TabMarket" type="Button" parent="ShopPanel/MainVBox/TabsHeader/TabsMargin/SubTabsHBox" unique_id=312625371]
+custom_minimum_size = Vector2(235, 72)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.18, 0.12, 0.32, 1)
+theme_override_font_sizes/font_size = 35
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_inactive")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tab_inactive")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tab_inactive")
+text = "Chợ phiên"
+
+[node name="TabSeparator" type="ColorRect" parent="ShopPanel/MainVBox/TabsHeader" unique_id=1015288083]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+color = Color(0.38, 0.28, 0.58, 1)
+
+[node name="BodyMargin" type="MarginContainer" parent="ShopPanel/MainVBox" unique_id=1258644050]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="BodyVBox" type="VBoxContainer" parent="ShopPanel/MainVBox/BodyMargin" unique_id=1474711169]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 14
+
+[node name="MarketToolbar" type="HBoxContainer" parent="ShopPanel/MainVBox/BodyMargin/BodyVBox" unique_id=1818766313]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="MarketHintLabel" type="Label" parent="ShopPanel/MainVBox/BodyMargin/BodyVBox/MarketToolbar" unique_id=1680036138]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.86, 0.8, 0.98, 1)
+theme_override_font_sizes/font_size = 25
+text = "Trao đổi vật phẩm giữa người chơi — chọn sạp để đổi hoặc tự treo sạp của bạn"
+
+[node name="PostTradeBtn" type="Button" parent="ShopPanel/MainVBox/BodyMargin/BodyVBox/MarketToolbar" unique_id=1943235949]
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/icon_max_width = 22
+theme_override_constants/h_separation = 8
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_post_trade")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_post_trade")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_post_trade")
+text = "Đăng trao đổi"
+icon = ExtResource("14_add")
+expand_icon = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ShopPanel/MainVBox/BodyMargin/BodyVBox" unique_id=534433945]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="CardsMargin" type="MarginContainer" parent="ShopPanel/MainVBox/BodyMargin/BodyVBox/ScrollContainer" unique_id=1385175038]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
+
+[node name="CardsGrid" type="GridContainer" parent="ShopPanel/MainVBox/BodyMargin/BodyVBox/ScrollContainer/CardsMargin" unique_id=64533810]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 18
+theme_override_constants/v_separation = 18
+columns = 4
+
+[node name="LeftSidebar" parent="." unique_id=622567063 instance=ExtResource("2_sidebar")]
+layout_mode = 1
+ActiveTabIndex = 3
+
+[node name="ToastBanner" type="PanelContainer" parent="." unique_id=264986860]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -140.0
+offset_top = -114.0
+offset_right = 560.0
+offset_bottom = -52.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_toast")
+
+[node name="ToastLabel" type="Label" parent="ToastBanner" unique_id=1072294808]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "Giao dịch thành công!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BuyConfirmModal" type="Control" parent="." unique_id=939520302]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Backdrop" type="ColorRect" parent="BuyConfirmModal" unique_id=248622252]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.65)
+
+[node name="Center" type="CenterContainer" parent="BuyConfirmModal" unique_id=1727614537]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DialogBox" type="PanelContainer" parent="BuyConfirmModal/Center" unique_id=1057026025]
+custom_minimum_size = Vector2(740, 590)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_buy_dialog")
+
+[node name="DialogVBox" type="VBoxContainer" parent="BuyConfirmModal/Center/DialogBox" unique_id=652353757]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="HeaderHBox" type="HBoxContainer" parent="BuyConfirmModal/Center/DialogBox/DialogVBox" unique_id=845232944]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="BuyConfirmModal/Center/DialogBox/DialogVBox/HeaderHBox" unique_id=1812399989]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.88, 0.35, 1)
+theme_override_font_sizes/font_size = 40
+text = "Xác nhận mua"
+horizontal_alignment = 1
+
+[node name="CloseBtn" type="Button" parent="BuyConfirmModal/Center/DialogBox/DialogVBox/HeaderHBox" unique_id=934867227]
+custom_minimum_size = Vector2(46, 46)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+icon = ExtResource("7_close")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="Divider" type="ColorRect" parent="BuyConfirmModal/Center/DialogBox/DialogVBox" unique_id=2115174074]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.95, 0.78, 0.25, 0.4)
+
+[node name="PreviewHBox" type="HBoxContainer" parent="BuyConfirmModal/Center/DialogBox/DialogVBox" unique_id=104501855]
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="PreviewBox" type="PanelContainer" parent="BuyConfirmModal/Center/DialogBox/DialogVBox/PreviewHBox" unique_id=1074643024]
+custom_minimum_size = Vector2(190, 180)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_buy_preview")
+
+[node name="ItemTexture" type="TextureRect" parent="BuyConfirmModal/Center/DialogBox/DialogVBox/PreviewHBox/PreviewBox" unique_id=820418371]
+custom_minimum_size = Vector2(145, 145)
+layout_mode = 2
+texture = ExtResource("8_preview")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="InfoVBox" type="VBoxContainer" parent="BuyConfirmModal/Center/DialogBox/DialogVBox/PreviewHBox" unique_id=514113709]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="ItemName" type="Label" parent="BuyConfirmModal/Center/DialogBox/DialogVBox/PreviewHBox/InfoVBox" unique_id=2035600656]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 38
+text = "Tên vật phẩm"
+
+[node name="ItemTag" type="Label" parent="BuyConfirmModal/Center/DialogBox/DialogVBox/PreviewHBox/InfoVBox" unique_id=926260769]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.88, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "Công dụng"
+
+[node name="ItemDesc" type="Label" parent="BuyConfirmModal/Center/DialogBox/DialogVBox/PreviewHBox/InfoVBox" unique_id=741805626]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.75, 0.92, 1)
+theme_override_font_sizes/font_size = 26
+text = "Mô tả chi tiết."
+autowrap_mode = 2
+
+[node name="QuantityRow" type="HBoxContainer" parent="BuyConfirmModal/Center/DialogBox/DialogVBox" unique_id=293583157]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="QtyTitle" type="Label" parent="BuyConfirmModal/Center/DialogBox/DialogVBox/QuantityRow" unique_id=566681231]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.92, 1, 1)
+theme_override_font_sizes/font_size = 30
+text = "Số lượng:"
+
+[node name="MinusBtn" type="Button" parent="BuyConfirmModal/Center/DialogBox/DialogVBox/QuantityRow" unique_id=639480944]
+custom_minimum_size = Vector2(58, 50)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_constants/icon_max_width = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_qty_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_qty_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_qty_btn")
+icon = ExtResource("15_remove")
+icon_alignment = 1
+expand_icon = true
+
+[node name="QtyValueLabel" type="Label" parent="BuyConfirmModal/Center/DialogBox/DialogVBox/QuantityRow" unique_id=1110042526]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
+text = "1"
+horizontal_alignment = 1
+
+[node name="PlusBtn" type="Button" parent="BuyConfirmModal/Center/DialogBox/DialogVBox/QuantityRow" unique_id=665871238]
+custom_minimum_size = Vector2(58, 50)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_constants/icon_max_width = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_qty_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_qty_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_qty_btn")
+icon = ExtResource("14_add")
+icon_alignment = 1
+expand_icon = true
+
+[node name="PriceHBox" type="HBoxContainer" parent="BuyConfirmModal/Center/DialogBox/DialogVBox" unique_id=144172455]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="PriceTitle" type="Label" parent="BuyConfirmModal/Center/DialogBox/DialogVBox/PriceHBox" unique_id=1393278543]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.9)
+theme_override_font_sizes/font_size = 32
+text = "Tổng thanh toán:"
+
+[node name="CurrencyIcon" type="TextureRect" parent="BuyConfirmModal/Center/DialogBox/DialogVBox/PriceHBox" unique_id=977468635]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("6_coin")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PriceLabel" type="Label" parent="BuyConfirmModal/Center/DialogBox/DialogVBox/PriceHBox" unique_id=2002731848]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+theme_override_font_sizes/font_size = 36
+text = "1,500 Vàng"
+
+[node name="BalanceLabel" type="Label" parent="BuyConfirmModal/Center/DialogBox/DialogVBox" unique_id=1606883728]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.7, 0.88, 1)
+theme_override_font_sizes/font_size = 26
+text = "Số dư hiện tại: 123,456 Vàng"
+horizontal_alignment = 1
+
+[node name="BottomSpacer" type="Control" parent="BuyConfirmModal/Center/DialogBox/DialogVBox" unique_id=337920643]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ActionsHBox" type="HBoxContainer" parent="BuyConfirmModal/Center/DialogBox/DialogVBox" unique_id=1237664380]
+layout_mode = 2
+theme_override_constants/separation = 26
+alignment = 1
+
+[node name="CancelBtn" type="Button" parent="BuyConfirmModal/Center/DialogBox/DialogVBox/ActionsHBox" unique_id=231223961]
+custom_minimum_size = Vector2(215, 66)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 1, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_cancel")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_cancel")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_cancel")
+text = "Hủy"
+
+[node name="BuyBtn" type="Button" parent="BuyConfirmModal/Center/DialogBox/DialogVBox/ActionsHBox" unique_id=661067830]
+custom_minimum_size = Vector2(260, 66)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_buy")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_buy_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_buy")
+text = "Mua Ngay"
+
+[node name="InsufficientFundsModal" type="Control" parent="." unique_id=246405816]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Backdrop" type="ColorRect" parent="InsufficientFundsModal" unique_id=2089225251]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.65)
+
+[node name="Center" type="CenterContainer" parent="InsufficientFundsModal" unique_id=307597283]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DialogBox" type="PanelContainer" parent="InsufficientFundsModal/Center" unique_id=2119297055]
+custom_minimum_size = Vector2(680, 540)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_buy_dialog")
+
+[node name="DialogVBox" type="VBoxContainer" parent="InsufficientFundsModal/Center/DialogBox" unique_id=1499396567]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="HeaderHBox" type="HBoxContainer" parent="InsufficientFundsModal/Center/DialogBox/DialogVBox" unique_id=1873576893]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="InsufficientFundsModal/Center/DialogBox/DialogVBox/HeaderHBox" unique_id=1039622304]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.42, 0.42, 1)
+theme_override_font_sizes/font_size = 40
+text = "Không đủ Vàng"
+horizontal_alignment = 1
+
+[node name="CloseBtn" type="Button" parent="InsufficientFundsModal/Center/DialogBox/DialogVBox/HeaderHBox" unique_id=591839150]
+custom_minimum_size = Vector2(46, 46)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+icon = ExtResource("7_close")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="Divider" type="ColorRect" parent="InsufficientFundsModal/Center/DialogBox/DialogVBox" unique_id=1015681475]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.9, 0.35, 0.35, 0.45)
+
+[node name="MessageLabel" type="Label" parent="InsufficientFundsModal/Center/DialogBox/DialogVBox" unique_id=675625234]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 30
+text = "Bạn không có đủ Vàng để thực hiện giao dịch này!"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="DetailBox" type="PanelContainer" parent="InsufficientFundsModal/Center/DialogBox/DialogVBox" unique_id=371221755]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_fail_detail")
+
+[node name="DetailVBox" type="VBoxContainer" parent="InsufficientFundsModal/Center/DialogBox/DialogVBox/DetailBox" unique_id=2000272932]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="CostRow" type="HBoxContainer" parent="InsufficientFundsModal/Center/DialogBox/DialogVBox/DetailBox/DetailVBox" unique_id=1679804029]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="InsufficientFundsModal/Center/DialogBox/DialogVBox/DetailBox/DetailVBox/CostRow" unique_id=1197756200]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.8, 0.75, 0.9, 1)
+theme_override_font_sizes/font_size = 28
+text = "Tổng thanh toán:"
+
+[node name="Value" type="Label" parent="InsufficientFundsModal/Center/DialogBox/DialogVBox/DetailBox/DetailVBox/CostRow" unique_id=1577358350]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+theme_override_font_sizes/font_size = 28
+text = "1,500 Vàng"
+
+[node name="CurrentRow" type="HBoxContainer" parent="InsufficientFundsModal/Center/DialogBox/DialogVBox/DetailBox/DetailVBox" unique_id=262406254]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="InsufficientFundsModal/Center/DialogBox/DialogVBox/DetailBox/DetailVBox/CurrentRow" unique_id=2018174947]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.8, 0.75, 0.9, 1)
+theme_override_font_sizes/font_size = 28
+text = "Hiện có:"
+
+[node name="Value" type="Label" parent="InsufficientFundsModal/Center/DialogBox/DialogVBox/DetailBox/DetailVBox/CurrentRow" unique_id=1460177022]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 28
+text = "200 Vàng"
+
+[node name="MissingRow" type="HBoxContainer" parent="InsufficientFundsModal/Center/DialogBox/DialogVBox/DetailBox/DetailVBox" unique_id=325502690]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="InsufficientFundsModal/Center/DialogBox/DialogVBox/DetailBox/DetailVBox/MissingRow" unique_id=740689295]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 28
+text = "Còn thiếu:"
+
+[node name="Value" type="Label" parent="InsufficientFundsModal/Center/DialogBox/DialogVBox/DetailBox/DetailVBox/MissingRow" unique_id=1030808558]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.35, 0.35, 1)
+theme_override_font_sizes/font_size = 30
+text = "1,300 Vàng"
+
+[node name="BottomSpacer" type="Control" parent="InsufficientFundsModal/Center/DialogBox/DialogVBox" unique_id=1023088958]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ActionsHBox" type="HBoxContainer" parent="InsufficientFundsModal/Center/DialogBox/DialogVBox" unique_id=1199432725]
+layout_mode = 2
+theme_override_constants/separation = 26
+alignment = 1
+
+[node name="CloseModalBtn" type="Button" parent="InsufficientFundsModal/Center/DialogBox/DialogVBox/ActionsHBox" unique_id=358488615]
+custom_minimum_size = Vector2(215, 66)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 1, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_cancel")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_cancel")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_cancel")
+text = "Để sau"
+
+[node name="GoToExchangeBtn" type="Button" parent="InsufficientFundsModal/Center/DialogBox/DialogVBox/ActionsHBox" unique_id=245995794]
+custom_minimum_size = Vector2(265, 66)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_orange")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_orange")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_orange")
+text = "Đổi Vàng/Rau"
+
+[node name="PostTradeModal" type="Control" parent="." unique_id=2144822652]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Backdrop" type="ColorRect" parent="PostTradeModal" unique_id=742708559]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.65)
+
+[node name="Center" type="CenterContainer" parent="PostTradeModal" unique_id=1327927354]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DialogBox" type="PanelContainer" parent="PostTradeModal/Center" unique_id=544294499]
+custom_minimum_size = Vector2(760, 590)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_buy_dialog")
+
+[node name="DialogVBox" type="VBoxContainer" parent="PostTradeModal/Center/DialogBox" unique_id=174922310]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="HeaderHBox" type="HBoxContainer" parent="PostTradeModal/Center/DialogBox/DialogVBox" unique_id=407334433]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="PostTradeModal/Center/DialogBox/DialogVBox/HeaderHBox" unique_id=1155421235]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.88, 0.35, 1)
+theme_override_font_sizes/font_size = 40
+text = "Đăng sạp Chợ phiên"
+horizontal_alignment = 1
+
+[node name="CloseBtn" type="Button" parent="PostTradeModal/Center/DialogBox/DialogVBox/HeaderHBox" unique_id=1595165592]
+custom_minimum_size = Vector2(46, 46)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+icon = ExtResource("7_close")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="Divider" type="ColorRect" parent="PostTradeModal/Center/DialogBox/DialogVBox" unique_id=737375512]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.95, 0.78, 0.25, 0.4)
+
+[node name="OfferBox" type="PanelContainer" parent="PostTradeModal/Center/DialogBox/DialogVBox" unique_id=1234740489]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_buy_preview")
+
+[node name="OfferVBox" type="VBoxContainer" parent="PostTradeModal/Center/DialogBox/DialogVBox/OfferBox" unique_id=1966629500]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="OfferTitle" type="Label" parent="PostTradeModal/Center/DialogBox/DialogVBox/OfferBox/OfferVBox" unique_id=1812432693]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "Vật phẩm bạn đem đổi:"
+
+[node name="OfferRow" type="HBoxContainer" parent="PostTradeModal/Center/DialogBox/DialogVBox/OfferBox/OfferVBox" unique_id=1721921165]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="OfferItemOption" type="OptionButton" parent="PostTradeModal/Center/DialogBox/DialogVBox/OfferBox/OfferVBox/OfferRow" unique_id=1150354998]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBoxFlat_option_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_option_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_option_btn")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_option_btn")
+theme_override_styles/focus = SubResource("StyleBoxFlat_option_btn")
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="OfferMinusBtn" type="Button" parent="PostTradeModal/Center/DialogBox/DialogVBox/OfferBox/OfferVBox/OfferRow" unique_id=12912380]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_constants/icon_max_width = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_qty_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_qty_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_qty_btn")
+icon = ExtResource("15_remove")
+icon_alignment = 1
+expand_icon = true
+
+[node name="OfferQtyLabel" type="Label" parent="PostTradeModal/Center/DialogBox/DialogVBox/OfferBox/OfferVBox/OfferRow" unique_id=973691535]
+custom_minimum_size = Vector2(92, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 30
+text = "x1"
+horizontal_alignment = 1
+
+[node name="OfferPlusBtn" type="Button" parent="PostTradeModal/Center/DialogBox/DialogVBox/OfferBox/OfferVBox/OfferRow" unique_id=1675085142]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_constants/icon_max_width = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_qty_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_qty_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_qty_btn")
+icon = ExtResource("14_add")
+icon_alignment = 1
+expand_icon = true
+
+[node name="WantBox" type="PanelContainer" parent="PostTradeModal/Center/DialogBox/DialogVBox" unique_id=1374024718]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_buy_preview")
+
+[node name="WantVBox" type="VBoxContainer" parent="PostTradeModal/Center/DialogBox/DialogVBox/WantBox" unique_id=255562167]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="WantTitle" type="Label" parent="PostTradeModal/Center/DialogBox/DialogVBox/WantBox/WantVBox" unique_id=1588074248]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.96, 0.65, 1)
+theme_override_font_sizes/font_size = 26
+text = "Bạn muốn nhận lại:"
+
+[node name="WantRow" type="HBoxContainer" parent="PostTradeModal/Center/DialogBox/DialogVBox/WantBox/WantVBox" unique_id=282057713]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="WantOption" type="OptionButton" parent="PostTradeModal/Center/DialogBox/DialogVBox/WantBox/WantVBox/WantRow" unique_id=395493247]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBoxFlat_option_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_option_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_option_btn")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_option_btn")
+theme_override_styles/focus = SubResource("StyleBoxFlat_option_btn")
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="WantMinusBtn" type="Button" parent="PostTradeModal/Center/DialogBox/DialogVBox/WantBox/WantVBox/WantRow" unique_id=1662351827]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_constants/icon_max_width = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_qty_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_qty_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_qty_btn")
+icon = ExtResource("15_remove")
+icon_alignment = 1
+expand_icon = true
+
+[node name="WantAmountLabel" type="Label" parent="PostTradeModal/Center/DialogBox/DialogVBox/WantBox/WantVBox/WantRow" unique_id=1466568820]
+custom_minimum_size = Vector2(92, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.3, 1)
+theme_override_font_sizes/font_size = 30
+text = "200"
+horizontal_alignment = 1
+
+[node name="WantPlusBtn" type="Button" parent="PostTradeModal/Center/DialogBox/DialogVBox/WantBox/WantVBox/WantRow" unique_id=529893073]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_constants/icon_max_width = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_qty_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_qty_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_qty_btn")
+icon = ExtResource("14_add")
+icon_alignment = 1
+expand_icon = true
+
+[node name="BottomSpacer" type="Control" parent="PostTradeModal/Center/DialogBox/DialogVBox" unique_id=1688522788]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ActionsHBox" type="HBoxContainer" parent="PostTradeModal/Center/DialogBox/DialogVBox" unique_id=1696100969]
+layout_mode = 2
+theme_override_constants/separation = 26
+alignment = 1
+
+[node name="CancelBtn" type="Button" parent="PostTradeModal/Center/DialogBox/DialogVBox/ActionsHBox" unique_id=1985815247]
+custom_minimum_size = Vector2(215, 66)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 1, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_cancel")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_cancel")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_cancel")
+text = "Hủy"
+
+[node name="PublishBtn" type="Button" parent="PostTradeModal/Center/DialogBox/DialogVBox/ActionsHBox" unique_id=250119906]
+custom_minimum_size = Vector2(255, 66)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_buy")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_buy_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_buy")
+text = "Đăng Sạp"

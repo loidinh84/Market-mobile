@@ -1,0 +1,199 @@
+[gd_scene format=3 uid="uid://ccu7qg55dnheb"]
+
+[ext_resource type="Texture2D" uid="uid://cvlo6rthho87x" path="res://assets/sprites/icons/emotion.png" id="1_give"]
+[ext_resource type="Texture2D" uid="uid://db5h6pt774bp7" path="res://assets/sprites/icons/tab_shop.png" id="2_receive"]
+[ext_resource type="PackedScene" uid="uid://cdr7dhulrq3ux" path="res://prefabs/ui/shop_price_button.tscn" id="3_pricebtn"]
+[ext_resource type="Texture2D" path="res://assets/sprites/icons/swap_arrows.svg" id="4_swap"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_market_card"]
+content_margin_left = 14.0
+content_margin_top = 14.0
+content_margin_right = 14.0
+content_margin_bottom = 14.0
+bg_color = Color(0.16, 0.1, 0.3, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.46, 0.35, 0.7, 0.75)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_badge_neutral"]
+content_margin_left = 12.0
+content_margin_top = 7.0
+content_margin_right = 12.0
+content_margin_bottom = 4.0
+bg_color = Color(0.24, 0.16, 0.44, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.58, 0.46, 0.82, 0.75)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_swap_inset"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.11, 0.07, 0.21, 0.88)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.38, 0.28, 0.58, 0.55)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="ShopMarketCard" type="PanelContainer" unique_id=1591038482]
+custom_minimum_size = Vector2(310, 320)
+offset_right = 310.0
+offset_bottom = 320.0
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_market_card")
+
+[node name="CardVBox" type="VBoxContainer" parent="." unique_id=1099113253]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="TopHBox" type="HBoxContainer" parent="CardVBox" unique_id=1458984079]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="SellerBadge" type="PanelContainer" parent="CardVBox/TopHBox" unique_id=947845758]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_badge_neutral")
+
+[node name="SellerLabel" type="Label" parent="CardVBox/TopHBox/SellerBadge" unique_id=1851177897]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 18
+text = "Sạp Cô Tư"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="CardVBox/TopHBox" unique_id=501971239]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="StatusBadge" type="PanelContainer" parent="CardVBox/TopHBox" unique_id=503893061]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_badge_neutral")
+
+[node name="StatusLabel" type="Label" parent="CardVBox/TopHBox/StatusBadge" unique_id=1137411865]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 18
+text = "Trao đổi"
+horizontal_alignment = 1
+
+[node name="SwapBox" type="PanelContainer" parent="CardVBox" unique_id=782338197]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_swap_inset")
+
+[node name="SwapHBox" type="HBoxContainer" parent="CardVBox/SwapBox" unique_id=1747734063]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="GiveCol" type="VBoxContainer" parent="CardVBox/SwapBox/SwapHBox" unique_id=417513588]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 5
+alignment = 1
+
+[node name="GiveRoleLabel" type="Label" parent="CardVBox/SwapBox/SwapHBox/GiveCol" unique_id=1092209398]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "Bạn đưa"
+horizontal_alignment = 1
+
+[node name="GiveIcon" type="TextureRect" parent="CardVBox/SwapBox/SwapHBox/GiveCol" unique_id=379236244]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+texture = ExtResource("1_give")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="GiveAmountLabel" type="Label" parent="CardVBox/SwapBox/SwapHBox/GiveCol" unique_id=1321347330]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 18
+text = "x2 Trà Đá"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="GiveStockLabel" type="Label" parent="CardVBox/SwapBox/SwapHBox/GiveCol" unique_id=1719039588]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.95, 0.55, 1)
+theme_override_font_sizes/font_size = 18
+text = "Hiện có: 0"
+horizontal_alignment = 1
+
+[node name="ArrowIcon" type="TextureRect" parent="CardVBox/SwapBox/SwapHBox" unique_id=1838167709]
+modulate = Color(1, 0.85, 0.2, 1)
+custom_minimum_size = Vector2(34, 34)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("4_swap")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ReceiveCol" type="VBoxContainer" parent="CardVBox/SwapBox/SwapHBox" unique_id=1528703417]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 5
+alignment = 1
+
+[node name="ReceiveRoleLabel" type="Label" parent="CardVBox/SwapBox/SwapHBox/ReceiveCol" unique_id=1195783428]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "Bạn nhận"
+horizontal_alignment = 1
+
+[node name="ReceiveIcon" type="TextureRect" parent="CardVBox/SwapBox/SwapHBox/ReceiveCol" unique_id=707805406]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+texture = ExtResource("2_receive")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ReceiveAmountLabel" type="Label" parent="CardVBox/SwapBox/SwapHBox/ReceiveCol" unique_id=1337337173]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 18
+text = "x1 Giỏ Hàng"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ActionsRow" type="HBoxContainer" parent="CardVBox" unique_id=2022634146]
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="SamplePriceButton" parent="CardVBox/ActionsRow" unique_id=1089707475 instance=ExtResource("3_pricebtn")]
+layout_mode = 2

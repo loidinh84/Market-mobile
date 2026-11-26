@@ -1,0 +1,202 @@
+[gd_scene format=3 uid="uid://cxu8ae1tuef1t"]
+
+[ext_resource type="Texture2D" uid="uid://2xluolj4bpjd" path="res://assets/sprites/icons/hat_pink.png" id="1_skin"]
+[ext_resource type="Texture2D" uid="uid://bvfem2paim6ka" path="res://assets/sprites/icons/locked.png" id="2_locked"]
+[ext_resource type="PackedScene" uid="uid://cdr7dhulrq3ux" path="res://prefabs/ui/shop_price_button.tscn" id="3_pricebtn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_skin_card"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.12, 0.07, 0.24, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.48, 0.36, 0.74, 0.82)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_badge_neutral"]
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 4.0
+bg_color = Color(0.24, 0.16, 0.44, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.58, 0.46, 0.82, 0.75)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_badge_owned"]
+content_margin_left = 12.0
+content_margin_top = 4.0
+content_margin_right = 12.0
+content_margin_bottom = 4.0
+bg_color = Color(0.12, 0.46, 0.26, 0.94)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.88, 0.55, 0.88)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="ShopSkinCard" type="PanelContainer" unique_id=2009524835]
+custom_minimum_size = Vector2(250, 316)
+clip_contents = true
+offset_right = 250.0
+offset_bottom = 316.0
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_skin_card")
+
+[node name="OuterVBox" type="VBoxContainer" parent="." unique_id=684533349]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Stage" type="Control" parent="OuterVBox" unique_id=125076932]
+custom_minimum_size = Vector2(0, 176)
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="GlowTint" type="ColorRect" parent="OuterVBox/Stage" unique_id=264167798]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0.08235294)
+
+[node name="ArtCenter" type="CenterContainer" parent="OuterVBox/Stage" unique_id=607558358]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 34.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="SkinImage" type="TextureRect" parent="OuterVBox/Stage/ArtCenter" unique_id=1688052713]
+custom_minimum_size = Vector2(140, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("1_skin")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TopMargin" type="MarginContainer" parent="OuterVBox/Stage" unique_id=340450994]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 40.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+
+[node name="TopHBox" type="Control" parent="OuterVBox/Stage/TopMargin" unique_id=397754058]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TagBadge" type="PanelContainer" parent="OuterVBox/Stage/TopMargin/TopHBox" unique_id=228473273]
+layout_mode = 0
+offset_right = 89.0
+offset_bottom = 30.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_badge_neutral")
+
+[node name="TagLabel" type="Label" parent="OuterVBox/Stage/TopMargin/TopHBox/TagBadge" unique_id=2045588963]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.88, 1, 1)
+theme_override_constants/line_spacing = 3
+theme_override_font_sizes/font_size = 20
+text = "Phụ kiện"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="OuterVBox/Stage/TopMargin/TopHBox" unique_id=613340931]
+anchors_preset = 0
+offset_left = 93.0
+offset_right = 202.0
+offset_bottom = 30.0
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="StatusBadge" type="PanelContainer" parent="OuterVBox/Stage/TopMargin/TopHBox" unique_id=79846503]
+visible = false
+layout_mode = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_badge_owned")
+
+[node name="StatusLabel" type="Label" parent="OuterVBox/Stage/TopMargin/TopHBox/StatusBadge" unique_id=2009358633]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.78, 1, 0.88, 1)
+theme_override_font_sizes/font_size = 16
+text = "Đã mở"
+
+[node name="LockIcon" type="TextureRect" parent="OuterVBox/Stage/TopMargin/TopHBox" unique_id=508510117]
+custom_minimum_size = Vector2(24, 30)
+layout_mode = 0
+offset_left = 82.0
+offset_top = 54.0
+offset_right = 152.0
+offset_bottom = 124.0
+mouse_filter = 2
+texture = ExtResource("2_locked")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="FooterMargin" type="MarginContainer" parent="OuterVBox" unique_id=1310988990]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 14
+
+[node name="FooterVBox" type="VBoxContainer" parent="OuterVBox/FooterMargin" unique_id=743511805]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 7
+
+[node name="NameLabel" type="Label" parent="OuterVBox/FooterMargin/FooterVBox" unique_id=1305124117]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 25
+text = "Nón Hoa Hồng"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="SummaryLabel" type="Label" parent="OuterVBox/FooterMargin/FooterVBox" unique_id=27138199]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.75, 0.92, 1)
+theme_override_font_sizes/font_size = 20
+text = "Màu hồng quyến rũ."
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="ActionsRow" type="HBoxContainer" parent="OuterVBox/FooterMargin/FooterVBox" unique_id=1207816088]
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="SamplePriceButton" parent="OuterVBox/FooterMargin/FooterVBox/ActionsRow" unique_id=1024788987 instance=ExtResource("3_pricebtn")]
+layout_mode = 2

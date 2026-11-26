@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://cdr7dhulrq3ux"]
+
+[ext_resource type="Texture2D" uid="uid://bhpfaoskgd5o1" path="res://assets/sprites/icons/coin.png" id="1_coin"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pill"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.15, 0.68, 0.35, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.85, 1, 0.9, 0.95)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hit"]
+
+[node name="ShopPriceButton" type="PanelContainer" unique_id=1929524269]
+custom_minimum_size = Vector2(0, 48)
+offset_right = 136.0
+offset_bottom = 48.0
+size_flags_horizontal = 4
+mouse_default_cursor_shape = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pill")
+
+[node name="InnerMargin" type="MarginContainer" parent="." unique_id=785118126]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 5
+
+[node name="ContentHBox" type="HBoxContainer" parent="InnerMargin" unique_id=530130917]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="CurrencyIcon" type="TextureRect" parent="InnerMargin/ContentHBox" unique_id=971254769]
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("1_coin")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PriceLabel" type="Label" parent="InnerMargin/ContentHBox" unique_id=306812632]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 23
+text = "2,500"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HitBtn" type="Button" parent="." unique_id=1902577833]
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hit")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_hit")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_hit")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_hit")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_hit")
+flat = true

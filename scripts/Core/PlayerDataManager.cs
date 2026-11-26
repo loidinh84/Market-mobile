@@ -11,6 +11,26 @@ public enum CurrencyType
     Rau
 }
 
+public enum TradeAssetType
+{
+    Item,
+    Gold,
+    Rau
+}
+
+public class MarketTradeListing
+{
+    public string Id { get; set; }
+    public string SellerName { get; set; }
+    public bool IsPlayerOwned { get; set; }
+    public TradeAssetType GiveType { get; set; }
+    public string GiveItemId { get; set; }
+    public int GiveAmount { get; set; }
+    public TradeAssetType ReceiveType { get; set; }
+    public string ReceiveItemId { get; set; }
+    public int ReceiveAmount { get; set; }
+}
+
 public class CharacterProfile
 {
     public int Id { get; set; }
@@ -21,6 +41,8 @@ public class CharacterProfile
     public int Defense { get; set; }
     public int Price { get; set; }
     public CurrencyType Currency { get; set; } = CurrencyType.Gold;
+    public int AltPrice { get; set; } = 0;
+    public CurrencyType AltCurrency { get; set; } = CurrencyType.Rau;
     public bool IsUnlocked { get; set; }
     public Color Tint { get; set; } = Colors.White;
 }
@@ -38,6 +60,9 @@ public partial class PlayerDataManager : Node
     [Signal]
     public delegate void SelectedCharacterChangedEventHandler(int charIndex);
 
+    [Signal]
+    public delegate void InventoryChangedEventHandler();
+
     private const string SaveFilePath = "user://save_data.json";
     private const int DefaultCoins = 123456;
     private const int DefaultRau = 123456;
@@ -47,9 +72,31 @@ public partial class PlayerDataManager : Node
     public int SelectedCharacterIndex { get; private set; } = 0;
     public bool IsHatUnlocked { get; private set; } = false;
     public int EquippedSkinIndex { get; private set; } = 0;
+    public string EquippedShopSkinId { get; private set; } = "outfit_default";
+    public bool HasClaimedStarterShopGift { get; private set; } = false;
+
+    /// <summary>
+    /// Tab đích tạm thời khi chuyển sang shop_screen (ví dụ 3 = Đổi Vàng/Rau khi bấm dấu +).
+    /// </summary>
+    public int PendingShopTabIndex { get; set; } = -1;
+
+    /// <summary>
+    /// Nhân vật cần mở xem trước khi chuyển sang character_screen từ Cửa hàng.
+    /// </summary>
+    public int PendingPreviewCharacterIndex { get; set; } = -1;
+
+    /// <summary>
+    /// Khi true, lobby_screen sẽ tự mở SettingsPanel ngay khi _Ready().
+    /// </summary>
+    public bool PendingOpenSettings { get; set; } = false;
 
     private CharacterProfile[] _characters;
+    private readonly Dictionary<string, int> _itemQuantities = new();
+    private readonly HashSet<string> _unlockedExtraSkins = new();
+    private readonly List<MarketTradeListing> _playerMarketListings = new();
     public CharacterProfile[] Characters => _characters;
+    public IReadOnlyList<MarketTradeListing> PlayerMarketListings => _playerMarketListings;
+    public IReadOnlyDictionary<string, int> ItemQuantities => _itemQuantities;
 
     public CharacterProfile ActiveCharacter =>
         _characters != null && SelectedCharacterIndex >= 0 && SelectedCharacterIndex < _characters.Length
@@ -63,6 +110,11 @@ public partial class PlayerDataManager : Node
         public int SelectedCharacterIndex { get; set; } = 0;
         public bool IsHatUnlocked { get; set; } = false;
         public int EquippedSkinIndex { get; set; } = 0;
+        public string EquippedShopSkinId { get; set; } = "outfit_default";
+        public bool HasClaimedStarterShopGift { get; set; } = false;
+        public Dictionary<string, int> Items { get; set; } = new();
+        public List<string> UnlockedExtraSkins { get; set; } = new();
+        public List<MarketTradeListing> PlayerMarketListings { get; set; } = new();
         public List<CharacterSaveDto> Characters { get; set; } = new();
     }
 
@@ -97,13 +149,18 @@ public partial class PlayerDataManager : Node
         SelectedCharacterIndex = 0;
         IsHatUnlocked = false;
         EquippedSkinIndex = 0;
+        EquippedShopSkinId = "outfit_default";
+        HasClaimedStarterShopGift = false;
+        _itemQuantities.Clear();
+        _unlockedExtraSkins.Clear();
+        _playerMarketListings.Clear();
         _characters = CreateDefaultCharacters();
     }
 
     public static CharacterProfile[] CreateDefaultCharacters() => new[]
     {
         new CharacterProfile { Id = 0, Name = "Bà Bảy", Role = "Cận chiến", Damage = 15, Health = 250, Defense = 20, Price = 0, IsUnlocked = true, Tint = Colors.White },
-        new CharacterProfile { Id = 1, Name = "Chú Tư Bán Cá", Role = "Đỡ đòn", Damage = 10, Health = 420, Defense = 40, Price = 2500, Currency = CurrencyType.Gold, IsUnlocked = false, Tint = new Color(0.9f, 0.95f, 1.0f) },
+        new CharacterProfile { Id = 1, Name = "Chú Tư Bán Cá", Role = "Đỡ đòn", Damage = 10, Health = 420, Defense = 40, Price = 2500, Currency = CurrencyType.Gold, AltPrice = 200, AltCurrency = CurrencyType.Rau, IsUnlocked = false, Tint = new Color(0.9f, 0.95f, 1.0f) },
         new CharacterProfile { Id = 2, Name = "Bé Ba Bán Hoa", Role = "Xạ thủ", Damage = 35, Health = 180, Defense = 15, Price = 5000, Currency = CurrencyType.Gold, IsUnlocked = false, Tint = new Color(1.0f, 0.9f, 0.95f) },
         new CharacterProfile { Id = 3, Name = "Cậu Năm Shipper", Role = "Sát thủ", Damage = 45, Health = 210, Defense = 10, Price = 500, Currency = CurrencyType.Rau, IsUnlocked = false, Tint = new Color(0.95f, 1.0f, 0.9f) },
     };
@@ -156,16 +213,34 @@ public partial class PlayerDataManager : Node
         return true;
     }
 
-    public bool TryUnlockCharacter(int index)
+    public bool TryUnlockCharacter(int index, CurrencyType? chosenCurrency = null)
     {
         var character = GetCharacter(index);
         if (character == null || character.IsUnlocked) return false;
 
-        if (!TrySpendCurrency(character.Currency, character.Price)) return false;
+        int cost;
+        CurrencyType currency;
+        if (chosenCurrency == null || chosenCurrency == character.Currency)
+        {
+            cost = character.Price;
+            currency = character.Currency;
+        }
+        else if (character.AltPrice > 0 && chosenCurrency == character.AltCurrency)
+        {
+            cost = character.AltPrice;
+            currency = character.AltCurrency;
+        }
+        else
+        {
+            return false;
+        }
+
+        if (!TrySpendCurrency(currency, cost)) return false;
 
         character.IsUnlocked = true;
         SelectedCharacterIndex = index;
         EmitSignal(SignalName.SelectedCharacterChanged, index);
+        EmitSignal(SignalName.InventoryChanged);
         SaveToDisk();
         return true;
     }
@@ -190,6 +265,8 @@ public partial class PlayerDataManager : Node
 
         IsHatUnlocked = true;
         EquippedSkinIndex = 1;
+        EquippedShopSkinId = "hat_pink";
+        EmitSignal(SignalName.InventoryChanged);
         SaveToDisk();
         return true;
     }
@@ -198,7 +275,187 @@ public partial class PlayerDataManager : Node
     {
         if (skinIndex == 1 && !IsHatUnlocked) return;
         EquippedSkinIndex = skinIndex == 1 ? 1 : 0;
+        EquippedShopSkinId = EquippedSkinIndex == 1 ? "hat_pink" : "outfit_default";
+        EmitSignal(SignalName.InventoryChanged);
         SaveToDisk();
+    }
+
+    public int ConsumePendingShopTabIndex(int fallbackTab = 0)
+    {
+        int tab = PendingShopTabIndex >= 0 ? PendingShopTabIndex : fallbackTab;
+        PendingShopTabIndex = -1;
+        return tab;
+    }
+
+    public int ConsumePendingPreviewCharacterIndex(int fallbackIndex = 0)
+    {
+        int index = PendingPreviewCharacterIndex >= 0 ? PendingPreviewCharacterIndex : fallbackIndex;
+        PendingPreviewCharacterIndex = -1;
+        return index;
+    }
+
+    public int GetItemQuantity(string itemId) =>
+        !string.IsNullOrEmpty(itemId) && _itemQuantities.TryGetValue(itemId, out int qty) ? qty : 0;
+
+    public bool TryBuyShopItem(string itemId, int quantity, CurrencyType currency, int totalPrice)
+    {
+        if (string.IsNullOrEmpty(itemId) || quantity <= 0 || totalPrice < 0) return false;
+        if (!TrySpendCurrency(currency, totalPrice)) return false;
+
+        _itemQuantities[itemId] = GetItemQuantity(itemId) + quantity;
+        EmitSignal(SignalName.InventoryChanged);
+        SaveToDisk();
+        return true;
+    }
+
+    public bool IsSkinUnlocked(string skinId) => skinId switch
+    {
+        "outfit_default" => true,
+        "hat_pink" => IsHatUnlocked,
+        _ => !string.IsNullOrEmpty(skinId) && _unlockedExtraSkins.Contains(skinId)
+    };
+
+    public bool TryBuyShopSkin(string skinId, CurrencyType currency, int price)
+    {
+        if (string.IsNullOrEmpty(skinId)) return false;
+        if (skinId == "hat_pink") return TryUnlockHat(price);
+        if (IsSkinUnlocked(skinId)) return true;
+        if (!TrySpendCurrency(currency, price)) return false;
+
+        _unlockedExtraSkins.Add(skinId);
+        EquippedShopSkinId = skinId;
+        EmitSignal(SignalName.InventoryChanged);
+        SaveToDisk();
+        return true;
+    }
+
+    public bool TryEquipShopSkin(string skinId)
+    {
+        if (!IsSkinUnlocked(skinId)) return false;
+
+        EquippedShopSkinId = skinId;
+        if (skinId == "outfit_default") EquippedSkinIndex = 0;
+        else if (skinId == "hat_pink") EquippedSkinIndex = 1;
+
+        EmitSignal(SignalName.InventoryChanged);
+        SaveToDisk();
+        return true;
+    }
+
+    public bool TryExchangeCurrency(CurrencyType costCurrency, int costAmount, int gainCoins, int gainRau, bool isStarterGift = false)
+    {
+        if (isStarterGift && HasClaimedStarterShopGift) return false;
+        if (costAmount > 0 && !TrySpendCurrency(costCurrency, costAmount)) return false;
+
+        if (isStarterGift) HasClaimedStarterShopGift = true;
+
+        int nextCoins = Coins + Mathf.Max(0, gainCoins);
+        int nextRau = Rau + Mathf.Max(0, gainRau);
+        SetBalances(nextCoins, nextRau, save: true);
+        EmitSignal(SignalName.InventoryChanged);
+        return true;
+    }
+
+    public bool TryExecuteMarketTrade(MarketTradeListing listing)
+    {
+        if (listing == null || listing.GiveAmount <= 0 || listing.ReceiveAmount <= 0) return false;
+
+        switch (listing.GiveType)
+        {
+            case TradeAssetType.Item:
+                if (string.IsNullOrEmpty(listing.GiveItemId) || GetItemQuantity(listing.GiveItemId) < listing.GiveAmount)
+                    return false;
+                break;
+            case TradeAssetType.Gold:
+                if (Coins < listing.GiveAmount) return false;
+                break;
+            case TradeAssetType.Rau:
+                if (Rau < listing.GiveAmount) return false;
+                break;
+        }
+
+        // Deduct what buyer gives
+        int nextCoins = Coins;
+        int nextRau = Rau;
+        if (listing.GiveType == TradeAssetType.Item)
+        {
+            int left = GetItemQuantity(listing.GiveItemId) - listing.GiveAmount;
+            if (left > 0) _itemQuantities[listing.GiveItemId] = left;
+            else _itemQuantities.Remove(listing.GiveItemId);
+        }
+        else if (listing.GiveType == TradeAssetType.Gold)
+        {
+            nextCoins -= listing.GiveAmount;
+        }
+        else
+        {
+            nextRau -= listing.GiveAmount;
+        }
+
+        // Grant what buyer receives
+        if (listing.ReceiveType == TradeAssetType.Item && !string.IsNullOrEmpty(listing.ReceiveItemId))
+        {
+            _itemQuantities[listing.ReceiveItemId] = GetItemQuantity(listing.ReceiveItemId) + listing.ReceiveAmount;
+        }
+        else if (listing.ReceiveType == TradeAssetType.Gold)
+        {
+            nextCoins += listing.ReceiveAmount;
+        }
+        else if (listing.ReceiveType == TradeAssetType.Rau)
+        {
+            nextRau += listing.ReceiveAmount;
+        }
+
+        SetBalances(nextCoins, nextRau, save: false);
+        EmitSignal(SignalName.InventoryChanged);
+        SaveToDisk();
+        return true;
+    }
+
+    public bool TryPostPlayerMarketListing(string giveItemId, int giveAmount, TradeAssetType receiveType, string receiveItemId, int receiveAmount)
+    {
+        if (string.IsNullOrEmpty(giveItemId) || giveAmount <= 0 || receiveAmount <= 0) return false;
+        if (GetItemQuantity(giveItemId) < giveAmount) return false;
+        if (receiveType == TradeAssetType.Item && (string.IsNullOrEmpty(receiveItemId) || receiveItemId == giveItemId)) return false;
+
+        int remaining = GetItemQuantity(giveItemId) - giveAmount;
+        if (remaining > 0) _itemQuantities[giveItemId] = remaining;
+        else _itemQuantities.Remove(giveItemId);
+
+        _playerMarketListings.Insert(0, new MarketTradeListing
+        {
+            Id = $"player_trade_{Guid.NewGuid():N}"[..20],
+            SellerName = "Sạp của bạn",
+            IsPlayerOwned = true,
+            GiveType = TradeAssetType.Item,
+            GiveItemId = giveItemId,
+            GiveAmount = giveAmount,
+            ReceiveType = receiveType,
+            ReceiveItemId = receiveItemId,
+            ReceiveAmount = receiveAmount
+        });
+
+        EmitSignal(SignalName.InventoryChanged);
+        SaveToDisk();
+        return true;
+    }
+
+    public bool TryCancelPlayerMarketListing(string listingId)
+    {
+        int idx = _playerMarketListings.FindIndex(x => x.Id == listingId);
+        if (idx < 0) return false;
+
+        var listing = _playerMarketListings[idx];
+        _playerMarketListings.RemoveAt(idx);
+
+        if (listing.GiveType == TradeAssetType.Item && !string.IsNullOrEmpty(listing.GiveItemId) && listing.GiveAmount > 0)
+        {
+            _itemQuantities[listing.GiveItemId] = GetItemQuantity(listing.GiveItemId) + listing.GiveAmount;
+        }
+
+        EmitSignal(SignalName.InventoryChanged);
+        SaveToDisk();
+        return true;
     }
 
     public void ResetAllData()
@@ -206,6 +463,7 @@ public partial class PlayerDataManager : Node
         InitializeDefaults();
         EmitSignal(SignalName.CurrenciesChanged, Coins, Rau);
         EmitSignal(SignalName.SelectedCharacterChanged, SelectedCharacterIndex);
+        EmitSignal(SignalName.InventoryChanged);
         SaveToDisk();
     }
 
@@ -220,6 +478,11 @@ public partial class PlayerDataManager : Node
                 SelectedCharacterIndex = SelectedCharacterIndex,
                 IsHatUnlocked = IsHatUnlocked,
                 EquippedSkinIndex = EquippedSkinIndex,
+                EquippedShopSkinId = EquippedShopSkinId,
+                HasClaimedStarterShopGift = HasClaimedStarterShopGift,
+                Items = new Dictionary<string, int>(_itemQuantities),
+                UnlockedExtraSkins = new List<string>(_unlockedExtraSkins),
+                PlayerMarketListings = new List<MarketTradeListing>(_playerMarketListings),
                 Characters = new List<CharacterSaveDto>(_characters.Length)
             };
 
@@ -271,6 +534,49 @@ public partial class PlayerDataManager : Node
             Rau = Mathf.Max(0, dto.Rau);
             IsHatUnlocked = dto.IsHatUnlocked;
             EquippedSkinIndex = (dto.EquippedSkinIndex == 1 && IsHatUnlocked) ? 1 : 0;
+            HasClaimedStarterShopGift = dto.HasClaimedStarterShopGift;
+
+            _itemQuantities.Clear();
+            if (dto.Items != null)
+            {
+                foreach (var kv in dto.Items)
+                {
+                    if (!string.IsNullOrEmpty(kv.Key) && kv.Value > 0)
+                    {
+                        _itemQuantities[kv.Key] = kv.Value;
+                    }
+                }
+            }
+
+            _unlockedExtraSkins.Clear();
+            if (dto.UnlockedExtraSkins != null)
+            {
+                foreach (var skinId in dto.UnlockedExtraSkins)
+                {
+                    if (!string.IsNullOrEmpty(skinId))
+                    {
+                        _unlockedExtraSkins.Add(skinId);
+                    }
+                }
+            }
+
+            _playerMarketListings.Clear();
+            if (dto.PlayerMarketListings != null)
+            {
+                foreach (var listing in dto.PlayerMarketListings)
+                {
+                    if (listing != null && !string.IsNullOrEmpty(listing.Id) && listing.GiveAmount > 0 && listing.ReceiveAmount > 0)
+                    {
+                        listing.IsPlayerOwned = true;
+                        _playerMarketListings.Add(listing);
+                    }
+                }
+            }
+
+            string candidateSkin = dto.EquippedShopSkinId;
+            EquippedShopSkinId = !string.IsNullOrEmpty(candidateSkin) && IsSkinUnlocked(candidateSkin)
+                ? candidateSkin
+                : (EquippedSkinIndex == 1 ? "hat_pink" : "outfit_default");
 
             if (dto.Characters != null)
             {

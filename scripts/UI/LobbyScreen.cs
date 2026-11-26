@@ -25,6 +25,17 @@ public partial class LobbyScreen : Control
     private CoinBar _rauBar;
     private PlayerDataManager _data;
 
+    // Persistent Shell: giữ cố định Background & LeftSidebar, cache sẵn Nhân vật & Cửa hàng
+    private const string CharacterScenePath = "res://scenes/ui/character_screen.tscn";
+    private const string ShopScenePath = "res://scenes/ui/shop_screen.tscn";
+    private Control _embeddedHost;
+    private Control _modalOverlayHost;
+    private PackedScene _characterScene;
+    private PackedScene _shopScene;
+    private CharacterScreen _characterScreen;
+    private ShopScreen _shopScreen;
+    private Tween _tabContentTween;
+
     private int _currentTabIndex = 0;
     private bool _isDropdownOpen = false;
     private Tween _bannerTween;
@@ -48,6 +59,7 @@ public partial class LobbyScreen : Control
 
         if (_leftSidebar != null)
         {
+            _leftSidebar.IsShellHost = true;
             _leftSidebar.TabSelected += OnTabSelected;
         }
         else
@@ -62,6 +74,9 @@ public partial class LobbyScreen : Control
                 }
             }
         }
+
+        // Tạo host cho màn hình con (nằm dưới LeftSidebar) và modal overlay (nằm trên LeftSidebar)
+        SetupShellHosts();
 
         // Setup Name Banner Dropdown (if present)
         _nameBanner ??= GetNodeOrNull<Control>("NameBanner");
@@ -180,10 +195,34 @@ public partial class LobbyScreen : Control
 
         // Gắn hiệu ứng nhún (bounce) và tắt hover cho toàn bộ các nút bấm
         UIButtonHelper.AttachToAllButtons(this);
+
+        // Nếu chuyển từ màn hình khác sang với cờ mở Settings (ví dụ từ tab Cài đặt bên shop/nhân vật)
+        // Áp dụng ngay để tránh flash 1 frame lobby content trước khi settings hiện
+        if (_data != null && _data.PendingOpenSettings)
+        {
+            _data.PendingOpenSettings = false;
+            _currentTabIndex = 4;
+
+            // Cập nhật visual tab sidebar (LeftSidebar._Ready() đã chạy trước với Tab0 active)
+            if (_leftSidebar != null) _leftSidebar.SetActiveTabVisual(4);
+
+            // Ẩn toàn bộ lobby UI, chỉ hiện Settings ngay lập tức (không delay frame)
+            if (_characterDisplay != null) _characterDisplay.Visible = false;
+            if (_topBar != null) _topBar.Visible = false;
+            if (_nameBanner != null) _nameBanner.Visible = false;
+            if (_rightColumn != null) _rightColumn.Visible = false;
+            if (_chatBox != null) _chatBox.Visible = false;
+            if (_settingsPanel != null) _settingsPanel.Visible = true;
+        }
+
+        // Khởi tạo ngầm màn hình Nhân vật & Cửa hàng ở các frame kế tiếp để chuyển tab tức thì
+        PrewarmEmbeddedScreensAsync();
     }
 
     public override void _ExitTree()
     {
+        _tabContentTween?.Kill();
+        _bannerTween?.Kill();
         if (_leftSidebar != null)
         {
             _leftSidebar.TabSelected -= OnTabSelected;
@@ -206,7 +245,15 @@ public partial class LobbyScreen : Control
 
     private void OnAddCurrencyPressed()
     {
-        if (_sidebarTabs != null && _sidebarTabs.Length > 3 && _sidebarTabs[3] != null)
+        if (_data != null)
+        {
+            _data.PendingShopTabIndex = 3; // Mở thẳng tab Đổi Vàng/Rau
+        }
+        if (_leftSidebar != null)
+        {
+            _leftSidebar.SelectTab(3);
+        }
+        else if (_sidebarTabs != null && _sidebarTabs.Length > 3 && _sidebarTabs[3] != null)
         {
             _sidebarTabs[3].EmitSignal(SidebarTab.SignalName.TabSelected, 3);
         }
@@ -285,13 +332,26 @@ public partial class LobbyScreen : Control
 
         _currentTabIndex = tabIndex;
 
-        // Toggle visibility between Lobby UI and SettingsPanel
+        // Xác định màn hình đích trong Persistent Shell
+        bool isChars = tabIndex == 1;
+        bool isShop = tabIndex == 3;
         bool isSettings = tabIndex == 4;
-        bool isLobby = !isSettings;
+        bool isLobby = !isChars && !isShop && !isSettings;
 
         if (!isLobby && _isDropdownOpen)
         {
             CloseDropdown();
+        }
+
+        if (!isChars && _characterScreen != null)
+        {
+            _characterScreen.OnDeactivatedInShell();
+            _characterScreen.Visible = false;
+        }
+        if (!isShop && _shopScreen != null)
+        {
+            _shopScreen.OnDeactivatedInShell();
+            _shopScreen.Visible = false;
         }
 
         if (_characterDisplay != null) _characterDisplay.Visible = isLobby;
@@ -300,6 +360,152 @@ public partial class LobbyScreen : Control
         if (_rightColumn != null) _rightColumn.Visible = isLobby;
         if (_chatBox != null) _chatBox.Visible = isLobby;
         if (_settingsPanel != null) _settingsPanel.Visible = isSettings;
+
+        _tabContentTween?.Kill();
+
+        if (isChars)
+        {
+            var chars = EnsureCharacterScreen();
+            if (chars != null)
+            {
+                chars.OnActivatedInShell();
+                FadeInControl(chars);
+            }
+        }
+        else if (isShop)
+        {
+            var shop = EnsureShopScreen();
+            if (shop != null)
+            {
+                shop.OnActivatedInShell();
+                FadeInControl(shop);
+            }
+        }
+        else if (isSettings)
+        {
+            if (_settingsPanel != null)
+                FadeInControl(_settingsPanel);
+        }
+        else
+        {
+            SyncLobbyCharacterAndCurrencies();
+            FadeInLobbyNodes();
+        }
+    }
+
+    private void SetupShellHosts()
+    {
+        _embeddedHost = new Control
+        {
+            Name = "EmbeddedHost",
+            MouseFilter = MouseFilterEnum.Ignore
+        };
+        _embeddedHost.SetAnchorsPreset(LayoutPreset.FullRect);
+        AddChild(_embeddedHost);
+
+        if (_leftSidebar != null)
+        {
+            MoveChild(_embeddedHost, _leftSidebar.GetIndex());
+        }
+
+        _modalOverlayHost = new Control
+        {
+            Name = "ModalOverlayHost",
+            MouseFilter = MouseFilterEnum.Ignore
+        };
+        _modalOverlayHost.SetAnchorsPreset(LayoutPreset.FullRect);
+        AddChild(_modalOverlayHost);
+    }
+
+    private async void PrewarmEmbeddedScreensAsync()
+    {
+        var tree = GetTree();
+        if (tree == null) return;
+
+        // Chờ qua 1 frame để LobbyScreen hiển thị ngay lập tức rồi mới cache sẵn các tab còn lại
+        await ToSignal(tree, SceneTree.SignalName.ProcessFrame);
+        if (!IsInstanceValid(this) || !IsInsideTree()) return;
+        EnsureCharacterScreen();
+
+        await ToSignal(tree, SceneTree.SignalName.ProcessFrame);
+        if (!IsInstanceValid(this) || !IsInsideTree()) return;
+        EnsureShopScreen();
+    }
+
+    private CharacterScreen EnsureCharacterScreen()
+    {
+        if (_characterScreen != null) return _characterScreen;
+        if (_embeddedHost == null) return null;
+
+        _characterScene ??= GD.Load<PackedScene>(CharacterScenePath);
+        if (_characterScene == null) return null;
+
+        var instance = _characterScene.Instantiate<CharacterScreen>();
+        instance.Visible = false;
+        _embeddedHost.AddChild(instance);
+        instance.ConfigureEmbeddedInShell(_leftSidebar, _modalOverlayHost);
+        _characterScreen = instance;
+        return _characterScreen;
+    }
+
+    private ShopScreen EnsureShopScreen()
+    {
+        if (_shopScreen != null) return _shopScreen;
+        if (_embeddedHost == null) return null;
+
+        _shopScene ??= GD.Load<PackedScene>(ShopScenePath);
+        if (_shopScene == null) return null;
+
+        var instance = _shopScene.Instantiate<ShopScreen>();
+        instance.Visible = false;
+        _embeddedHost.AddChild(instance);
+        instance.ConfigureEmbeddedInShell(_leftSidebar, _modalOverlayHost);
+        _shopScreen = instance;
+        return _shopScreen;
+    }
+
+    private void SyncLobbyCharacterAndCurrencies()
+    {
+        if (_data == null) return;
+
+        _coinBar?.SetCoins(_data.Coins, animate: false);
+        _rauBar?.SetCoins(_data.Rau, animate: false);
+
+        var activeCharacter = _data.ActiveCharacter;
+        if (_characterDisplay != null && activeCharacter != null)
+        {
+            _characterDisplay.Modulate = activeCharacter.Tint;
+        }
+    }
+
+    private void FadeInControl(Control target)
+    {
+        if (target == null) return;
+        target.Visible = true;
+        target.Modulate = new Color(1f, 1f, 1f, 0f);
+
+        _tabContentTween = CreateTween().SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
+        _tabContentTween.TweenProperty(target, "modulate:a", 1f, 0.14f);
+    }
+
+    private void FadeInLobbyNodes()
+    {
+        var activeColor = _data?.ActiveCharacter?.Tint ?? Colors.White;
+        Control[] controls = { _topBar, _nameBanner, _rightColumn, _chatBox };
+
+        _tabContentTween = CreateTween().SetParallel(true).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
+        foreach (var ctrl in controls)
+        {
+            if (ctrl == null) continue;
+            ctrl.Modulate = new Color(1f, 1f, 1f, 0f);
+            _tabContentTween.TweenProperty(ctrl, "modulate:a", 1f, 0.14f);
+        }
+
+        if (_characterDisplay != null)
+        {
+            _characterDisplay.Modulate = new Color(activeColor.R, activeColor.G, activeColor.B, 0f);
+            _tabContentTween.TweenProperty(_characterDisplay, "modulate:a", activeColor.A, 0.14f);
+        }
     }
 
     private void ToggleDropdown()
