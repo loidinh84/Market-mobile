@@ -16,6 +16,7 @@ public partial class LobbyScreen : Control
     [Export] private Button _logoutBtn;
 
     private SettingsPanel _settingsPanel;
+    private LeftSidebar _leftSidebar;
     private Node2D _characterDisplay;
     private Control _topBar;
     private Control _rightColumn;
@@ -34,7 +35,8 @@ public partial class LobbyScreen : Control
 
     public override void _Ready()
     {
-        // Setup Left Sidebar Tabs
+        // Setup Left Sidebar Tabs (để LeftSidebar quản lý animation tab, LobbyScreen lắng nghe sự kiện chuyển tab)
+        _leftSidebar = GetNodeOrNull<LeftSidebar>("LeftSidebar");
         _sidebarTabs = new SidebarTab[]
         {
             GetNodeOrNull<SidebarTab>("LeftSidebar/TabsVBox/Tab0_Sanh"),
@@ -44,13 +46,20 @@ public partial class LobbyScreen : Control
             GetNodeOrNull<SidebarTab>("LeftSidebar/TabsVBox/Tab4_CaiDat")
         };
 
-        for (int i = 0; i < _sidebarTabs.Length; i++)
+        if (_leftSidebar != null)
         {
-            if (_sidebarTabs[i] != null)
+            _leftSidebar.TabSelected += OnTabSelected;
+        }
+        else
+        {
+            for (int i = 0; i < _sidebarTabs.Length; i++)
             {
-                _sidebarTabs[i].TabIndex = i;
-                _sidebarTabs[i].TabSelected += OnTabSelected;
-                _sidebarTabs[i].SetActive(i == _currentTabIndex, false);
+                if (_sidebarTabs[i] != null)
+                {
+                    _sidebarTabs[i].TabIndex = i;
+                    _sidebarTabs[i].TabSelected += OnTabSelected;
+                    _sidebarTabs[i].SetActive(i == _currentTabIndex, false);
+                }
             }
         }
 
@@ -175,6 +184,10 @@ public partial class LobbyScreen : Control
 
     public override void _ExitTree()
     {
+        if (_leftSidebar != null)
+        {
+            _leftSidebar.TabSelected -= OnTabSelected;
+        }
         if (_data != null)
         {
             _data.CurrenciesChanged -= OnSharedCurrenciesChanged;
@@ -252,27 +265,29 @@ public partial class LobbyScreen : Control
 
     private void OnTabSelected(int tabIndex)
     {
-        if (tabIndex == _currentTabIndex || tabIndex < 0 || tabIndex >= _sidebarTabs.Length)
+        if (tabIndex == _currentTabIndex || _sidebarTabs == null || tabIndex < 0 || tabIndex >= _sidebarTabs.Length)
             return;
 
         GD.Print($"Switching from tab {_currentTabIndex} to {tabIndex}");
 
-        // Shrink previous tab
-        if (_sidebarTabs[_currentTabIndex] != null)
+        if (_leftSidebar == null)
         {
-            _sidebarTabs[_currentTabIndex].SetActive(false, true);
+            if (_sidebarTabs[_currentTabIndex] != null)
+            {
+                _sidebarTabs[_currentTabIndex].SetActive(false, true);
+            }
+
+            if (_sidebarTabs[tabIndex] != null)
+            {
+                _sidebarTabs[tabIndex].SetActive(true, true);
+            }
         }
 
-        // Expand new tab
         _currentTabIndex = tabIndex;
-        if (_sidebarTabs[_currentTabIndex] != null)
-        {
-            _sidebarTabs[_currentTabIndex].SetActive(true, true);
-        }
 
         // Toggle visibility between Lobby UI and SettingsPanel
-        bool isLobby = tabIndex == 0;
         bool isSettings = tabIndex == 4;
+        bool isLobby = !isSettings;
 
         if (!isLobby && _isDropdownOpen)
         {

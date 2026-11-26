@@ -50,19 +50,27 @@ public partial class LeftSidebar : Control
 
         EmitSignal(SignalName.TabSelected, index);
 
+        string currentScenePath = GetTree().CurrentScene?.SceneFilePath ?? "";
+
         switch (index)
         {
             case 0:
-                _isSwitchingScene = true;
-                // Wait briefly for the tab expansion & icon drop animation to play out
-                await ToSignal(GetTree().CreateTimer(0.24f), SceneTreeTimer.SignalName.Timeout);
-                GetTree().ChangeSceneToFile("res://scenes/ui/lobby_screen.tscn");
+                if (currentScenePath != "res://scenes/ui/lobby_screen.tscn")
+                {
+                    _isSwitchingScene = true;
+                    // Wait briefly for the tab expansion & icon drop animation to play out
+                    await ToSignal(GetTree().CreateTimer(0.24f), SceneTreeTimer.SignalName.Timeout);
+                    GetTree().ChangeSceneToFile("res://scenes/ui/lobby_screen.tscn");
+                }
                 break;
             case 1:
-                _isSwitchingScene = true;
-                // Wait briefly for the tab expansion & icon drop animation to play out
-                await ToSignal(GetTree().CreateTimer(0.24f), SceneTreeTimer.SignalName.Timeout);
-                GetTree().ChangeSceneToFile("res://scenes/ui/CharacterScreen.tscn");
+                if (currentScenePath != "res://scenes/ui/CharacterScreen.tscn")
+                {
+                    _isSwitchingScene = true;
+                    // Wait briefly for the tab expansion & icon drop animation to play out
+                    await ToSignal(GetTree().CreateTimer(0.24f), SceneTreeTimer.SignalName.Timeout);
+                    GetTree().ChangeSceneToFile("res://scenes/ui/CharacterScreen.tscn");
+                }
                 break;
             case 2:
                 GD.Print("[LeftSidebar] Chuyển đến màn hình Sự kiện");

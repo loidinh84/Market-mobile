@@ -10,7 +10,6 @@
 [ext_resource type="Texture2D" uid="uid://dffk8rviacr1f" path="res://assets/sprites/icons/logout_name.png" id="7_logout_name"]
 [ext_resource type="Script" uid="uid://bnshi5qdlbwhf" path="res://scripts/UI/SettingsPanel.cs" id="8_script"]
 [ext_resource type="Texture2D" uid="uid://cvo0wueq5dvmu" path="res://assets/sprites/icons/language.png" id="9_language"]
-[ext_resource type="PackedScene" uid="uid://bo1iw1air8xno" path="res://prefabs/ui/left_sidebar.tscn" id="11_hhl7b"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_divider"]
 color = Color(1, 1, 1, 0.55)
@@ -273,6 +272,3 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("1_font")
 theme_override_font_sizes/font_size = 36
 text = "Đăng xuất"
-
-[node name="LeftSidebar" parent="." unique_id=426392741 instance=ExtResource("11_hhl7b")]
-layout_mode = 1
