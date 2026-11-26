@@ -3,8 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cqikuvhbt1mqq" path="res://prefabs/ui/game_background.tscn" id="1_770pb"]
 [ext_resource type="PackedScene" uid="uid://doo0fbyyhpvuf" path="res://scenes/ui/settings_panel.tscn" id="99_settings"]
 [ext_resource type="Script" uid="uid://ekahc0usb1g3" path="res://scripts/UI/LobbyScreen.cs" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://bhpfaoskgd5o1" path="res://assets/sprites/icons/coin.png" id="2_pxkqu"]
-[ext_resource type="Texture2D" uid="uid://c6316kqnef77g" path="res://assets/sprites/icons/Add.svg" id="3_1dyjb"]
+[ext_resource type="PackedScene" path="res://prefabs/ui/coin_bar.tscn" id="200_coinbar"]
 [ext_resource type="PackedScene" uid="uid://bo1iw1air8xno" path="res://prefabs/ui/left_sidebar.tscn" id="4_b515e"]
 [ext_resource type="Texture2D" uid="uid://py6k86kkpec5" path="res://assets/sprites/icons/rau.png" id="4_rau"]
 [ext_resource type="FontFile" uid="uid://cjd25dmr5o11b" path="res://assets/fonts/FZ-Orcish.ttf" id="5_font"]
@@ -17,24 +16,6 @@
 [ext_resource type="Texture2D" uid="uid://cy0tpb827u41e" path="res://assets/sprites/icons/mode_style_play.png" id="20_mode_style_play"]
 [ext_resource type="Texture2D" uid="uid://cn8muhs4fbfks" path="res://assets/sprites/icons/start.png" id="21_start"]
 [ext_resource type="Texture2D" uid="uid://cvlo6rthho87x" path="res://assets/sprites/icons/emotion.png" id="22_emotion"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_currency"]
-content_margin_left = 12.0
-content_margin_top = 4.0
-content_margin_right = 10.0
-content_margin_bottom = 4.0
-bg_color = Color(0.12156863, 0.050980393, 0.21960784, 0.9019608)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 0.78431374)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_btn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chat_panel"]
 content_margin_left = 12.0
@@ -136,85 +117,13 @@ size_flags_horizontal = 3
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="CoinBar" type="PanelContainer" parent="TopBar/TopHBox/CurrenciesHBox" unique_id=1718561001]
-custom_minimum_size = Vector2(200, 56)
+[node name="CoinBar" parent="TopBar/TopHBox/CurrenciesHBox" unique_id=1718561001 instance=ExtResource("200_coinbar")]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_currency")
 
-[node name="HBox" type="HBoxContainer" parent="TopBar/TopHBox/CurrenciesHBox/CoinBar" unique_id=272068384]
+[node name="GemBar" parent="TopBar/TopHBox/CurrenciesHBox" unique_id=-950410619 instance=ExtResource("200_coinbar")]
 layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="CoinIcon" type="TextureRect" parent="TopBar/TopHBox/CurrenciesHBox/CoinBar/HBox" unique_id=160958520]
-custom_minimum_size = Vector2(70, 70)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = ExtResource("2_pxkqu")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="CoinNumber" type="Label" parent="TopBar/TopHBox/CurrenciesHBox/CoinBar/HBox" unique_id=876958614]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("5_font")
-theme_override_font_sizes/font_size = 28
-text = "123,456"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="AddCoinBtn" type="Button" parent="TopBar/TopHBox/CurrenciesHBox/CoinBar/HBox" unique_id=406393956]
-custom_minimum_size = Vector2(36, 36)
-layout_mode = 2
-focus_mode = 0
-theme_override_styles/normal = SubResource("StyleBoxEmpty_btn")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_btn")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_btn")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_btn")
-icon = ExtResource("3_1dyjb")
-flat = true
-expand_icon = true
-
-[node name="GemBar" type="PanelContainer" parent="TopBar/TopHBox/CurrenciesHBox" unique_id=-950410619]
-custom_minimum_size = Vector2(200, 56)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_currency")
-
-[node name="HBox" type="HBoxContainer" parent="TopBar/TopHBox/CurrenciesHBox/GemBar" unique_id=160700492]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="GemIcon" type="TextureRect" parent="TopBar/TopHBox/CurrenciesHBox/GemBar/HBox" unique_id=1271811603]
-custom_minimum_size = Vector2(60, 60)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = ExtResource("4_rau")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="GemNumber" type="Label" parent="TopBar/TopHBox/CurrenciesHBox/GemBar/HBox" unique_id=-1912044692]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("5_font")
-theme_override_font_sizes/font_size = 28
-text = "123,456"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="AddGemBtn" type="Button" parent="TopBar/TopHBox/CurrenciesHBox/GemBar/HBox" unique_id=-800944570]
-custom_minimum_size = Vector2(36, 36)
-layout_mode = 2
-focus_mode = 0
-theme_override_styles/normal = SubResource("StyleBoxEmpty_btn")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_btn")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_btn")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_btn")
-icon = ExtResource("3_1dyjb")
-flat = true
-expand_icon = true
+CurrencyIcon = ExtResource("4_rau")
+IconSize = Vector2(60, 60)
 
 [node name="RightSpacer" type="Control" parent="TopBar/TopHBox" unique_id=309066530]
 layout_mode = 2

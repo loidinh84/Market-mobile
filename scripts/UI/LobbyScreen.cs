@@ -1,4 +1,5 @@
 using Godot;
+using MarketMobile.Core;
 using MarketMobile.Utils;
 
 namespace MarketMobile.UI;
@@ -19,6 +20,9 @@ public partial class LobbyScreen : Control
     private Control _topBar;
     private Control _rightColumn;
     private Control _chatBox;
+    private CoinBar _coinBar;
+    private CoinBar _rauBar;
+    private PlayerDataManager _data;
 
     private int _currentTabIndex = 0;
     private bool _isDropdownOpen = false;
@@ -145,15 +149,53 @@ public partial class LobbyScreen : Control
         GetViewport().SizeChanged += UpdateLobbyLayout;
         UpdateLobbyLayout();
 
+        // Đồng bộ kinh tế & nhân vật dùng chung qua Autoload PlayerDataManager
+        _coinBar = GetNodeOrNull<CoinBar>("TopBar/TopHBox/CurrenciesHBox/CoinBar");
+        _rauBar = GetNodeOrNull<CoinBar>("TopBar/TopHBox/CurrenciesHBox/GemBar");
+        _data = PlayerDataManager.Instance ?? GetNodeOrNull<PlayerDataManager>("/root/PlayerDataManager");
+        if (_data != null)
+        {
+            _coinBar?.SetCoins(_data.Coins, animate: false);
+            _rauBar?.SetCoins(_data.Rau, animate: false);
+            _data.CurrenciesChanged += OnSharedCurrenciesChanged;
+
+            var activeCharacter = _data.ActiveCharacter;
+            if (_characterDisplay != null && activeCharacter != null)
+            {
+                _characterDisplay.Modulate = activeCharacter.Tint;
+            }
+        }
+
+        if (_coinBar != null) _coinBar.AddCoinPressed += OnAddCurrencyPressed;
+        if (_rauBar != null) _rauBar.AddCoinPressed += OnAddCurrencyPressed;
+
         // Gắn hiệu ứng nhún (bounce) và tắt hover cho toàn bộ các nút bấm
         UIButtonHelper.AttachToAllButtons(this);
     }
 
     public override void _ExitTree()
     {
+        if (_data != null)
+        {
+            _data.CurrenciesChanged -= OnSharedCurrenciesChanged;
+        }
         if (GetViewport() != null)
         {
             GetViewport().SizeChanged -= UpdateLobbyLayout;
+        }
+    }
+
+    private void OnSharedCurrenciesChanged(int coins, int rau)
+    {
+        _coinBar?.SetCoins(coins, animate: true);
+        _rauBar?.SetCoins(rau, animate: true);
+    }
+
+    private void OnAddCurrencyPressed()
+    {
+        if (_sidebarTabs != null && _sidebarTabs.Length > 3 && _sidebarTabs[3] != null)
+        {
+            _sidebarTabs[3].EmitSignal(SidebarTab.SignalName.TabSelected, 3);
         }
     }
 

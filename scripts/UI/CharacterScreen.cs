@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using Godot;
+using MarketMobile.Core;
 using MarketMobile.Utils;
 
 namespace MarketMobile.UI;
@@ -85,9 +87,34 @@ public partial class CharacterScreen : Control
     private StyleBox _defaultBtnStyle;
     private StyleBoxFlat _confirmBtnStyle;
 
+    private CharacterProfile[] _characters;
+    private PlayerDataManager _data;
+    private int _selectedCharIndex = 0;
+
+    // Character UI nodes
+    private Label _nameValueLabel;
+    private Label _roleValueLabel;
+
+    // Avatar list nodes
+    private readonly PanelContainer[] _avatarCards = new PanelContainer[4];
+    private readonly TextureRect[] _avatarIcons = new TextureRect[4];
+    private readonly TextureRect[] _avatarLocks = new TextureRect[4];
+    private readonly Button[] _avatarButtons = new Button[4];
+    private StyleBox _styleAvatarActive;
+    private StyleBox _styleAvatarNormal;
+
+    // Character Locked Overlay
+    private Control _charLockedOverlay;
+    private TextureRect _charBigLockIcon;
+    private TextureRect _charLockedCurrencyIcon;
+    private Label _charLockedPriceLabel;
+    private Button _charBuyBtn;
+
     // Skins & Quick Buy
     [ExportGroup("Kinh Tế")]
+    [Export] public bool OverrideSharedBalances { get; set; } = false;
     [Export] public int PlayerCoins { get; set; } = 123456;
+    [Export] public int PlayerRau { get; set; } = 123456;
 
     private PanelContainer _cardOutfit;
     private PanelContainer _cardHat;
@@ -100,7 +127,10 @@ public partial class CharacterScreen : Control
     private bool _isHatUnlocked = false;
     private int _equippedSkinIndex = 0; // 0 = Áo dài đỏ, 1 = Nón hồng
     private int _playerCoins = 123456;
+    private int _playerRau = 123456;
     private const int HatUnlockPrice = 1500;
+    private Texture2D _goldIconTexture;
+    private Texture2D _rauIconTexture;
 
     // Quick Buy Modal nodes
     private Control _quickBuyModal;
@@ -111,6 +141,7 @@ public partial class CharacterScreen : Control
     private Button _modalBuyBtn;
     private Label _modalPriceLabel;
     private Label _modalBalanceLabel;
+    private Tween _quickBuyTween;
 
     // Insufficient Funds Modal nodes
     private Control _failModal;
@@ -119,13 +150,43 @@ public partial class CharacterScreen : Control
     private Button _failCloseBtn;
     private Button _failCloseModalBtn;
     private Button _failGoToShopBtn;
+    private Label _failTitleLabel;
+    private Label _failMessageLabel;
+    private Label _failCostLabel;
     private Label _failCostValue;
     private Label _failCurrentValue;
     private Label _failMissingValue;
+    private Tween _failModalTween;
+    private readonly Dictionary<Control, Vector2> _modalBaseScales = new();
+    private CoinBar _coinBar;
+    private CoinBar _rauBar;
 
     public override void _Ready()
     {
-        _playerCoins = PlayerCoins;
+        _data = PlayerDataManager.Instance ?? GetNodeOrNull<PlayerDataManager>("/root/PlayerDataManager");
+        if (_data != null)
+        {
+            if (OverrideSharedBalances)
+            {
+                _data.SetBalances(PlayerCoins, PlayerRau);
+            }
+
+            _characters = _data.Characters;
+            _playerCoins = _data.Coins;
+            _playerRau = _data.Rau;
+            _isHatUnlocked = _data.IsHatUnlocked;
+            _equippedSkinIndex = _data.EquippedSkinIndex;
+            _data.CurrenciesChanged += OnSharedCurrenciesChanged;
+        }
+        else
+        {
+            _characters = PlayerDataManager.CreateDefaultCharacters();
+            _playerCoins = PlayerCoins;
+            _playerRau = PlayerRau;
+        }
+
+        _goldIconTexture = GD.Load<Texture2D>("res://assets/sprites/icons/coin.png");
+        _rauIconTexture = GD.Load<Texture2D>("res://assets/sprites/icons/rau.png");
 
         _btnUpgradeDamage ??= GetNodeOrNull<BaseButton>("InfoPanel/MainVBox/BodyMargin/BodyVBox/StatDamageRow/BtnUpgradeDamage");
         _btnUpgradeHealth ??= GetNodeOrNull<BaseButton>("InfoPanel/MainVBox/BodyMargin/BodyVBox/StatHealthRow/BtnUpgradeHealth");
@@ -218,8 +279,29 @@ public partial class CharacterScreen : Control
         if (_tabStats != null) _tabStats.Pressed += () => SwitchSubTab(0);
         if (_tabSkins != null) _tabSkins.Pressed += () => SwitchSubTab(1);
 
+        _nameValueLabel = GetNodeOrNull<Label>("InfoPanel/MainVBox/BodyMargin/BodyVBox/NameHBox/NameValue");
+        _roleValueLabel = GetNodeOrNull<Label>("InfoPanel/MainVBox/BodyMargin/BodyVBox/RoleRow/RoleValueHBox/RoleValue");
+
+        // Khởi tạo hệ thống Nhân vật & Avatar List
+        SetupAvatarsAndLockedOverlay();
+
         // Khởi tạo hệ thống Trang phục & Popup Mua Nhanh
         SetupSkinsAndModal();
+
+        // Khởi tạo thanh hiển thị Vàng & Rau dùng chung
+        _coinBar = GetNodeOrNull<CoinBar>("CurrenciesHBox/CoinBar") ?? GetNodeOrNull<CoinBar>("CoinBar");
+        if (_coinBar != null)
+        {
+            _coinBar.SetCoins(_playerCoins, animate: false);
+            _coinBar.AddCoinPressed += NavigateToShopTab;
+        }
+
+        _rauBar = GetNodeOrNull<CoinBar>("CurrenciesHBox/RauBar") ?? GetNodeOrNull<CoinBar>("RauBar");
+        if (_rauBar != null)
+        {
+            _rauBar.SetCoins(_playerRau, animate: false);
+            _rauBar.AddCoinPressed += NavigateToShopTab;
+        }
 
         // Gắn hiệu ứng nhún (bounce) và tắt hover cho toàn bộ các nút bấm
         UIButtonHelper.AttachToAllButtons(this);
@@ -299,6 +381,14 @@ public partial class CharacterScreen : Control
         if (_btnOutfit != null) _btnOutfit.Pressed += OnOutfitCardClicked;
         if (_btnHat != null) _btnHat.Pressed += OnHatCardClicked;
 
+        // Khôi phục trạng thái trang phục đã mua/trang bị từ PlayerDataManager
+        if (_isHatUnlocked)
+        {
+            if (_lockIcon != null) _lockIcon.Visible = false;
+            if (_hatTexture != null) _hatTexture.Modulate = new Color(1f, 1f, 1f, 1f);
+        }
+        ApplySkinCardSelection();
+
         // Modal nodes
         _quickBuyModal = GetNodeOrNull<Control>("QuickBuyModal");
         _modalDialogBox = GetNodeOrNull<Control>("QuickBuyModal/Center/DialogBox");
@@ -313,16 +403,7 @@ public partial class CharacterScreen : Control
         if (_modalCancelBtn != null) _modalCancelBtn.Pressed += CloseQuickBuyModal;
         if (_modalBuyBtn != null) _modalBuyBtn.Pressed += ConfirmQuickBuy;
 
-        if (_modalBackdrop != null)
-        {
-            _modalBackdrop.GuiInput += (InputEvent @event) =>
-            {
-                if (@event is InputEventMouseButton mb && mb.Pressed && mb.ButtonIndex == MouseButton.Left)
-                {
-                    CloseQuickBuyModal();
-                }
-            };
-        }
+        ConfigureModalOutsideClick(_quickBuyModal, _modalBackdrop, _modalDialogBox, CloseQuickBuyModal);
 
         if (_quickBuyModal != null) _quickBuyModal.Visible = false;
 
@@ -333,6 +414,9 @@ public partial class CharacterScreen : Control
         _failCloseBtn = GetNodeOrNull<Button>("InsufficientFundsModal/Center/DialogBox/DialogVBox/HeaderHBox/CloseBtn");
         _failCloseModalBtn = GetNodeOrNull<Button>("InsufficientFundsModal/Center/DialogBox/DialogVBox/ActionsHBox/CloseModalBtn");
         _failGoToShopBtn = GetNodeOrNull<Button>("InsufficientFundsModal/Center/DialogBox/DialogVBox/ActionsHBox/GoToShopBtn");
+        _failTitleLabel = GetNodeOrNull<Label>("InsufficientFundsModal/Center/DialogBox/DialogVBox/HeaderHBox/TitleLabel");
+        _failMessageLabel = GetNodeOrNull<Label>("InsufficientFundsModal/Center/DialogBox/DialogVBox/MessageLabel");
+        _failCostLabel = GetNodeOrNull<Label>("InsufficientFundsModal/Center/DialogBox/DialogVBox/DetailBox/DetailVBox/CostRow/Label");
         _failCostValue = GetNodeOrNull<Label>("InsufficientFundsModal/Center/DialogBox/DialogVBox/DetailBox/DetailVBox/CostRow/Value");
         _failCurrentValue = GetNodeOrNull<Label>("InsufficientFundsModal/Center/DialogBox/DialogVBox/DetailBox/DetailVBox/CurrentRow/Value");
         _failMissingValue = GetNodeOrNull<Label>("InsufficientFundsModal/Center/DialogBox/DialogVBox/DetailBox/DetailVBox/MissingRow/Value");
@@ -341,23 +425,300 @@ public partial class CharacterScreen : Control
         if (_failCloseModalBtn != null) _failCloseModalBtn.Pressed += CloseFailModal;
         if (_failGoToShopBtn != null) _failGoToShopBtn.Pressed += OnGoToShopClicked;
 
-        if (_failBackdrop != null)
+        ConfigureModalOutsideClick(_failModal, _failBackdrop, _failDialogBox, CloseFailModal);
+
+        if (_failModal != null) _failModal.Visible = false;
+    }
+
+    /// <summary>
+    /// Đảm bảo vùng bên ngoài DialogBox truyền sự kiện bấm/chạm xuống Backdrop để đóng modal,
+    /// đồng thời chặn click xuyên vào nội dung màn hình phía sau hoặc vào vùng bên trong hộp thoại.
+    /// </summary>
+    private static void ConfigureModalOutsideClick(Control modalRoot, Control backdrop, Control dialogBox, Action onDismiss)
+    {
+        if (modalRoot == null) return;
+
+        var center = modalRoot.GetNodeOrNull<Control>("Center");
+        if (center != null) center.MouseFilter = MouseFilterEnum.Ignore;
+        if (dialogBox != null) dialogBox.MouseFilter = MouseFilterEnum.Stop;
+
+        if (backdrop != null)
         {
-            _failBackdrop.GuiInput += (InputEvent @event) =>
+            backdrop.MouseFilter = MouseFilterEnum.Stop;
+            backdrop.GuiInput += (InputEvent @event) =>
             {
-                if (@event is InputEventMouseButton mb && mb.Pressed && mb.ButtonIndex == MouseButton.Left)
+                bool isLeftClick = @event is InputEventMouseButton mb && mb.Pressed && mb.ButtonIndex == MouseButton.Left;
+                bool isTouch = @event is InputEventScreenTouch st && st.Pressed;
+                if (isLeftClick || isTouch)
                 {
-                    CloseFailModal();
+                    backdrop.AcceptEvent();
+                    onDismiss?.Invoke();
                 }
             };
         }
+    }
 
-        if (_failModal != null) _failModal.Visible = false;
+    private void SetupAvatarsAndLockedOverlay()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            int index = i;
+            var card = GetNodeOrNull<PanelContainer>($"AvatarList/Avatar{i}");
+            _avatarCards[i] = card;
+            if (card != null)
+            {
+                _avatarIcons[i] = card.GetNodeOrNull<TextureRect>("AvatarIcon");
+                _avatarLocks[i] = card.GetNodeOrNull<TextureRect>("LockCenter/LockIcon");
+                _avatarButtons[i] = card.GetNodeOrNull<Button>("AvatarBtn");
+
+                if (i == 0) _styleAvatarActive = card.GetThemeStylebox("panel");
+                if (i == 1) _styleAvatarNormal = card.GetThemeStylebox("panel");
+
+                if (_avatarButtons[i] != null)
+                {
+                    _avatarButtons[i].Pressed += () => SelectCharacter(index);
+                }
+            }
+        }
+
+        _charLockedOverlay = GetNodeOrNull<Control>("InfoPanel/MainVBox/BodyMargin/CharacterLockedOverlay")
+            ?? GetNodeOrNull<Control>("InfoPanel/CharacterLockedOverlay");
+        _charBigLockIcon = _charLockedOverlay?.FindChild("BigLockIcon", true, false) as TextureRect;
+        _charLockedCurrencyIcon = _charLockedOverlay?.FindChild("CoinIcon", true, false) as TextureRect;
+        _charLockedPriceLabel = _charLockedOverlay?.FindChild("PriceLabel", true, false) as Label;
+        _charBuyBtn = _charLockedOverlay?.FindChild("BuyCharBtn", true, false) as Button;
+
+        if (_charBuyBtn != null)
+        {
+            _charBuyBtn.Pressed += OnBuyCurrentCharacterClicked;
+        }
+
+        // Khởi tạo trạng thái nhân vật ban đầu theo dữ liệu dùng chung
+        int initialIndex = _data?.SelectedCharacterIndex ?? 0;
+        SelectCharacter(initialIndex, animate: false);
+    }
+
+    private void SelectCharacter(int index, bool animate = true)
+    {
+        if (index < 0 || index >= _characters.Length) return;
+
+        // Reset các điểm nâng cấp chưa xác nhận của nhân vật trước
+        if (_isUpgradeMode)
+        {
+            _isUpgradeMode = false;
+            SetUpgradeButtonsState(enabled: false);
+            if (_upgradeBtn != null)
+            {
+                _upgradeBtn.Text = "Nâng cấp";
+                ApplyBtnStyle(_defaultBtnStyle);
+            }
+        }
+        ResetAllCumulativeBonuses();
+
+        _selectedCharIndex = index;
+        var character = _characters[index];
+        if (character.IsUnlocked)
+        {
+            _data?.SetSelectedCharacter(index);
+        }
+
+        // Cập nhật tên và vai trò
+        if (_nameValueLabel != null) _nameValueLabel.Text = character.Name;
+        if (_roleValueLabel != null) _roleValueLabel.Text = character.Role;
+
+        // Cập nhật chỉ số
+        _currentDamage = character.Damage;
+        _currentHealth = character.Health;
+        _currentDefense = character.Defense;
+
+        if (_progressDamage != null) _progressDamage.Value = _currentDamage;
+        if (_progressHealth != null) _progressHealth.Value = Mathf.Clamp((float)_currentHealth / 400f * 100f, 0, 100);
+        if (_progressDefense != null) _progressDefense.Value = _currentDefense;
+        RefreshLabels();
+
+        // Cập nhật màu hiển thị nhân vật ở giữa sân khấu
+        if (_characterDisplay != null)
+        {
+            var targetColor = character.IsUnlocked ? character.Tint : character.Tint * new Color(0.7f, 0.7f, 0.75f, 0.85f);
+            if (animate)
+            {
+                var tween = _characterDisplay.CreateTween();
+                tween.TweenProperty(_characterDisplay, "modulate", targetColor, 0.2f)
+                    .SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
+            }
+            else
+            {
+                _characterDisplay.Modulate = targetColor;
+            }
+        }
+
+        // Cập nhật giao diện Lock Overlay trên InfoPanel
+        if (_charLockedOverlay != null)
+        {
+            if (character.IsUnlocked)
+            {
+                if (animate && _charLockedOverlay.Visible)
+                {
+                    var tween = _charLockedOverlay.CreateTween();
+                    tween.TweenProperty(_charLockedOverlay, "modulate:a", 0.0f, 0.15f)
+                        .SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
+                    tween.Chain().TweenCallback(Callable.From(() =>
+                    {
+                        _charLockedOverlay.Visible = false;
+                    }));
+                }
+                else
+                {
+                    _charLockedOverlay.Visible = false;
+                }
+
+                if (_upgradeBtn != null) _upgradeBtn.Disabled = false;
+            }
+            else
+            {
+                _charLockedOverlay.Visible = true;
+                _charLockedOverlay.Modulate = new Color(1, 1, 1, 1);
+                if (_charBigLockIcon != null)
+                {
+                    _charBigLockIcon.Scale = Vector2.One;
+                    _charBigLockIcon.Modulate = new Color(1, 1, 1, 1f);
+                }
+                if (_charLockedPriceLabel != null)
+                {
+                    _charLockedPriceLabel.Text = $"{character.Price:N0} {GetCurrencyName(character.Currency)}";
+                }
+                if (_charLockedCurrencyIcon != null)
+                {
+                    var currencyIcon = GetCurrencyIcon(character.Currency);
+                    if (currencyIcon != null) _charLockedCurrencyIcon.Texture = currencyIcon;
+                }
+                if (_upgradeBtn != null) _upgradeBtn.Disabled = true;
+            }
+        }
+
+        // Cập nhật viền cho hàng Avatar
+        ApplyAvatarVisuals();
+    }
+
+    private void ApplyAvatarVisuals()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            var card = _avatarCards[i];
+            if (card != null && _styleAvatarActive != null && _styleAvatarNormal != null)
+            {
+                card.AddThemeStyleboxOverride("panel", i == _selectedCharIndex ? _styleAvatarActive : _styleAvatarNormal);
+            }
+
+            var lockIcon = _avatarLocks[i];
+            if (lockIcon != null)
+            {
+                lockIcon.Visible = !_characters[i].IsUnlocked;
+            }
+
+            var avatarIcon = _avatarIcons[i];
+            if (avatarIcon != null)
+            {
+                avatarIcon.Modulate = _characters[i].IsUnlocked
+                    ? new Color(1, 1, 1, 1)
+                    : new Color(0.45f, 0.45f, 0.55f, 0.8f);
+            }
+        }
+    }
+
+    private void OnBuyCurrentCharacterClicked()
+    {
+        var character = _characters[_selectedCharIndex];
+        if (character.IsUnlocked) return;
+
+        bool unlocked = _data != null
+            ? _data.TryUnlockCharacter(_selectedCharIndex)
+            : TrySpendCurrencyLocal(character.Currency, character.Price);
+
+        if (unlocked)
+        {
+            character.IsUnlocked = true;
+
+            // Hiệu ứng mở khóa hoành tráng:
+            // 1. Ổ khóa lớn bung to và mờ dần
+            if (_charBigLockIcon != null)
+            {
+                _charBigLockIcon.PivotOffset = _charBigLockIcon.Size / 2f;
+                var lockTween = _charBigLockIcon.CreateTween().SetParallel(true);
+                lockTween.TweenProperty(_charBigLockIcon, "scale", new Vector2(1.4f, 1.4f), 0.22f)
+                    .SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
+                lockTween.TweenProperty(_charBigLockIcon, "modulate:a", 0.0f, 0.22f)
+                    .SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
+            }
+
+            // 2. Overlay mờ biến mất
+            if (_charLockedOverlay != null)
+            {
+                var overlayTween = _charLockedOverlay.CreateTween();
+                overlayTween.TweenProperty(_charLockedOverlay, "modulate:a", 0.0f, 0.25f)
+                    .SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
+                overlayTween.Chain().TweenCallback(Callable.From(() =>
+                {
+                    _charLockedOverlay.Visible = false;
+                    _charLockedOverlay.Modulate = new Color(1, 1, 1, 1);
+                    if (_charBigLockIcon != null)
+                    {
+                        _charBigLockIcon.Scale = Vector2.One;
+                        _charBigLockIcon.Modulate = new Color(1, 1, 1, 1f);
+                    }
+                }));
+            }
+
+            // 3. Ổ khóa trên avatar biến mất & avatar sáng 100%
+            var avatarLock = _avatarLocks[_selectedCharIndex];
+            if (avatarLock != null)
+            {
+                avatarLock.PivotOffset = avatarLock.Size / 2f;
+                var avTween = avatarLock.CreateTween().SetParallel(true);
+                avTween.TweenProperty(avatarLock, "scale", new Vector2(1.5f, 1.5f), 0.2f);
+                avTween.TweenProperty(avatarLock, "modulate:a", 0.0f, 0.2f);
+                avTween.Chain().TweenCallback(Callable.From(() =>
+                {
+                    avatarLock.Visible = false;
+                    avatarLock.Scale = Vector2.One;
+                    avatarLock.Modulate = new Color(1, 1, 1, 1);
+                }));
+            }
+
+            var avatarIcon = _avatarIcons[_selectedCharIndex];
+            if (avatarIcon != null)
+            {
+                var iconTween = avatarIcon.CreateTween();
+                iconTween.TweenProperty(avatarIcon, "modulate", new Color(1, 1, 1, 1), 0.25f);
+            }
+
+            // 4. Nhân vật trên sân khấu sáng rực rỡ
+            if (_characterDisplay != null)
+            {
+                var displayTween = _characterDisplay.CreateTween();
+                displayTween.TweenProperty(_characterDisplay, "modulate", character.Tint, 0.25f);
+            }
+
+            // 5. Bật nút nâng cấp
+            if (_upgradeBtn != null) _upgradeBtn.Disabled = false;
+        }
+        else
+        {
+            // Không đủ tiền -> Mở modal cảnh báo đúng loại tiền tệ & nhân vật
+            string unit = GetCurrencyName(character.Currency);
+            OpenFailModal(
+                character.Price,
+                $"Bạn không có đủ {unit} để mở khóa nhân vật {character.Name}!",
+                character.Currency,
+                "Giá mở khóa:"
+            );
+        }
     }
 
     private void OnOutfitCardClicked()
     {
         _equippedSkinIndex = 0;
+        _data?.SetEquippedSkin(0);
         ApplySkinCardSelection();
     }
 
@@ -370,6 +731,7 @@ public partial class CharacterScreen : Control
         else
         {
             _equippedSkinIndex = 1;
+            _data?.SetEquippedSkin(1);
             ApplySkinCardSelection();
         }
     }
@@ -404,51 +766,22 @@ public partial class CharacterScreen : Control
             }
         }
 
-        _quickBuyModal.Visible = true;
-        _quickBuyModal.Modulate = new Color(1, 1, 1, 0);
-
-        if (_modalDialogBox != null)
-        {
-            _modalDialogBox.PivotOffset = _modalDialogBox.Size / 2f;
-            _modalDialogBox.Scale = new Vector2(0.85f, 0.85f);
-        }
-
-        var tween = CreateTween().SetParallel(true);
-        tween.TweenProperty(_quickBuyModal, "modulate:a", 1.0f, 0.18f)
-            .SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
-
-        if (_modalDialogBox != null)
-        {
-            tween.TweenProperty(_modalDialogBox, "scale", Vector2.One, 0.22f)
-                .SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
-        }
+        AnimateModalOpen(_quickBuyModal, _modalDialogBox, ref _quickBuyTween);
     }
 
     private void CloseQuickBuyModal()
     {
-        if (_quickBuyModal == null || !_quickBuyModal.Visible) return;
-
-        var tween = CreateTween().SetParallel(true);
-        tween.TweenProperty(_quickBuyModal, "modulate:a", 0.0f, 0.15f)
-            .SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
-
-        if (_modalDialogBox != null)
-        {
-            tween.TweenProperty(_modalDialogBox, "scale", new Vector2(0.85f, 0.85f), 0.15f)
-                .SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
-        }
-
-        tween.Chain().TweenCallback(Callable.From(() =>
-        {
-            _quickBuyModal.Visible = false;
-        }));
+        AnimateModalClose(_quickBuyModal, _modalDialogBox, ref _quickBuyTween);
     }
 
     private void ConfirmQuickBuy()
     {
-        if (_playerCoins >= HatUnlockPrice)
+        bool unlocked = _data != null
+            ? _data.TryUnlockHat(HatUnlockPrice)
+            : TrySpendCoinsLocal(HatUnlockPrice);
+
+        if (unlocked)
         {
-            _playerCoins -= HatUnlockPrice;
             _isHatUnlocked = true;
             _equippedSkinIndex = 1;
 
@@ -485,63 +818,104 @@ public partial class CharacterScreen : Control
         {
             // Không đủ tiền: Đóng QuickBuyModal và hiển thị Modal Không Đủ Vàng!
             CloseQuickBuyModal();
-            OpenFailModal(HatUnlockPrice);
+            OpenFailModal(
+                HatUnlockPrice,
+                "Bạn không có đủ Vàng để mở khóa trang phục Nón Hoa Hồng!",
+                CurrencyType.Gold,
+                "Giá mở khóa:"
+            );
         }
     }
 
-    private void OpenFailModal(int price)
+    private void OpenFailModal(int price, string message, CurrencyType currency = CurrencyType.Gold, string costTitle = "Giá mở khóa:")
     {
         if (_failModal == null) return;
 
-        int missing = Mathf.Max(0, price - _playerCoins);
-        if (_failCostValue != null) _failCostValue.Text = $"{price:N0} Vàng";
-        if (_failCurrentValue != null) _failCurrentValue.Text = $"{_playerCoins:N0} Vàng";
-        if (_failMissingValue != null) _failMissingValue.Text = $"{missing:N0} Vàng";
+        int balance = GetBalance(currency);
+        int missing = Mathf.Max(0, price - balance);
+        string unit = GetCurrencyName(currency);
 
-        _failModal.Visible = true;
-        _failModal.Modulate = new Color(1, 1, 1, 0);
+        if (_failTitleLabel != null) _failTitleLabel.Text = currency == CurrencyType.Rau ? "Không đủ Rau" : "Không đủ Vàng";
+        if (_failMessageLabel != null) _failMessageLabel.Text = message;
+        if (_failCostLabel != null) _failCostLabel.Text = costTitle;
+        if (_failCostValue != null) _failCostValue.Text = $"{price:N0} {unit}";
+        if (_failCurrentValue != null) _failCurrentValue.Text = $"{balance:N0} {unit}";
+        if (_failMissingValue != null) _failMissingValue.Text = $"{missing:N0} {unit}";
 
-        if (_failDialogBox != null)
-        {
-            _failDialogBox.PivotOffset = _failDialogBox.Size / 2f;
-            _failDialogBox.Scale = new Vector2(0.85f, 0.85f);
-        }
-
-        var tween = CreateTween().SetParallel(true);
-        tween.TweenProperty(_failModal, "modulate:a", 1.0f, 0.18f)
-            .SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
-
-        if (_failDialogBox != null)
-        {
-            tween.TweenProperty(_failDialogBox, "scale", Vector2.One, 0.22f)
-                .SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
-        }
+        AnimateModalOpen(_failModal, _failDialogBox, ref _failModalTween);
     }
 
     private void CloseFailModal()
     {
-        if (_failModal == null || !_failModal.Visible) return;
+        AnimateModalClose(_failModal, _failDialogBox, ref _failModalTween);
+    }
+
+    private void AnimateModalOpen(Control modalRoot, Control dialogBox, ref Tween activeTween)
+    {
+        if (modalRoot == null) return;
+
+        activeTween?.Kill();
+        modalRoot.Visible = true;
+        modalRoot.Modulate = new Color(1, 1, 1, 0);
+
+        if (dialogBox != null)
+        {
+            if (!_modalBaseScales.TryGetValue(dialogBox, out var baseScale))
+            {
+                baseScale = dialogBox.Scale;
+                _modalBaseScales[dialogBox] = baseScale;
+            }
+
+            dialogBox.PivotOffset = dialogBox.Size / 2f;
+            dialogBox.Scale = baseScale * 0.85f;
+        }
 
         var tween = CreateTween().SetParallel(true);
-        tween.TweenProperty(_failModal, "modulate:a", 0.0f, 0.15f)
+        tween.TweenProperty(modalRoot, "modulate:a", 1.0f, 0.18f)
+            .SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
+
+        if (dialogBox != null)
+        {
+            Vector2 targetScale = _modalBaseScales[dialogBox];
+            tween.TweenProperty(dialogBox, "scale", targetScale, 0.22f)
+                .SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
+        }
+
+        activeTween = tween;
+    }
+
+    private void AnimateModalClose(Control modalRoot, Control dialogBox, ref Tween activeTween)
+    {
+        if (modalRoot == null || !modalRoot.Visible) return;
+
+        activeTween?.Kill();
+        var tween = CreateTween().SetParallel(true);
+        tween.TweenProperty(modalRoot, "modulate:a", 0.0f, 0.15f)
             .SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
 
-        if (_failDialogBox != null)
+        if (dialogBox != null)
         {
-            tween.TweenProperty(_failDialogBox, "scale", new Vector2(0.85f, 0.85f), 0.15f)
+            Vector2 baseScale = _modalBaseScales.TryGetValue(dialogBox, out var saved) ? saved : dialogBox.Scale;
+            tween.TweenProperty(dialogBox, "scale", baseScale * 0.85f, 0.15f)
                 .SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
         }
 
         tween.Chain().TweenCallback(Callable.From(() =>
         {
-            _failModal.Visible = false;
+            modalRoot.Visible = false;
         }));
+
+        activeTween = tween;
     }
 
     private void OnGoToShopClicked()
     {
         CloseFailModal();
+        NavigateToShopTab();
+    }
 
+    private void NavigateToShopTab()
+    {
         // Chuyển sang Tab Cửa Hàng (Tab 3) trên LeftSidebar
         var sidebar = GetNodeOrNull<LeftSidebar>("LeftSidebar");
         if (sidebar != null)
@@ -554,8 +928,49 @@ public partial class CharacterScreen : Control
         }
     }
 
+    private static string GetCurrencyName(CurrencyType currency) =>
+        currency == CurrencyType.Rau ? "Rau" : "Vàng";
+
+    private int GetBalance(CurrencyType currency) =>
+        currency == CurrencyType.Rau ? _playerRau : _playerCoins;
+
+    private Texture2D GetCurrencyIcon(CurrencyType currency) =>
+        currency == CurrencyType.Rau ? _rauIconTexture : _goldIconTexture;
+
+    private void OnSharedCurrenciesChanged(int coins, int rau)
+    {
+        _playerCoins = coins;
+        _playerRau = rau;
+        _coinBar?.SetCoins(_playerCoins, animate: true);
+        _rauBar?.SetCoins(_playerRau, animate: true);
+    }
+
+    private bool TrySpendCoinsLocal(int amount) => TrySpendCurrencyLocal(CurrencyType.Gold, amount);
+
+    private bool TrySpendCurrencyLocal(CurrencyType currency, int amount)
+    {
+        if (GetBalance(currency) < amount) return false;
+
+        if (currency == CurrencyType.Rau)
+        {
+            _playerRau -= amount;
+            _rauBar?.SetCoins(_playerRau, animate: true);
+        }
+        else
+        {
+            _playerCoins -= amount;
+            _coinBar?.SetCoins(_playerCoins, animate: true);
+        }
+
+        return true;
+    }
+
     public override void _ExitTree()
     {
+        if (_data != null)
+        {
+            _data.CurrenciesChanged -= OnSharedCurrenciesChanged;
+        }
         if (GetViewport() != null)
         {
             GetViewport().SizeChanged -= UpdateResponsiveLayout;
@@ -820,9 +1235,34 @@ public partial class CharacterScreen : Control
 
     private void ExecuteConfirmUpgrade()
     {
-        _currentDamage = Mathf.Min(100, _currentDamage + _bonusDamage);
-        _currentHealth += _bonusHealth;
-        _currentDefense = Mathf.Min(100, _currentDefense + _bonusDefense);
+        int totalCost = CalculateTotalCost();
+        bool upgraded = _data != null
+            ? _data.TryUpgradeStats(_selectedCharIndex, _bonusDamage, _bonusHealth, _bonusDefense, totalCost)
+            : TrySpendCoinsLocal(totalCost);
+
+        if (!upgraded)
+        {
+            OpenFailModal(
+                totalCost,
+                "Bạn không có đủ Vàng để thực hiện nâng cấp chỉ số!",
+                CurrencyType.Gold,
+                "Chi phí nâng cấp:"
+            );
+            return;
+        }
+
+        if (_data != null)
+        {
+            _currentDamage = _characters[_selectedCharIndex].Damage;
+            _currentHealth = _characters[_selectedCharIndex].Health;
+            _currentDefense = _characters[_selectedCharIndex].Defense;
+        }
+        else
+        {
+            _currentDamage = Mathf.Min(100, _currentDamage + _bonusDamage);
+            _currentHealth += _bonusHealth;
+            _currentDefense = Mathf.Min(100, _currentDefense + _bonusDefense);
+        }
 
         // Update progress bars to new base values
         if (_progressDamage != null) _progressDamage.Value = _currentDamage;
