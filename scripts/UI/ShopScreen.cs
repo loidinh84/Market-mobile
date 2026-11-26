@@ -1032,7 +1032,7 @@ public partial class ShopScreen : Control
 			tagLabel.Text = entry.Tag;
 		}
 
-		ApplyTopStatusNodes(card, isOwned, isEquipped, isEquipped ? "Đang dùng" : "Đã mở");
+		ApplyTopStatusNodes(card, isOwned, isEquipped, string.Empty, showStatusBadge: false);
 
 		if (isEquipped && card.FindChild("Divider", true, false) is ColorRect divider)
 		{
@@ -1264,14 +1264,15 @@ public partial class ShopScreen : Control
 		}
 	}
 
-	private void ApplyTopStatusNodes(Control card, bool isOwned, bool isEquipped, string ownedText)
+	private void ApplyTopStatusNodes(Control card, bool isOwned, bool isEquipped, string ownedText, bool showStatusBadge = true)
 	{
 		var statusBadge = card.FindChild("StatusBadge", true, false) as PanelContainer;
 		var statusLabel = card.FindChild("StatusLabel", true, false) as Label;
 		var lockIcon = card.FindChild("LockIcon", true, false) as TextureRect;
 
-		if (statusBadge != null) statusBadge.Visible = isOwned || isEquipped;
-		if (statusLabel != null && (isOwned || isEquipped)) statusLabel.Text = ownedText;
+		bool showBadge = showStatusBadge && (isOwned || isEquipped);
+		if (statusBadge != null) statusBadge.Visible = showBadge;
+		if (statusLabel != null && showBadge) statusLabel.Text = ownedText;
 		if (lockIcon != null)
 		{
 			lockIcon.Visible = !isOwned && !isEquipped && _lockIconTexture != null;
@@ -1287,7 +1288,7 @@ public partial class ShopScreen : Control
 		{
 			disabled = isEquipped;
 			return InstantiateActionButton(
-				isEquipped ? "Đang trang bị" : "Trang bị",
+				isEquipped ? "Đã sở hữu" : "Trang bị",
 				null,
 				isEquipped ? BtnBgEquipped : BtnBgSelect,
 				isEquipped ? BtnBorderEquipped : BtnBorderSelect,

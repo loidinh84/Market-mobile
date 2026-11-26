@@ -1,0 +1,130 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" uid="uid://bhpfaoskgd5o1" path="res://assets/sprites/icons/coin.png" id="1_icon"]
+[ext_resource type="Texture2D" path="res://assets/sprites/icons/cards/static/card_01_cui_green.png" id="2_card_back"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_reward_card"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.16, 0.1, 0.3, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.55, 0.45, 0.85, 0.9)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_amount_pill"]
+content_margin_left = 8.0
+content_margin_top = 3.0
+content_margin_right = 8.0
+content_margin_bottom = 2.0
+bg_color = Color(0.11, 0.07, 0.22, 0.92)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.65, 0.55, 0.9, 0.7)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_flip_btn"]
+
+[node name="GachaRewardItem" type="PanelContainer"]
+custom_minimum_size = Vector2(150, 206)
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_flip_btn")
+
+[node name="FrontWrap" type="CenterContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="FrontCard" type="PanelContainer" parent="FrontWrap"]
+custom_minimum_size = Vector2(124, 174)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_reward_card")
+
+[node name="VBox" type="VBoxContainer" parent="FrontWrap/FrontCard"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="IconRect" type="TextureRect" parent="FrontWrap/FrontCard/VBox"]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+texture = ExtResource("1_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="AmountPill" type="PanelContainer" parent="FrontWrap/FrontCard/VBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_amount_pill")
+
+[node name="AmountLabel" type="Label" parent="FrontWrap/FrontCard/VBox/AmountPill"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.32, 1)
+theme_override_font_sizes/font_size = 16
+text = "+500"
+horizontal_alignment = 1
+
+[node name="NameLabel" type="Label" parent="FrontWrap/FrontCard/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "Vàng Chợ"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="NoteLabel" type="Label" parent="FrontWrap/FrontCard/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.78, 0.74, 0.94, 0.9)
+theme_override_font_sizes/font_size = 14
+text = "Gói lớn"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="CardBack" type="Control" parent="."]
+visible = false
+layout_mode = 2
+mouse_filter = 0
+
+[node name="CardArtRect" type="TextureRect" parent="CardBack"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_card_back")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="FlipHitBtn" type="Button" parent="CardBack"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_flip_btn")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_flip_btn")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_flip_btn")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_flip_btn")
+flat = true

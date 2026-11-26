@@ -1,0 +1,193 @@
+[gd_scene format=3 uid="uid://d0sn4h2l55ie"]
+
+[ext_resource type="Shader" uid="uid://b5qxn17n7b6va" path="res://assets/shaders/skew_poster.gdshader" id="1_shader"]
+[ext_resource type="Texture2D" uid="uid://mnfu5fwpj3ax" path="res://assets/sprites/icons/medal_poster.png" id="2_medal"]
+[ext_resource type="Texture2D" uid="uid://crnjhin4v0vt3" path="res://assets/sprites/icons/babay_poster.png" id="3_babay"]
+[ext_resource type="Texture2D" uid="uid://32v1ugfxvx62" path="res://assets/sprites/icons/coin_poster.png" id="4_coins"]
+[ext_resource type="Texture2D" uid="uid://7tts6jjdnslp" path="res://assets/sprites/icons/ticket.png" id="5_ticket"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_host"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_skew_bg"]
+shader = ExtResource("1_shader")
+shader_parameter/color_left = Color(0.75, 0.16, 0.37, 1)
+shader_parameter/color_right = Color(0.84, 0.46, 0.81, 1)
+shader_parameter/skew_ratio = 0.055
+
+[node name="EventPosterCard" type="PanelContainer" unique_id=1723897912]
+custom_minimum_size = Vector2(0, 250)
+offset_right = 1400.0
+offset_bottom = 250.0
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_host")
+
+[node name="HitBtn" type="Button" parent="." unique_id=30507256]
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+flat = true
+
+[node name="Body" type="Control" parent="." unique_id=154888573]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="SkewBg" type="ColorRect" parent="Body" unique_id=648865590]
+material = SubResource("ShaderMaterial_skew_bg")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ArtCluster" type="Control" parent="Body" unique_id=626631218]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 590.0
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="BabayLeft" type="TextureRect" parent="Body/ArtCluster" unique_id=954719513]
+z_index = 1
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 108.0
+offset_top = -226.0
+offset_right = 232.0
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("3_babay")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BabayMid" type="TextureRect" parent="Body/ArtCluster" unique_id=1796653985]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 250.0
+offset_top = -232.0
+offset_right = 376.0
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("3_babay")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BabayRight" type="TextureRect" parent="Body/ArtCluster" unique_id=2041582507]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 392.0
+offset_top = -226.0
+offset_right = 516.0
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("3_babay")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MedalIcon" type="TextureRect" parent="Body" unique_id=1850025379]
+layout_mode = 0
+offset_left = 76.0
+offset_right = 176.0
+offset_bottom = 142.0
+mouse_filter = 2
+texture = ExtResource("2_medal")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RightContent" type="MarginContainer" parent="Body" unique_id=1636552198]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 540.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 88
+theme_override_constants/margin_bottom = 14
+
+[node name="ContentVBox" type="VBoxContainer" parent="Body/RightContent" unique_id=1331161892]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="Body/RightContent/ContentVBox" unique_id=1554887694]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.87, 0.22, 1)
+theme_override_colors/font_shadow_color = Color(0.24, 0.06, 0.14, 0.85)
+theme_override_colors/font_outline_color = Color(0.26, 0.06, 0.14, 0.95)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 4
+theme_override_constants/outline_size = 7
+theme_override_font_sizes/font_size = 60
+text = "Hội chợ xuân 2026"
+horizontal_alignment = 1
+
+[node name="MiddleHBox" type="HBoxContainer" parent="Body/RightContent/ContentVBox" unique_id=820875697]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 26
+alignment = 1
+
+[node name="IconsPlaceholder" type="Control" parent="Body/RightContent/ContentVBox/MiddleHBox" unique_id=7694322]
+custom_minimum_size = Vector2(276, 120)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="MetaVBox" type="VBoxContainer" parent="Body/RightContent/ContentVBox/MiddleHBox" unique_id=1884180750]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="DateLabel" type="Label" parent="Body/RightContent/ContentVBox/MiddleHBox/MetaVBox" unique_id=432980028]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.98)
+theme_override_colors/font_outline_color = Color(0.22, 0.06, 0.14, 0.8)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 35
+text = "01/12/2026 - 01/12/2027"
+
+[node name="JoinLink" type="LinkButton" parent="Body/RightContent/ContentVBox/MiddleHBox/MetaVBox" unique_id=1550719100]
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.94, 0.65, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 28
+text = "Tham gia ngay"
+
+[node name="CoinsPreview" type="TextureRect" parent="Body" unique_id=1567597135]
+z_index = 1
+layout_mode = 0
+offset_left = 620.0
+offset_top = 104.0
+offset_right = 730.0
+offset_bottom = 234.0
+mouse_filter = 2
+texture = ExtResource("4_coins")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TicketPreview" type="TextureRect" parent="Body" unique_id=1690849509]
+layout_mode = 0
+offset_left = 700.0
+offset_top = 118.0
+offset_right = 846.0
+offset_bottom = 220.0
+mouse_filter = 2
+texture = ExtResource("5_ticket")
+expand_mode = 1
+stretch_mode = 5
