@@ -1,4 +1,5 @@
 using Godot;
+using MarketMobile.Utils;
 
 namespace MarketMobile.UI;
 
@@ -138,6 +139,30 @@ public partial class LobbyScreen : Control
         {
             _settingsPanel.Visible = false;
             _settingsPanel.LogoutRequested += OnLogoutPressed;
+        }
+
+        // Responsive character layout
+        GetViewport().SizeChanged += UpdateLobbyLayout;
+        UpdateLobbyLayout();
+
+        // Gắn hiệu ứng nhún (bounce) và tắt hover cho toàn bộ các nút bấm
+        UIButtonHelper.AttachToAllButtons(this);
+    }
+
+    public override void _ExitTree()
+    {
+        if (GetViewport() != null)
+        {
+            GetViewport().SizeChanged -= UpdateLobbyLayout;
+        }
+    }
+
+    private void UpdateLobbyLayout()
+    {
+        var center = GetViewportRect().Size / 2f;
+        if (_characterDisplay != null)
+        {
+            _characterDisplay.Position = new Vector2(center.X, center.Y - 63f);
         }
     }
 
