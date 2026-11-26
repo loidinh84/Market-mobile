@@ -1,0 +1,164 @@
+[gd_scene format=3 uid="uid://ps2cwmwtip0p"]
+
+[ext_resource type="Texture2D" uid="uid://cy8gr4eifo602" path="res://assets/sprites/icons/avatar_character.png" id="1_avatar"]
+[ext_resource type="Texture2D" uid="uid://bvfem2paim6ka" path="res://assets/sprites/icons/locked.png" id="2_locked"]
+[ext_resource type="PackedScene" uid="uid://cdr7dhulrq3ux" path="res://prefabs/ui/shop_price_button.tscn" id="3_pricebtn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hero_card"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 14.0
+bg_color = Color(0.12, 0.07, 0.24, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.48, 0.36, 0.74, 0.82)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_portrait_host"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_image_clip"]
+bg_color = Color(0.28, 0.17, 0.52, 1)
+corner_radius_top_left = 13
+corner_radius_top_right = 13
+corner_radius_bottom_right = 13
+corner_radius_bottom_left = 13
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_portrait_border"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.58, 0.44, 0.88, 0.85)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bottom_scrim"]
+content_margin_left = 4.0
+content_margin_top = 6.0
+content_margin_right = 4.0
+content_margin_bottom = 2.0
+bg_color = Color(0.08, 0.05, 0.17, 0)
+border_width_top = 2
+border_color = Color(0.55, 0.42, 0.85, 0.45)
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="ShopCharacterCard" type="PanelContainer" unique_id=1887090191]
+custom_minimum_size = Vector2(300, 420)
+clip_contents = true
+offset_right = 310.0
+offset_bottom = 420.0
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hero_card")
+
+[node name="CardVBox" type="VBoxContainer" parent="." unique_id=1172484347]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="PortraitFrame" type="PanelContainer" parent="CardVBox" unique_id=306634428]
+custom_minimum_size = Vector2(0, 288)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_portrait_host")
+
+[node name="ImageClipMargin" type="MarginContainer" parent="CardVBox/PortraitFrame" unique_id=1902348112]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="ImageClip" type="Panel" parent="CardVBox/PortraitFrame/ImageClipMargin" unique_id=1902348113]
+clip_children = 2
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_image_clip")
+
+[node name="HeroImage" type="TextureRect" parent="CardVBox/PortraitFrame/ImageClipMargin/ImageClip" unique_id=567424793]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("1_avatar")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="BorderOverlay" type="Panel" parent="CardVBox/PortraitFrame" unique_id=1902348114]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_portrait_border")
+
+[node name="TopMargin" type="MarginContainer" parent="CardVBox/PortraitFrame" unique_id=1057574966]
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+
+[node name="TopHBox" type="HBoxContainer" parent="CardVBox/PortraitFrame/TopMargin" unique_id=1523433447]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Spacer" type="Control" parent="CardVBox/PortraitFrame/TopMargin/TopHBox" unique_id=1129916041]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="LockIcon" type="TextureRect" parent="CardVBox/PortraitFrame/TopMargin/TopHBox" unique_id=1571472115]
+visible = false
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_locked")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BottomScrim" type="PanelContainer" parent="CardVBox" unique_id=1439807580]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bottom_scrim")
+
+[node name="BottomVBox" type="VBoxContainer" parent="CardVBox/BottomScrim" unique_id=1441979996]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="NameLabel" type="Label" parent="CardVBox/BottomScrim/BottomVBox" unique_id=100957485]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.85)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 30
+text = "Bà Bảy"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="ActionsRow" type="HBoxContainer" parent="CardVBox/BottomScrim/BottomVBox" unique_id=1100226912]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="SamplePriceButton" parent="CardVBox/BottomScrim/BottomVBox/ActionsRow" unique_id=1655023642 instance=ExtResource("3_pricebtn")]
+layout_mode = 2

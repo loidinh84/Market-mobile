@@ -465,7 +465,7 @@ mouse_filter = 2
 
 [node name="LockIcon" type="TextureRect" parent="AvatarList/Avatar0/LockCenter" unique_id=448068656]
 visible = false
-custom_minimum_size = Vector2(34, 40)
+custom_minimum_size = Vector2(26, 32)
 layout_mode = 2
 texture = ExtResource("11_locked")
 expand_mode = 1
@@ -493,7 +493,7 @@ layout_mode = 2
 mouse_filter = 2
 
 [node name="LockIcon" type="TextureRect" parent="AvatarList/Avatar1/LockCenter" unique_id=1226607689]
-custom_minimum_size = Vector2(34, 40)
+custom_minimum_size = Vector2(26, 32)
 layout_mode = 2
 texture = ExtResource("11_locked")
 expand_mode = 1
@@ -521,7 +521,7 @@ layout_mode = 2
 mouse_filter = 2
 
 [node name="LockIcon" type="TextureRect" parent="AvatarList/Avatar2/LockCenter" unique_id=1479251543]
-custom_minimum_size = Vector2(34, 40)
+custom_minimum_size = Vector2(26, 32)
 layout_mode = 2
 texture = ExtResource("11_locked")
 expand_mode = 1
@@ -549,7 +549,7 @@ layout_mode = 2
 mouse_filter = 2
 
 [node name="LockIcon" type="TextureRect" parent="AvatarList/Avatar3/LockCenter" unique_id=828279410]
-custom_minimum_size = Vector2(34, 40)
+custom_minimum_size = Vector2(26, 32)
 layout_mode = 2
 texture = ExtResource("11_locked")
 expand_mode = 1
@@ -875,7 +875,7 @@ layout_mode = 2
 theme_override_constants/separation = 6
 
 [node name="CoinIcon" type="TextureRect" parent="InfoPanel/MainVBox/BodyMargin/BodyVBox/UpgradeDetailsPanel/DetailsVBox/RowDamage/CostHBox" unique_id=2147483626]
-custom_minimum_size = Vector2(35, 35)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
 texture = ExtResource("6_bhpfa")
@@ -1089,7 +1089,7 @@ mouse_filter = 2
 
 [node name="HatTexture" type="TextureRect" parent="InfoPanel/MainVBox/BodyMargin/SkinsBody/ScrollContainer/CardsMargin/CardsFlow/CardHat/HatContent" unique_id=1982736482]
 modulate = Color(1, 1, 1, 0.5)
-custom_minimum_size = Vector2(215, 158)
+custom_minimum_size = Vector2(180, 120)
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("10_hatpink")
@@ -1102,10 +1102,10 @@ mouse_filter = 2
 
 [node name="LockIcon" type="TextureRect" parent="InfoPanel/MainVBox/BodyMargin/SkinsBody/ScrollContainer/CardsMargin/CardsFlow/CardHat/LockLayer" unique_id=1982736486]
 layout_mode = 0
-offset_left = 194.0
-offset_top = -12.0
-offset_right = 274.0
-offset_bottom = 68.0
+offset_left = 204.0
+offset_top = -6.0
+offset_right = 256.0
+offset_bottom = 58.0
 mouse_filter = 2
 texture = ExtResource("11_locked")
 expand_mode = 1
@@ -1136,7 +1136,7 @@ theme_override_constants/separation = 25
 alignment = 1
 
 [node name="BigLockIcon" type="TextureRect" parent="InfoPanel/MainVBox/BodyMargin/CharacterLockedOverlay/VBox/LockGroupVBox" unique_id=1982736493]
-custom_minimum_size = Vector2(200, 200)
+custom_minimum_size = Vector2(125, 145)
 layout_mode = 2
 size_flags_horizontal = 4
 mouse_filter = 2
@@ -1173,7 +1173,7 @@ theme_override_constants/separation = 8
 alignment = 1
 
 [node name="CoinIcon" type="TextureRect" parent="InfoPanel/MainVBox/BodyMargin/CharacterLockedOverlay/VBox/ActionHBox/PriceBox/PriceHBox" unique_id=1982736500]
-custom_minimum_size = Vector2(50, 50)
+custom_minimum_size = Vector2(36, 36)
 layout_mode = 2
 size_flags_vertical = 4
 texture = ExtResource("6_bhpfa")
@@ -1221,7 +1221,7 @@ layout_mode = 2
 [node name="RauBar" parent="CurrenciesHBox" unique_id=1718561003 instance=ExtResource("13_coinbar")]
 layout_mode = 2
 CurrencyIcon = ExtResource("14_rau")
-IconSize = Vector2(60, 60)
+IconSize = Vector2(48, 48)
 
 [node name="QuickBuyModal" type="Control" parent="." unique_id=-2061521795]
 visible = false
@@ -1295,7 +1295,7 @@ layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_buy_preview")
 
 [node name="ItemTexture" type="TextureRect" parent="QuickBuyModal/Center/DialogBox/DialogVBox/PreviewHBox/PreviewBox" unique_id=-2061521784]
-custom_minimum_size = Vector2(140, 110)
+custom_minimum_size = Vector2(130, 100)
 layout_mode = 2
 texture = ExtResource("10_hatpink")
 expand_mode = 1
@@ -1332,7 +1332,7 @@ theme_override_font_sizes/font_size = 30
 text = "Giá mở khóa:"
 
 [node name="CoinIcon" type="TextureRect" parent="QuickBuyModal/Center/DialogBox/DialogVBox/PriceHBox" unique_id=-2061521778]
-custom_minimum_size = Vector2(44, 44)
+custom_minimum_size = Vector2(34, 34)
 layout_mode = 2
 size_flags_vertical = 4
 texture = ExtResource("6_bhpfa")

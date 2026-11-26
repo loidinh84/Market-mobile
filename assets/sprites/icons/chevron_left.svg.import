@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cvo7psls3cyfd"
-valid=false
+uid="uid://drgnaq8ujq8vn"
+path="res://.godot/imported/chevron_left.svg-defecab09fd031ed5207275ebea95ca9.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
-source_file="res://assets/sprites/icons/google.svg"
+source_file="res://assets/sprites/icons/chevron_left.svg"
+dest_files=["res://.godot/imported/chevron_left.svg-defecab09fd031ed5207275ebea95ca9.ctex"]
 
 [params]
 

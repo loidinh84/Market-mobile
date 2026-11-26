@@ -13,7 +13,7 @@ public partial class CoinBar : PanelContainer
     [Export] public int InitialCoins { get; set; } = 123456;
     [Export] public bool ShowAddButton { get; set; } = true;
     [Export] public Texture2D CurrencyIcon { get; set; }
-    [Export] public Vector2 IconSize { get; set; } = new(70f, 70f);
+    [Export] public Vector2 IconSize { get; set; } = new(48f, 48f);
 
     private TextureRect _iconRect;
     private Label _coinNumber;

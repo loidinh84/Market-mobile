@@ -1,0 +1,172 @@
+[gd_scene format=3 uid="uid://do1ld3x0c4x8y"]
+
+[ext_resource type="Texture2D" uid="uid://bhpfaoskgd5o1" path="res://assets/sprites/icons/coin.png" id="1_icon"]
+[ext_resource type="PackedScene" uid="uid://cdr7dhulrq3ux" path="res://prefabs/ui/shop_price_button.tscn" id="2_pricebtn"]
+[ext_resource type="Texture2D" uid="uid://bife238g142b0" path="res://assets/sprites/icons/arrow_right.svg" id="3_arrow"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_compact_card"]
+content_margin_left = 14.0
+content_margin_top = 14.0
+content_margin_right = 14.0
+content_margin_bottom = 14.0
+bg_color = Color(0.16, 0.1, 0.3, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.46, 0.35, 0.7, 0.75)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_badge_neutral"]
+content_margin_left = 12.0
+content_margin_top = 7.0
+content_margin_right = 12.0
+content_margin_bottom = 4.0
+bg_color = Color(0.24, 0.16, 0.44, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.58, 0.46, 0.82, 0.75)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_badge_qty"]
+content_margin_left = 12.0
+content_margin_top = 4.0
+content_margin_right = 12.0
+content_margin_bottom = 4.0
+bg_color = Color(0.14, 0.36, 0.58, 0.94)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.38, 0.75, 1, 0.88)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="ShopCompactCard" type="PanelContainer" unique_id=2102444893]
+custom_minimum_size = Vector2(250, 284)
+offset_right = 250.0
+offset_bottom = 284.0
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_compact_card")
+
+[node name="CardVBox" type="VBoxContainer" parent="." unique_id=228992223]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="TopHBox" type="HBoxContainer" parent="CardVBox" unique_id=1773290612]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TagBadge" type="PanelContainer" parent="CardVBox/TopHBox" unique_id=344407392]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_badge_neutral")
+
+[node name="TagHBox" type="HBoxContainer" parent="CardVBox/TopHBox/TagBadge" unique_id=1261194801]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 5
+alignment = 1
+
+[node name="FromIcon" type="TextureRect" parent="CardVBox/TopHBox/TagBadge/TagHBox" unique_id=1261194802]
+visible = false
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("1_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ArrowIcon" type="TextureRect" parent="CardVBox/TopHBox/TagBadge/TagHBox" unique_id=1261194803]
+visible = false
+modulate = Color(0.92, 0.88, 1, 1)
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("3_arrow")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ToIcon" type="TextureRect" parent="CardVBox/TopHBox/TagBadge/TagHBox" unique_id=1261194804]
+visible = false
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("1_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TagLabel" type="Label" parent="CardVBox/TopHBox/TagBadge/TagHBox" unique_id=336939529]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.88, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "Tiêu hao"
+
+[node name="Spacer" type="Control" parent="CardVBox/TopHBox" unique_id=772820198]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="StatusBadge" type="PanelContainer" parent="CardVBox/TopHBox" unique_id=1725375109]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_badge_qty")
+
+[node name="StatusLabel" type="Label" parent="CardVBox/TopHBox/StatusBadge" unique_id=1975236347]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.78, 0.94, 1, 1)
+theme_override_font_sizes/font_size = 18
+text = "x3"
+
+[node name="IconCenter" type="CenterContainer" parent="CardVBox" unique_id=1729110095]
+custom_minimum_size = Vector2(0, 86)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="ItemImage" type="TextureRect" parent="CardVBox/IconCenter" unique_id=1423846545]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("1_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="CardVBox" unique_id=1416343244]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 25
+text = "Trà Đá Hồi Sức"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="SummaryLabel" type="Label" parent="CardVBox" unique_id=370106922]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.75, 0.92, 1)
+theme_override_font_sizes/font_size = 20
+text = "Hồi +40% Máu tức thì"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="ActionsRow" type="HBoxContainer" parent="CardVBox" unique_id=436551149]
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="SamplePriceButton" parent="CardVBox/ActionsRow" unique_id=453952351 instance=ExtResource("2_pricebtn")]
+layout_mode = 2

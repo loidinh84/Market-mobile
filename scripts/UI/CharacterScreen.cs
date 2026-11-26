@@ -160,6 +160,72 @@ public partial class CharacterScreen : Control
     private readonly Dictionary<Control, Vector2> _modalBaseScales = new();
     private CoinBar _coinBar;
     private CoinBar _rauBar;
+    private LeftSidebar _shellSidebar;
+
+    /// <summary>
+    /// Cấu hình CharacterScreen khi được nhúng trong Persistent Shell (lobby_screen):
+    /// ẩn sidebar cục bộ và đưa modal lên overlay host dùng chung để che phủ cả sidebar.
+    /// </summary>
+    public void ConfigureEmbeddedInShell(LeftSidebar shellSidebar, Control modalHost)
+    {
+        _shellSidebar = shellSidebar;
+        MouseFilter = MouseFilterEnum.Ignore;
+
+        var embeddedSidebar = GetNodeOrNull<LeftSidebar>("LeftSidebar");
+        embeddedSidebar?.DisableAsEmbedded();
+
+        if (modalHost != null)
+        {
+            if (_quickBuyModal != null && _quickBuyModal.GetParent() != modalHost)
+                _quickBuyModal.Reparent(modalHost, keepGlobalTransform: false);
+
+            if (_failModal != null && _failModal.GetParent() != modalHost)
+                _failModal.Reparent(modalHost, keepGlobalTransform: false);
+        }
+    }
+
+    /// <summary>
+    /// Đồng bộ lại dữ liệu nhân vật, trang phục và số dư mới nhất mỗi khi chuyển sang tab Nhân vật.
+    /// </summary>
+    public void OnActivatedInShell()
+    {
+        if (_data != null)
+        {
+            _characters = _data.Characters;
+            _playerCoins = _data.Coins;
+            _playerRau = _data.Rau;
+            _isHatUnlocked = _data.IsHatUnlocked;
+            _equippedSkinIndex = _data.EquippedSkinIndex;
+        }
+
+        _coinBar?.SetCoins(_playerCoins, animate: false);
+        _rauBar?.SetCoins(_playerRau, animate: false);
+
+        if (_lockIcon != null) _lockIcon.Visible = !_isHatUnlocked;
+        if (_hatTexture != null)
+        {
+            _hatTexture.Modulate = _isHatUnlocked
+                ? new Color(1f, 1f, 1f, 1f)
+                : new Color(0.55f, 0.55f, 0.65f, 0.7f);
+        }
+        ApplySkinCardSelection();
+
+        int fallbackIndex = _data?.SelectedCharacterIndex ?? _selectedCharIndex;
+        int targetIndex = _data != null ? _data.ConsumePendingPreviewCharacterIndex(fallbackIndex) : fallbackIndex;
+        SelectCharacter(targetIndex, animate: false);
+        UpdateResponsiveLayout();
+    }
+
+    /// <summary>
+    /// Ẩn nhanh các popup nếu rời tab Nhân vật.
+    /// </summary>
+    public void OnDeactivatedInShell()
+    {
+        _quickBuyTween?.Kill();
+        _failModalTween?.Kill();
+        if (_quickBuyModal != null) _quickBuyModal.Visible = false;
+        if (_failModal != null) _failModal.Visible = false;
+    }
 
     public override void _Ready()
     {
@@ -493,8 +559,9 @@ public partial class CharacterScreen : Control
             _charBuyBtn.Pressed += OnBuyCurrentCharacterClicked;
         }
 
-        // Khởi tạo trạng thái nhân vật ban đầu theo dữ liệu dùng chung
-        int initialIndex = _data?.SelectedCharacterIndex ?? 0;
+        // Khởi tạo trạng thái nhân vật ban đầu theo dữ liệu dùng chung (ưu tiên nhân vật đang xem trước từ Cửa hàng nếu có)
+        int fallbackIndex = _data?.SelectedCharacterIndex ?? 0;
+        int initialIndex = _data != null ? _data.ConsumePendingPreviewCharacterIndex(fallbackIndex) : fallbackIndex;
         SelectCharacter(initialIndex, animate: false);
     }
 
@@ -916,7 +983,18 @@ public partial class CharacterScreen : Control
 
     private void NavigateToShopTab()
     {
-        // Chuyển sang Tab Cửa Hàng (Tab 3) trên LeftSidebar
+        if (_data != null)
+        {
+            _data.PendingShopTabIndex = 3; // Mở thẳng tab Đổi Vàng/Rau khi bấm + hoặc Đến Cửa Hàng
+        }
+
+        if (_shellSidebar != null)
+        {
+            _shellSidebar.SelectTab(3);
+            return;
+        }
+
+        // Chuyển sang Tab Cửa Hàng (Tab 3) trên LeftSidebar (chế độ chạy độc lập)
         var sidebar = GetNodeOrNull<LeftSidebar>("LeftSidebar");
         if (sidebar != null)
         {

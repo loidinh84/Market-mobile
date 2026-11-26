@@ -90,6 +90,11 @@ autoplay = "walk"
 [node name="SettingsPanel" parent="." instance=ExtResource("99_settings")]
 visible = false
 layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="LeftSidebar" parent="." unique_id=426392741 instance=ExtResource("4_b515e")]
 layout_mode = 1
@@ -123,7 +128,7 @@ layout_mode = 2
 [node name="GemBar" parent="TopBar/TopHBox/CurrenciesHBox" unique_id=-950410619 instance=ExtResource("200_coinbar")]
 layout_mode = 2
 CurrencyIcon = ExtResource("4_rau")
-IconSize = Vector2(60, 60)
+IconSize = Vector2(48, 48)
 
 [node name="RightSpacer" type="Control" parent="TopBar/TopHBox" unique_id=309066530]
 layout_mode = 2
