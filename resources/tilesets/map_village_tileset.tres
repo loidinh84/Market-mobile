@@ -1,0 +1,160 @@
+[gd_resource type="TileSet" format=3 uid="uid://bdxop04n5xk0e"]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/map/tiles/tile_village_ground_64x64.png" id="1_map2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/map/tiles/tile_water_animated_64x64.png" id="2_water"]
+[ext_resource type="Texture2D" path="res://assets/sprites/map/tiles/tile_bridge_wood_64x64.png" id="3_bridge"]
+[ext_resource type="PackedScene" path="res://prefabs/environment/market_base_lv1/market_base_lv1_north.tscn" id="4_cho_north"]
+[ext_resource type="PackedScene" uid="uid://bqk5fmwug0bta" path="res://prefabs/environment/market_base_lv1/market_base_lv1_east.tscn" id="5_cho_east"]
+[ext_resource type="PackedScene" path="res://prefabs/environment/market_base_lv1/market_base_lv1_south.tscn" id="6_cho_south"]
+[ext_resource type="PackedScene" path="res://prefabs/environment/market_base_lv1/market_base_lv1_west.tscn" id="7_cho_west"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_map2"]
+resource_name = "Grass & Dirt"
+texture = ExtResource("1_map2")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_water"]
+resource_name = "Water Animated"
+texture = ExtResource("2_water")
+texture_region_size = Vector2i(64, 64)
+0:0/animation_columns = 8
+0:0/animation_frame_0/duration = 0.14
+0:0/animation_frame_1/duration = 0.14
+0:0/animation_frame_2/duration = 0.14
+0:0/animation_frame_3/duration = 0.14
+0:0/animation_frame_4/duration = 0.14
+0:0/animation_frame_5/duration = 0.14
+0:0/animation_frame_6/duration = 0.14
+0:0/animation_frame_7/duration = 0.14
+0:0/0 = 0
+0:1/animation_columns = 8
+0:1/animation_frame_0/duration = 0.14
+0:1/animation_frame_1/duration = 0.14
+0:1/animation_frame_2/duration = 0.14
+0:1/animation_frame_3/duration = 0.14
+0:1/animation_frame_4/duration = 0.14
+0:1/animation_frame_5/duration = 0.14
+0:1/animation_frame_6/duration = 0.14
+0:1/animation_frame_7/duration = 0.14
+0:1/0 = 0
+0:2/animation_columns = 8
+0:2/animation_frame_0/duration = 0.14
+0:2/animation_frame_1/duration = 0.14
+0:2/animation_frame_2/duration = 0.14
+0:2/animation_frame_3/duration = 0.14
+0:2/animation_frame_4/duration = 0.14
+0:2/animation_frame_5/duration = 0.14
+0:2/animation_frame_6/duration = 0.14
+0:2/animation_frame_7/duration = 0.14
+0:2/0 = 0
+0:3/animation_columns = 8
+0:3/animation_frame_0/duration = 0.14
+0:3/animation_frame_1/duration = 0.14
+0:3/animation_frame_2/duration = 0.14
+0:3/animation_frame_3/duration = 0.14
+0:3/animation_frame_4/duration = 0.14
+0:3/animation_frame_5/duration = 0.14
+0:3/animation_frame_6/duration = 0.14
+0:3/animation_frame_7/duration = 0.14
+0:3/0 = 0
+0:4/animation_columns = 8
+0:4/animation_frame_0/duration = 0.14
+0:4/animation_frame_1/duration = 0.14
+0:4/animation_frame_2/duration = 0.14
+0:4/animation_frame_3/duration = 0.14
+0:4/animation_frame_4/duration = 0.14
+0:4/animation_frame_5/duration = 0.14
+0:4/animation_frame_6/duration = 0.14
+0:4/animation_frame_7/duration = 0.14
+0:4/0 = 0
+0:5/animation_columns = 8
+0:5/animation_frame_0/duration = 0.14
+0:5/animation_frame_1/duration = 0.14
+0:5/animation_frame_2/duration = 0.14
+0:5/animation_frame_3/duration = 0.14
+0:5/animation_frame_4/duration = 0.14
+0:5/animation_frame_5/duration = 0.14
+0:5/animation_frame_6/duration = 0.14
+0:5/animation_frame_7/duration = 0.14
+0:5/0 = 0
+0:6/animation_columns = 8
+0:6/animation_frame_0/duration = 0.14
+0:6/animation_frame_1/duration = 0.14
+0:6/animation_frame_2/duration = 0.14
+0:6/animation_frame_3/duration = 0.14
+0:6/animation_frame_4/duration = 0.14
+0:6/animation_frame_5/duration = 0.14
+0:6/animation_frame_6/duration = 0.14
+0:6/animation_frame_7/duration = 0.14
+0:6/0 = 0
+0:7/animation_columns = 8
+0:7/animation_frame_0/duration = 0.14
+0:7/animation_frame_1/duration = 0.14
+0:7/animation_frame_2/duration = 0.14
+0:7/animation_frame_3/duration = 0.14
+0:7/animation_frame_4/duration = 0.14
+0:7/animation_frame_5/duration = 0.14
+0:7/animation_frame_6/duration = 0.14
+0:7/animation_frame_7/duration = 0.14
+0:7/0 = 0
+0:8/animation_columns = 8
+0:8/animation_frame_0/duration = 0.14
+0:8/animation_frame_1/duration = 0.14
+0:8/animation_frame_2/duration = 0.14
+0:8/animation_frame_3/duration = 0.14
+0:8/animation_frame_4/duration = 0.14
+0:8/animation_frame_5/duration = 0.14
+0:8/animation_frame_6/duration = 0.14
+0:8/animation_frame_7/duration = 0.14
+0:8/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bridge"]
+resource_name = "Bridge"
+texture = ExtResource("3_bridge")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_market_base_lv1"]
+resource_name = "Market Base Lv1"
+scenes/1/scene = ExtResource("4_cho_north")
+scenes/2/scene = ExtResource("5_cho_east")
+scenes/3/scene = ExtResource("6_cho_south")
+scenes/4/scene = ExtResource("7_cho_west")
+
+[resource]
+tile_size = Vector2i(64, 64)
+sources/0 = SubResource("TileSetAtlasSource_map2")
+sources/1 = SubResource("TileSetAtlasSource_water")
+sources/2 = SubResource("TileSetAtlasSource_bridge")
+sources/3 = SubResource("TileSetScenesCollectionSource_market_base_lv1")

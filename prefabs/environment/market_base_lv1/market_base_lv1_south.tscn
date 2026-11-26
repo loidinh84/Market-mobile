@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://c2xqnva3t3f1d"]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/map/buildings/market_base/lv1/market_base_lv1_south.png" id="1_tex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(864, 900)
+
+[node name="MarketBaseLv1South" type="StaticBody2D" unique_id=656750922]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1036585314]
+scale = Vector2(3.6, 3.6)
+texture = ExtResource("1_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1046456238]
+shape = SubResource("RectangleShape2D_body")
+
+[node name="SpawnPoint" type="Marker2D" parent="." unique_id=1940701008]
+position = Vector2(0, 480)
