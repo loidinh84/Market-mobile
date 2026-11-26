@@ -1,0 +1,555 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/map/tiles/tile_water_animated_64x64.png" id="1_water"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_tl_00"]
+atlas = ExtResource("1_water")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_tl_01"]
+atlas = ExtResource("1_water")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_tl_02"]
+atlas = ExtResource("1_water")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_tl_03"]
+atlas = ExtResource("1_water")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_tl_04"]
+atlas = ExtResource("1_water")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_tl_05"]
+atlas = ExtResource("1_water")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_tl_06"]
+atlas = ExtResource("1_water")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_tl_07"]
+atlas = ExtResource("1_water")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_top_00"]
+atlas = ExtResource("1_water")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_top_01"]
+atlas = ExtResource("1_water")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_top_02"]
+atlas = ExtResource("1_water")
+region = Rect2(128, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_top_03"]
+atlas = ExtResource("1_water")
+region = Rect2(192, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_top_04"]
+atlas = ExtResource("1_water")
+region = Rect2(256, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_top_05"]
+atlas = ExtResource("1_water")
+region = Rect2(320, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_top_06"]
+atlas = ExtResource("1_water")
+region = Rect2(384, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_top_07"]
+atlas = ExtResource("1_water")
+region = Rect2(448, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_tr_00"]
+atlas = ExtResource("1_water")
+region = Rect2(0, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_tr_01"]
+atlas = ExtResource("1_water")
+region = Rect2(64, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_tr_02"]
+atlas = ExtResource("1_water")
+region = Rect2(128, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_tr_03"]
+atlas = ExtResource("1_water")
+region = Rect2(192, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_tr_04"]
+atlas = ExtResource("1_water")
+region = Rect2(256, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_tr_05"]
+atlas = ExtResource("1_water")
+region = Rect2(320, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_tr_06"]
+atlas = ExtResource("1_water")
+region = Rect2(384, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_tr_07"]
+atlas = ExtResource("1_water")
+region = Rect2(448, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_left_00"]
+atlas = ExtResource("1_water")
+region = Rect2(0, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_left_01"]
+atlas = ExtResource("1_water")
+region = Rect2(64, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_left_02"]
+atlas = ExtResource("1_water")
+region = Rect2(128, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_left_03"]
+atlas = ExtResource("1_water")
+region = Rect2(192, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_left_04"]
+atlas = ExtResource("1_water")
+region = Rect2(256, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_left_05"]
+atlas = ExtResource("1_water")
+region = Rect2(320, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_left_06"]
+atlas = ExtResource("1_water")
+region = Rect2(384, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_left_07"]
+atlas = ExtResource("1_water")
+region = Rect2(448, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_center_00"]
+atlas = ExtResource("1_water")
+region = Rect2(0, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_center_01"]
+atlas = ExtResource("1_water")
+region = Rect2(64, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_center_02"]
+atlas = ExtResource("1_water")
+region = Rect2(128, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_center_03"]
+atlas = ExtResource("1_water")
+region = Rect2(192, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_center_04"]
+atlas = ExtResource("1_water")
+region = Rect2(256, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_center_05"]
+atlas = ExtResource("1_water")
+region = Rect2(320, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_center_06"]
+atlas = ExtResource("1_water")
+region = Rect2(384, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_center_07"]
+atlas = ExtResource("1_water")
+region = Rect2(448, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_right_00"]
+atlas = ExtResource("1_water")
+region = Rect2(0, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_right_01"]
+atlas = ExtResource("1_water")
+region = Rect2(64, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_right_02"]
+atlas = ExtResource("1_water")
+region = Rect2(128, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_right_03"]
+atlas = ExtResource("1_water")
+region = Rect2(192, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_right_04"]
+atlas = ExtResource("1_water")
+region = Rect2(256, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_right_05"]
+atlas = ExtResource("1_water")
+region = Rect2(320, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_right_06"]
+atlas = ExtResource("1_water")
+region = Rect2(384, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_right_07"]
+atlas = ExtResource("1_water")
+region = Rect2(448, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_bl_00"]
+atlas = ExtResource("1_water")
+region = Rect2(0, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_bl_01"]
+atlas = ExtResource("1_water")
+region = Rect2(64, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_bl_02"]
+atlas = ExtResource("1_water")
+region = Rect2(128, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_bl_03"]
+atlas = ExtResource("1_water")
+region = Rect2(192, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_bl_04"]
+atlas = ExtResource("1_water")
+region = Rect2(256, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_bl_05"]
+atlas = ExtResource("1_water")
+region = Rect2(320, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_bl_06"]
+atlas = ExtResource("1_water")
+region = Rect2(384, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_bl_07"]
+atlas = ExtResource("1_water")
+region = Rect2(448, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_bottom_00"]
+atlas = ExtResource("1_water")
+region = Rect2(0, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_bottom_01"]
+atlas = ExtResource("1_water")
+region = Rect2(64, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_bottom_02"]
+atlas = ExtResource("1_water")
+region = Rect2(128, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_bottom_03"]
+atlas = ExtResource("1_water")
+region = Rect2(192, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_bottom_04"]
+atlas = ExtResource("1_water")
+region = Rect2(256, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_bottom_05"]
+atlas = ExtResource("1_water")
+region = Rect2(320, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_bottom_06"]
+atlas = ExtResource("1_water")
+region = Rect2(384, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_edge_bottom_07"]
+atlas = ExtResource("1_water")
+region = Rect2(448, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_br_00"]
+atlas = ExtResource("1_water")
+region = Rect2(0, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_br_01"]
+atlas = ExtResource("1_water")
+region = Rect2(64, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_br_02"]
+atlas = ExtResource("1_water")
+region = Rect2(128, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_br_03"]
+atlas = ExtResource("1_water")
+region = Rect2(192, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_br_04"]
+atlas = ExtResource("1_water")
+region = Rect2(256, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_br_05"]
+atlas = ExtResource("1_water")
+region = Rect2(320, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_br_06"]
+atlas = ExtResource("1_water")
+region = Rect2(384, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_water_corner_br_07"]
+atlas = ExtResource("1_water")
+region = Rect2(448, 512, 64, 64)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_tl_00")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_tl_01")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_tl_02")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_tl_03")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_tl_04")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_tl_05")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_tl_06")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_tl_07")
+}],
+"loop": 1,
+"name": &"water_corner_tl",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_top_00")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_top_01")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_top_02")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_top_03")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_top_04")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_top_05")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_top_06")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_top_07")
+}],
+"loop": 1,
+"name": &"water_edge_top",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_tr_00")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_tr_01")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_tr_02")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_tr_03")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_tr_04")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_tr_05")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_tr_06")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_tr_07")
+}],
+"loop": 1,
+"name": &"water_corner_tr",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_left_00")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_left_01")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_left_02")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_left_03")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_left_04")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_left_05")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_left_06")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_left_07")
+}],
+"loop": 1,
+"name": &"water_edge_left",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_center_00")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_center_01")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_center_02")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_center_03")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_center_04")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_center_05")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_center_06")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_center_07")
+}],
+"loop": 1,
+"name": &"water_center",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_right_00")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_right_01")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_right_02")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_right_03")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_right_04")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_right_05")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_right_06")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_right_07")
+}],
+"loop": 1,
+"name": &"water_edge_right",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_bl_00")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_bl_01")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_bl_02")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_bl_03")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_bl_04")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_bl_05")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_bl_06")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_bl_07")
+}],
+"loop": 1,
+"name": &"water_corner_bl",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_bottom_00")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_bottom_01")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_bottom_02")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_bottom_03")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_bottom_04")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_bottom_05")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_bottom_06")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_edge_bottom_07")
+}],
+"loop": 1,
+"name": &"water_edge_bottom",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_br_00")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_br_01")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_br_02")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_br_03")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_br_04")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_br_05")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_br_06")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_water_corner_br_07")
+}],
+"loop": 1,
+"name": &"water_corner_br",
+"speed": 7.0
+}]
