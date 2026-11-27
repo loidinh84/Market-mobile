@@ -8,6 +8,9 @@ public partial class LeftSidebar : Control
     [Signal]
     public delegate void TabSelectedEventHandler(int tabIndex);
 
+    [Signal]
+    public delegate void TabReselectedEventHandler(int tabIndex);
+
     [Export] public int ActiveTabIndex { get; set; } = 0;
 
     /// <summary>
@@ -76,7 +79,12 @@ public partial class LeftSidebar : Control
 
     private async void OnTabClicked(int index)
     {
-        if (index == ActiveTabIndex || _isSwitchingScene) return;
+        if (_isSwitchingScene) return;
+        if (index == ActiveTabIndex)
+        {
+            EmitSignal(SignalName.TabReselected, index);
+            return;
+        }
 
         int oldIndex = ActiveTabIndex;
         ActiveTabIndex = index;
@@ -121,7 +129,12 @@ public partial class LeftSidebar : Control
                 }
                 break;
             case 2:
-                GD.Print("[LeftSidebar] Chuyển đến màn hình Sự kiện");
+                if (currentScenePath != "res://scenes/ui/events_screen.tscn")
+                {
+                    _isSwitchingScene = true;
+                    await ToSignal(GetTree().CreateTimer(0.24f), SceneTreeTimer.SignalName.Timeout);
+                    GetTree().ChangeSceneToFile("res://scenes/ui/events_screen.tscn");
+                }
                 break;
             case 3:
                 if (currentScenePath != "res://scenes/ui/shop_screen.tscn")

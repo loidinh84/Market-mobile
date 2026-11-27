@@ -1,0 +1,1689 @@
+[gd_scene format=3 uid="uid://d2igwk64avt0m"]
+
+[ext_resource type="PackedScene" uid="uid://cqikuvhbt1mqq" path="res://prefabs/ui/game_background.tscn" id="1_bg"]
+[ext_resource type="PackedScene" uid="uid://bo1iw1air8xno" path="res://prefabs/ui/left_sidebar.tscn" id="2_sidebar"]
+[ext_resource type="PackedScene" path="res://prefabs/ui/coin_bar.tscn" id="3_coinbar"]
+[ext_resource type="Script" uid="uid://b2nkcjkkwk307" path="res://scripts/UI/EventsScreen.cs" id="4_script"]
+[ext_resource type="PackedScene" uid="uid://d0sn4h2l55ie" path="res://prefabs/ui/event_poster_card.tscn" id="5_poster"]
+[ext_resource type="PackedScene" path="res://prefabs/ui/gacha_reward_item.tscn" id="6_rewarditem"]
+[ext_resource type="Texture2D" uid="uid://7tts6jjdnslp" path="res://assets/sprites/icons/ticket.png" id="7_ticket"]
+[ext_resource type="Texture2D" uid="uid://bhpfaoskgd5o1" path="res://assets/sprites/icons/coin.png" id="8_coin"]
+[ext_resource type="Texture2D" uid="uid://py6k86kkpec5" path="res://assets/sprites/icons/rau.png" id="9_rau"]
+[ext_resource type="Texture2D" path="res://assets/sprites/icons/animation_chest/chest_full_00.png" id="10_chest"]
+[ext_resource type="Texture2D" uid="uid://bbq64ldrfdvte" path="res://assets/sprites/icons/back.png" id="11_back"]
+[ext_resource type="Texture2D" uid="uid://iet6ido3sk2t" path="res://assets/sprites/icons/close.png" id="12_close"]
+[ext_resource type="Texture2D" uid="uid://cy8gr4eifo602" path="res://assets/sprites/icons/avatar_character.png" id="13_avatar"]
+[ext_resource type="Texture2D" uid="uid://pwj0gm25rqlh" path="res://assets/sprites/icons/ao_dai.png" id="14_aodai"]
+[ext_resource type="Texture2D" uid="uid://cvlo6rthho87x" path="res://assets/sprites/icons/emotion.png" id="15_emotion"]
+[ext_resource type="Texture2D" uid="uid://c6316kqnef77g" path="res://assets/sprites/icons/Add.svg" id="16_add"]
+[ext_resource type="Texture2D" uid="uid://c0qmyw32bvisi" path="res://assets/sprites/icons/remove.svg" id="17_remove"]
+[ext_resource type="Texture2D" uid="uid://dy06cpkpenosu" path="res://assets/sprites/icons/refresh.svg" id="19_refresh"]
+[ext_resource type="Texture2D" uid="uid://32v1ugfxvx62" path="res://assets/sprites/icons/coin_poster.png" id="20_coin_poster"]
+[ext_resource type="Texture2D" uid="uid://c0y8xxfrqol7" path="res://assets/sprites/icons/check.svg" id="21_check"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_subtle"]
+content_margin_left = 16.0
+content_margin_top = 7.0
+content_margin_right = 16.0
+content_margin_bottom = 4.0
+bg_color = Color(0.24, 0.15, 0.42, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.58, 0.46, 0.85, 0.85)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="Gradient" id="Gradient_glow"]
+offsets = PackedFloat32Array(0, 0.55, 1)
+colors = PackedColorArray(1, 0.78, 0.3, 0.42, 0.72, 0.3, 0.95, 0.18, 0.32, 0.15, 0.6, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_glow"]
+gradient = SubResource("Gradient_glow")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pity_bg"]
+bg_color = Color(0.11, 0.06, 0.22, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.45, 0.35, 0.72, 0.7)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pity_fill"]
+bg_color = Color(1, 0.76, 0.22, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_milestone_btn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dot_locked"]
+bg_color = Color(0.24, 0.16, 0.44, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.62, 0.52, 0.86, 0.85)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_roll1"]
+content_margin_left = 22.0
+content_margin_top = 10.0
+content_margin_right = 22.0
+content_margin_bottom = 10.0
+bg_color = Color(0.62, 0.22, 0.56, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.76, 0.92, 0.95)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_roll10"]
+content_margin_left = 22.0
+content_margin_top = 10.0
+content_margin_right = 22.0
+content_margin_bottom = 10.0
+bg_color = Color(0.86, 0.52, 0.12, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.92, 0.62, 0.98)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_modal_box"]
+content_margin_left = 34.0
+content_margin_top = 28.0
+content_margin_right = 34.0
+content_margin_bottom = 26.0
+bg_color = Color(0.18, 0.12, 0.32, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.55, 0.45, 0.85, 0.92)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_modal_inset"]
+content_margin_left = 20.0
+content_margin_top = 16.0
+content_margin_right = 20.0
+content_margin_bottom = 16.0
+bg_color = Color(0.12, 0.08, 0.24, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.45, 0.35, 0.72, 0.65)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_cancel"]
+content_margin_left = 24.0
+content_margin_top = 10.0
+content_margin_right = 24.0
+content_margin_bottom = 10.0
+bg_color = Color(0.28, 0.2, 0.42, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.48, 0.38, 0.68, 0.8)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_toast"]
+content_margin_left = 30.0
+content_margin_top = 14.0
+content_margin_right = 30.0
+content_margin_bottom = 14.0
+bg_color = Color(0.11, 0.56, 0.32, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.55, 1, 0.72, 0.95)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qty_btn"]
+content_margin_left = 12.0
+content_margin_top = 4.0
+content_margin_right = 12.0
+content_margin_bottom = 4.0
+bg_color = Color(0.28, 0.2, 0.48, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.55, 0.45, 0.82, 0.9)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_gold"]
+content_margin_left = 22.0
+content_margin_top = 10.0
+content_margin_right = 22.0
+content_margin_bottom = 10.0
+bg_color = Color(0.84, 0.54, 0.1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.92, 0.58, 0.98)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_rau"]
+content_margin_left = 22.0
+content_margin_top = 10.0
+content_margin_right = 22.0
+content_margin_bottom = 10.0
+bg_color = Color(0.14, 0.62, 0.36, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.68, 1, 0.82, 0.98)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="EventsScreen" type="Control" unique_id=124321979]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_script")
+_posterCardScene = ExtResource("5_poster")
+_rewardItemScene = ExtResource("6_rewarditem")
+
+[node name="Background" parent="." unique_id=902417929 instance=ExtResource("1_bg")]
+layout_mode = 1
+
+[node name="CurrenciesHBox" type="HBoxContainer" parent="." unique_id=395031196]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -940.0
+offset_top = 34.0
+offset_right = -40.0
+offset_bottom = 112.0
+grow_horizontal = 0
+theme_override_constants/separation = 18
+alignment = 2
+
+[node name="TicketBar" parent="CurrenciesHBox" unique_id=176101359 instance=ExtResource("3_coinbar")]
+layout_mode = 2
+InitialCoins = 5
+CurrencyIcon = ExtResource("7_ticket")
+IconSize = Vector2(56, 46)
+
+[node name="CoinBar" parent="CurrenciesHBox" unique_id=1073010632 instance=ExtResource("3_coinbar")]
+layout_mode = 2
+CurrencyIcon = ExtResource("8_coin")
+
+[node name="RauBar" parent="CurrenciesHBox" unique_id=1263625403 instance=ExtResource("3_coinbar")]
+layout_mode = 2
+CurrencyIcon = ExtResource("9_rau")
+
+[node name="ContentArea" type="Control" parent="." unique_id=1155344257]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 480.0
+offset_top = 124.0
+offset_right = -40.0
+offset_bottom = -28.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PosterListView" type="VBoxContainer" parent="ContentArea" unique_id=1825974422]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 18
+
+[node name="PostersScroll" type="ScrollContainer" parent="ContentArea/PosterListView" unique_id=1628384501]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="PostersVBox" type="VBoxContainer" parent="ContentArea/PosterListView/PostersScroll" unique_id=899349717]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 26
+
+[node name="DefaultPosterCard" parent="ContentArea/PosterListView/PostersScroll/PostersVBox" unique_id=755523170 instance=ExtResource("5_poster")]
+layout_mode = 2
+
+[node name="GachaDetailView" type="VBoxContainer" parent="ContentArea" unique_id=774397630]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="TopBar" type="HBoxContainer" parent="ContentArea/GachaDetailView" unique_id=1277090898]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="BackBtn" type="TextureButton" parent="ContentArea/GachaDetailView/TopBar" unique_id=1807747587]
+custom_minimum_size = Vector2(85, 85)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("11_back")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="TitleBlock" type="VBoxContainer" parent="ContentArea/GachaDetailView/TopBar" unique_id=909620176]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="TitleHBox" type="HBoxContainer" parent="ContentArea/GachaDetailView/TopBar/TitleBlock" unique_id=972500761]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="EventTitle" type="Label" parent="ContentArea/GachaDetailView/TopBar/TitleBlock/TitleHBox" unique_id=1133224935]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.86, 0.24, 1)
+theme_override_font_sizes/font_size = 50
+text = "Rương May Mắn"
+
+[node name="RatesBtn" type="Button" parent="ContentArea/GachaDetailView/TopBar/TitleBlock/TitleHBox" unique_id=1982340111]
+custom_minimum_size = Vector2(115, 42)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.55, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_subtle")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_subtle")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_subtle")
+text = "Tỷ lệ"
+
+[node name="RulesBtn" type="Button" parent="ContentArea/GachaDetailView/TopBar/TitleBlock/TitleHBox" unique_id=1037957135]
+custom_minimum_size = Vector2(115, 42)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.92, 0.88, 1, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_subtle")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_subtle")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_subtle")
+text = "Thể lệ"
+
+[node name="EventDateLabel" type="Label" parent="ContentArea/GachaDetailView/TopBar/TitleBlock" unique_id=1225430332]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.84, 1, 0.92)
+theme_override_font_sizes/font_size = 22
+text = "Thời gian: 26/11/2026 - 31/12/2026"
+
+[node name="BodySplit" type="HBoxContainer" parent="ContentArea/GachaDetailView" unique_id=1653207537]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 28
+
+[node name="StageCol" type="VBoxContainer" parent="ContentArea/GachaDetailView/BodySplit" unique_id=1622023045]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="ChestStage" type="Control" parent="ContentArea/GachaDetailView/BodySplit/StageCol" unique_id=589234594]
+custom_minimum_size = Vector2(0, 340)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GlowRing" type="TextureRect" parent="ContentArea/GachaDetailView/BodySplit/StageCol/ChestStage" unique_id=547928813]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -192.0
+offset_right = 220.0
+offset_bottom = 248.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(220, 220)
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_glow")
+expand_mode = 1
+
+[node name="ChestImage" type="TextureRect" parent="ContentArea/GachaDetailView/BodySplit/StageCol/ChestStage" unique_id=510851677]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -210.0
+offset_top = -180.0
+offset_right = 210.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(210, 210)
+mouse_filter = 2
+texture = ExtResource("10_chest")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MilestoneArea" type="VBoxContainer" parent="ContentArea/GachaDetailView/BodySplit/StageCol" unique_id=589645830]
+custom_minimum_size = Vector2(760, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 8
+
+[node name="MilestoneHeaderHBox" type="HBoxContainer" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea" unique_id=881949594]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="MilestoneLabel" type="Label" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneHeaderHBox" unique_id=870166640]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98039216, 0.6431373, 0.24705882, 1)
+theme_override_font_sizes/font_size = 25
+text = "Còn 1 vé nữa sẽ nhận 150 Vàng"
+horizontal_alignment = 1
+
+[node name="ResetMilestonesBtn" type="Button" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneHeaderHBox" unique_id=1982340201]
+custom_minimum_size = Vector2(138, 38)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.95, 0.92, 1, 1)
+theme_override_constants/h_separation = 6
+theme_override_constants/icon_max_width = 20
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_subtle")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_subtle")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_subtle")
+text = "Đặt lại"
+icon = ExtResource("19_refresh")
+expand_icon = true
+
+[node name="MilestoneTrack" type="Control" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea" unique_id=1982340200]
+custom_minimum_size = Vector2(760, 124)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="MilestoneBar" type="ProgressBar" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack" unique_id=1275457034]
+layout_mode = 0
+offset_top = 74.0
+offset_right = 760.0
+offset_bottom = 86.0
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_pity_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_pity_fill")
+show_percentage = false
+
+[node name="MilestonesHBox" type="HBoxContainer" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack" unique_id=1982340202]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="Milestone1Btn" type="Button" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox" unique_id=1982340211]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_milestone_btn")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_milestone_btn")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_milestone_btn")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_milestone_btn")
+flat = true
+
+[node name="VBox" type="VBoxContainer" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone1Btn" unique_id=1982340212]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="ItemSlot" type="Control" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone1Btn/VBox" unique_id=1982340213]
+custom_minimum_size = Vector2(72, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="RewardIcon" type="TextureRect" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone1Btn/VBox/ItemSlot" unique_id=1982340214]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 2.0
+offset_right = 59.0
+offset_bottom = 48.0
+mouse_filter = 2
+texture = ExtResource("8_coin")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="AmountLabel" type="Label" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone1Btn/VBox/ItemSlot" unique_id=1982340215]
+layout_mode = 0
+offset_left = -8.0
+offset_top = 38.0
+offset_right = 80.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(1, 0.9, 0.42, 1)
+theme_override_colors/font_outline_color = Color(0.08, 0.04, 0.16, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 18
+text = "+150"
+horizontal_alignment = 1
+
+[node name="CheckBadge" type="TextureRect" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone1Btn/VBox/ItemSlot" unique_id=1982340218]
+visible = false
+layout_mode = 0
+offset_left = 44.0
+offset_right = 66.0
+offset_bottom = 22.0
+mouse_filter = 2
+texture = ExtResource("21_check")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Dot" type="Panel" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone1Btn/VBox" unique_id=1982340217]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dot_locked")
+
+[node name="StepLabel" type="Label" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone1Btn/VBox" unique_id=1982340216]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.92, 1, 1)
+theme_override_font_sizes/font_size = 19
+text = "1 lượt"
+horizontal_alignment = 1
+
+[node name="Milestone5Btn" type="Button" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox" unique_id=1982340221]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_milestone_btn")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_milestone_btn")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_milestone_btn")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_milestone_btn")
+flat = true
+
+[node name="VBox" type="VBoxContainer" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone5Btn" unique_id=1982340222]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="ItemSlot" type="Control" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone5Btn/VBox" unique_id=1982340223]
+custom_minimum_size = Vector2(72, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="RewardIcon" type="TextureRect" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone5Btn/VBox/ItemSlot" unique_id=1982340224]
+modulate = Color(0.55, 0.95, 1, 1)
+layout_mode = 0
+offset_left = 13.0
+offset_top = 2.0
+offset_right = 59.0
+offset_bottom = 48.0
+mouse_filter = 2
+texture = ExtResource("15_emotion")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="AmountLabel" type="Label" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone5Btn/VBox/ItemSlot" unique_id=1982340225]
+layout_mode = 0
+offset_left = -8.0
+offset_top = 38.0
+offset_right = 80.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0.65, 0.95, 1, 1)
+theme_override_colors/font_outline_color = Color(0.08, 0.04, 0.16, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 18
+text = "x1"
+horizontal_alignment = 1
+
+[node name="CheckBadge" type="TextureRect" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone5Btn/VBox/ItemSlot" unique_id=1982340228]
+visible = false
+layout_mode = 0
+offset_left = 44.0
+offset_right = 66.0
+offset_bottom = 22.0
+mouse_filter = 2
+texture = ExtResource("21_check")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Dot" type="Panel" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone5Btn/VBox" unique_id=1982340227]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dot_locked")
+
+[node name="StepLabel" type="Label" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone5Btn/VBox" unique_id=1982340226]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.92, 1, 1)
+theme_override_font_sizes/font_size = 19
+text = "5 lượt"
+horizontal_alignment = 1
+
+[node name="Milestone10Btn" type="Button" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox" unique_id=1982340231]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_milestone_btn")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_milestone_btn")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_milestone_btn")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_milestone_btn")
+flat = true
+
+[node name="VBox" type="VBoxContainer" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone10Btn" unique_id=1982340232]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="ItemSlot" type="Control" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone10Btn/VBox" unique_id=1982340233]
+custom_minimum_size = Vector2(72, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="RewardIcon" type="TextureRect" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone10Btn/VBox/ItemSlot" unique_id=1982340234]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 2.0
+offset_right = 59.0
+offset_bottom = 48.0
+mouse_filter = 2
+texture = ExtResource("9_rau")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="AmountLabel" type="Label" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone10Btn/VBox/ItemSlot" unique_id=1982340235]
+layout_mode = 0
+offset_left = -8.0
+offset_top = 38.0
+offset_right = 80.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0.55, 0.96, 0.65, 1)
+theme_override_colors/font_outline_color = Color(0.08, 0.04, 0.16, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 18
+text = "+50"
+horizontal_alignment = 1
+
+[node name="CheckBadge" type="TextureRect" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone10Btn/VBox/ItemSlot" unique_id=1982340238]
+visible = false
+layout_mode = 0
+offset_left = 44.0
+offset_right = 66.0
+offset_bottom = 22.0
+mouse_filter = 2
+texture = ExtResource("21_check")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Dot" type="Panel" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone10Btn/VBox" unique_id=1982340237]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dot_locked")
+
+[node name="StepLabel" type="Label" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone10Btn/VBox" unique_id=1982340236]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.92, 1, 1)
+theme_override_font_sizes/font_size = 19
+text = "10 lượt"
+horizontal_alignment = 1
+
+[node name="Milestone15Btn" type="Button" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox" unique_id=1982340241]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_milestone_btn")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_milestone_btn")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_milestone_btn")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_milestone_btn")
+flat = true
+
+[node name="VBox" type="VBoxContainer" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone15Btn" unique_id=1982340242]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="ItemSlot" type="Control" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone15Btn/VBox" unique_id=1982340243]
+custom_minimum_size = Vector2(72, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="RewardIcon" type="TextureRect" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone15Btn/VBox/ItemSlot" unique_id=1982340244]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 4.0
+offset_right = 62.0
+offset_bottom = 44.0
+mouse_filter = 2
+texture = ExtResource("7_ticket")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="AmountLabel" type="Label" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone15Btn/VBox/ItemSlot" unique_id=1982340245]
+layout_mode = 0
+offset_left = -8.0
+offset_top = 38.0
+offset_right = 80.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(1, 0.72, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.08, 0.04, 0.16, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 18
+text = "+2 Vé"
+horizontal_alignment = 1
+
+[node name="CheckBadge" type="TextureRect" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone15Btn/VBox/ItemSlot" unique_id=1982340248]
+visible = false
+layout_mode = 0
+offset_left = 44.0
+offset_right = 66.0
+offset_bottom = 22.0
+mouse_filter = 2
+texture = ExtResource("21_check")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Dot" type="Panel" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone15Btn/VBox" unique_id=1982340247]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dot_locked")
+
+[node name="StepLabel" type="Label" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone15Btn/VBox" unique_id=1982340246]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.92, 1, 1)
+theme_override_font_sizes/font_size = 19
+text = "15 lượt"
+horizontal_alignment = 1
+
+[node name="Milestone30Btn" type="Button" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox" unique_id=1982340251]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_milestone_btn")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_milestone_btn")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_milestone_btn")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_milestone_btn")
+flat = true
+
+[node name="VBox" type="VBoxContainer" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone30Btn" unique_id=1982340252]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="ItemSlot" type="Control" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone30Btn/VBox" unique_id=1982340253]
+custom_minimum_size = Vector2(72, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="RewardIcon" type="TextureRect" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone30Btn/VBox/ItemSlot" unique_id=1982340254]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 2.0
+offset_right = 59.0
+offset_bottom = 48.0
+mouse_filter = 2
+texture = ExtResource("20_coin_poster")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="AmountLabel" type="Label" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone30Btn/VBox/ItemSlot" unique_id=1982340255]
+layout_mode = 0
+offset_left = -8.0
+offset_top = 38.0
+offset_right = 80.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+theme_override_colors/font_outline_color = Color(0.08, 0.04, 0.16, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 18
+text = "1.2K"
+horizontal_alignment = 1
+
+[node name="CheckBadge" type="TextureRect" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone30Btn/VBox/ItemSlot" unique_id=1982340258]
+visible = false
+layout_mode = 0
+offset_left = 44.0
+offset_right = 66.0
+offset_bottom = 22.0
+mouse_filter = 2
+texture = ExtResource("21_check")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Dot" type="Panel" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone30Btn/VBox" unique_id=1982340257]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dot_locked")
+
+[node name="StepLabel" type="Label" parent="ContentArea/GachaDetailView/BodySplit/StageCol/MilestoneArea/MilestoneTrack/MilestonesHBox/Milestone30Btn/VBox" unique_id=1982340256]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.92, 1, 1)
+theme_override_font_sizes/font_size = 19
+text = "30 lượt"
+horizontal_alignment = 1
+
+[node name="RollButtonsRow" type="HBoxContainer" parent="ContentArea/GachaDetailView/BodySplit/StageCol" unique_id=1405512402]
+layout_mode = 2
+theme_override_constants/separation = 28
+alignment = 1
+
+[node name="Roll1Btn" type="Button" parent="ContentArea/GachaDetailView/BodySplit/StageCol/RollButtonsRow" unique_id=853224243]
+custom_minimum_size = Vector2(240, 74)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_roll1")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_roll1")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_roll1")
+
+[node name="HBox" type="HBoxContainer" parent="ContentArea/GachaDetailView/BodySplit/StageCol/RollButtonsRow/Roll1Btn" unique_id=697258636]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="TicketIcon" type="TextureRect" parent="ContentArea/GachaDetailView/BodySplit/StageCol/RollButtonsRow/Roll1Btn/HBox" unique_id=1909721999]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("7_ticket")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CostLabel" type="Label" parent="ContentArea/GachaDetailView/BodySplit/StageCol/RollButtonsRow/Roll1Btn/HBox" unique_id=1989830296]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.5, 1)
+theme_override_font_sizes/font_size = 40
+text = "1"
+
+[node name="Roll10Btn" type="Button" parent="ContentArea/GachaDetailView/BodySplit/StageCol/RollButtonsRow" unique_id=288661284]
+custom_minimum_size = Vector2(260, 74)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_roll10")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_roll10")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_roll10")
+
+[node name="HBox" type="HBoxContainer" parent="ContentArea/GachaDetailView/BodySplit/StageCol/RollButtonsRow/Roll10Btn" unique_id=1007498186]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="TicketIcon" type="TextureRect" parent="ContentArea/GachaDetailView/BodySplit/StageCol/RollButtonsRow/Roll10Btn/HBox" unique_id=2069724045]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("7_ticket")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CostLabel" type="Label" parent="ContentArea/GachaDetailView/BodySplit/StageCol/RollButtonsRow/Roll10Btn/HBox" unique_id=1764665720]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.96, 0.72, 1)
+theme_override_font_sizes/font_size = 40
+text = "10"
+
+[node name="LeftSidebar" parent="." unique_id=1732724915 instance=ExtResource("2_sidebar")]
+layout_mode = 1
+ActiveTabIndex = 2
+
+[node name="DropRateModal" type="Control" parent="." unique_id=1982340301]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Backdrop" type="ColorRect" parent="DropRateModal" unique_id=1982340302]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.65)
+
+[node name="Center" type="CenterContainer" parent="DropRateModal" unique_id=1982340303]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DialogBox" type="PanelContainer" parent="DropRateModal/Center" unique_id=1982340304]
+custom_minimum_size = Vector2(620, 500)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_modal_box")
+
+[node name="DialogVBox" type="VBoxContainer" parent="DropRateModal/Center/DialogBox" unique_id=1982340305]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="HeaderHBox" type="HBoxContainer" parent="DropRateModal/Center/DialogBox/DialogVBox" unique_id=1982340306]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="DropRateModal/Center/DialogBox/DialogVBox/HeaderHBox" unique_id=1982340307]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.88, 0.35, 1)
+theme_override_font_sizes/font_size = 36
+text = "Tỷ lệ phần quà"
+horizontal_alignment = 1
+
+[node name="CloseBtn" type="Button" parent="DropRateModal/Center/DialogBox/DialogVBox/HeaderHBox" unique_id=1982340308]
+custom_minimum_size = Vector2(46, 46)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+icon = ExtResource("12_close")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="Divider" type="ColorRect" parent="DropRateModal/Center/DialogBox/DialogVBox" unique_id=1982340309]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.95, 0.78, 0.25, 0.4)
+
+[node name="RatesListBox" type="PanelContainer" parent="DropRateModal/Center/DialogBox/DialogVBox" unique_id=1982340310]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_modal_inset")
+
+[node name="VBox" type="VBoxContainer" parent="DropRateModal/Center/DialogBox/DialogVBox/RatesListBox" unique_id=1982340311]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="RowCharacter" type="HBoxContainer" parent="DropRateModal/Center/DialogBox/DialogVBox/RatesListBox/VBox" unique_id=1227991591]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Icon" type="TextureRect" parent="DropRateModal/Center/DialogBox/DialogVBox/RatesListBox/VBox/RowCharacter" unique_id=1125063586]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+texture = ExtResource("13_avatar")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="DropRateModal/Center/DialogBox/DialogVBox/RatesListBox/VBox/RowCharacter" unique_id=1956373872]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.38, 0.32, 1)
+theme_override_font_sizes/font_size = 24
+text = "Nhân vật ngẫu nhiên"
+
+[node name="Rate" type="Label" parent="DropRateModal/Center/DialogBox/DialogVBox/RatesListBox/VBox/RowCharacter" unique_id=818874416]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.38, 0.32, 1)
+theme_override_font_sizes/font_size = 24
+text = "1%"
+
+[node name="Line1" type="ColorRect" parent="DropRateModal/Center/DialogBox/DialogVBox/RatesListBox/VBox" unique_id=407693336]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+color = Color(1, 1, 1, 0.14)
+
+[node name="RowSkin" type="HBoxContainer" parent="DropRateModal/Center/DialogBox/DialogVBox/RatesListBox/VBox" unique_id=903729272]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Icon" type="TextureRect" parent="DropRateModal/Center/DialogBox/DialogVBox/RatesListBox/VBox/RowSkin" unique_id=553627552]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+texture = ExtResource("14_aodai")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="DropRateModal/Center/DialogBox/DialogVBox/RatesListBox/VBox/RowSkin" unique_id=1452186070]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.86, 0.28, 1)
+theme_override_font_sizes/font_size = 24
+text = "Trang phục hiếm"
+
+[node name="Rate" type="Label" parent="DropRateModal/Center/DialogBox/DialogVBox/RatesListBox/VBox/RowSkin" unique_id=1836806425]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.86, 0.28, 1)
+theme_override_font_sizes/font_size = 24
+text = "3%"
+
+[node name="Line2" type="ColorRect" parent="DropRateModal/Center/DialogBox/DialogVBox/RatesListBox/VBox" unique_id=1777348262]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+color = Color(1, 1, 1, 0.14)
+
+[node name="RowTicket" type="HBoxContainer" parent="DropRateModal/Center/DialogBox/DialogVBox/RatesListBox/VBox" unique_id=1828024518]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Icon" type="TextureRect" parent="DropRateModal/Center/DialogBox/DialogVBox/RatesListBox/VBox/RowTicket" unique_id=966021657]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+texture = ExtResource("7_ticket")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="DropRateModal/Center/DialogBox/DialogVBox/RatesListBox/VBox/RowTicket" unique_id=1233595463]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.84, 0.5, 1, 1)
+theme_override_font_sizes/font_size = 24
+text = "Hoàn +2 Vé Rương"
+
+[node name="Rate" type="Label" parent="DropRateModal/Center/DialogBox/DialogVBox/RatesListBox/VBox/RowTicket" unique_id=1171135925]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.84, 0.5, 1, 1)
+theme_override_font_sizes/font_size = 24
+text = "6%"
+
+[node name="Line3" type="ColorRect" parent="DropRateModal/Center/DialogBox/DialogVBox/RatesListBox/VBox" unique_id=1052794408]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+color = Color(1, 1, 1, 0.14)
+
+[node name="RowBigCurrency" type="HBoxContainer" parent="DropRateModal/Center/DialogBox/DialogVBox/RatesListBox/VBox" unique_id=134232805]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Icon" type="TextureRect" parent="DropRateModal/Center/DialogBox/DialogVBox/RatesListBox/VBox/RowBigCurrency" unique_id=1119323947]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+texture = ExtResource("8_coin")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="DropRateModal/Center/DialogBox/DialogVBox/RatesListBox/VBox/RowBigCurrency" unique_id=71257458]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.42, 0.78, 1, 1)
+theme_override_font_sizes/font_size = 24
+text = "Vàng / Rau gói lớn"
+
+[node name="Rate" type="Label" parent="DropRateModal/Center/DialogBox/DialogVBox/RatesListBox/VBox/RowBigCurrency" unique_id=1881077981]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.42, 0.78, 1, 1)
+theme_override_font_sizes/font_size = 24
+text = "25%"
+
+[node name="Line4" type="ColorRect" parent="DropRateModal/Center/DialogBox/DialogVBox/RatesListBox/VBox" unique_id=99501798]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+color = Color(1, 1, 1, 0.14)
+
+[node name="RowCommon" type="HBoxContainer" parent="DropRateModal/Center/DialogBox/DialogVBox/RatesListBox/VBox" unique_id=1081086898]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Icon" type="TextureRect" parent="DropRateModal/Center/DialogBox/DialogVBox/RatesListBox/VBox/RowCommon" unique_id=927338477]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+texture = ExtResource("15_emotion")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="DropRateModal/Center/DialogBox/DialogVBox/RatesListBox/VBox/RowCommon" unique_id=1354332394]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.45, 0.92, 0.56, 1)
+theme_override_font_sizes/font_size = 24
+text = "Vật phẩm & Tài nguyên"
+
+[node name="Rate" type="Label" parent="DropRateModal/Center/DialogBox/DialogVBox/RatesListBox/VBox/RowCommon" unique_id=1046720741]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.92, 0.56, 1)
+theme_override_font_sizes/font_size = 24
+text = "65%"
+
+[node name="PityHint" type="Label" parent="DropRateModal/Center/DialogBox/DialogVBox" unique_id=1982340312]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.82, 0.98, 0.9)
+theme_override_font_sizes/font_size = 20
+text = "Bảo hiểm: mỗi 50 lượt chắc chắn nhận Nhân vật hoặc Trang phục hiếm."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="OkBtn" type="Button" parent="DropRateModal/Center/DialogBox/DialogVBox" unique_id=1982340313]
+custom_minimum_size = Vector2(210, 58)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_cancel")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_cancel")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_cancel")
+text = "Đóng"
+
+[node name="ToastBanner" type="PanelContainer" parent="." unique_id=597407072]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -680.0
+offset_top = 132.0
+offset_right = -40.0
+offset_bottom = 192.0
+grow_horizontal = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_toast")
+
+[node name="ToastLabel" type="Label" parent="ToastBanner" unique_id=452346790]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 24
+text = "Thông báo"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="BuyTicketModal" type="Control" parent="." unique_id=2105062920]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Backdrop" type="ColorRect" parent="BuyTicketModal" unique_id=192232332]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.65)
+
+[node name="Center" type="CenterContainer" parent="BuyTicketModal" unique_id=545815687]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DialogBox" type="PanelContainer" parent="BuyTicketModal/Center" unique_id=2106261508]
+custom_minimum_size = Vector2(740, 500)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_modal_box")
+
+[node name="DialogVBox" type="VBoxContainer" parent="BuyTicketModal/Center/DialogBox" unique_id=1087375562]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="HeaderHBox" type="HBoxContainer" parent="BuyTicketModal/Center/DialogBox/DialogVBox" unique_id=1288824077]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="BuyTicketModal/Center/DialogBox/DialogVBox/HeaderHBox" unique_id=333137862]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.88, 0.35, 1)
+theme_override_font_sizes/font_size = 38
+text = "Đổi Vé Rương May Mắn"
+horizontal_alignment = 1
+
+[node name="CloseBtn" type="Button" parent="BuyTicketModal/Center/DialogBox/DialogVBox/HeaderHBox" unique_id=205945573]
+custom_minimum_size = Vector2(46, 46)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+icon = ExtResource("12_close")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="Divider" type="ColorRect" parent="BuyTicketModal/Center/DialogBox/DialogVBox" unique_id=1498160319]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.95, 0.78, 0.25, 0.4)
+
+[node name="TicketInfoBox" type="PanelContainer" parent="BuyTicketModal/Center/DialogBox/DialogVBox" unique_id=1566601652]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_modal_inset")
+
+[node name="HBox" type="HBoxContainer" parent="BuyTicketModal/Center/DialogBox/DialogVBox/TicketInfoBox" unique_id=999738880]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="TicketIcon" type="TextureRect" parent="BuyTicketModal/Center/DialogBox/DialogVBox/TicketInfoBox/HBox" unique_id=2088178495]
+custom_minimum_size = Vector2(110, 90)
+layout_mode = 2
+texture = ExtResource("7_ticket")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="InfoVBox" type="VBoxContainer" parent="BuyTicketModal/Center/DialogBox/DialogVBox/TicketInfoBox/HBox" unique_id=1229749740]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="NameLabel" type="Label" parent="BuyTicketModal/Center/DialogBox/DialogVBox/TicketInfoBox/HBox/InfoVBox" unique_id=219020215]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
+text = "Vé Rương May Mắn"
+
+[node name="RateLabel" type="Label" parent="BuyTicketModal/Center/DialogBox/DialogVBox/TicketInfoBox/HBox/InfoVBox" unique_id=325011415]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.94, 1, 1)
+theme_override_font_sizes/font_size = 24
+text = "Giá: 100 Vàng hoặc 10 Rau / 1 Vé"
+
+[node name="QtyRow" type="HBoxContainer" parent="BuyTicketModal/Center/DialogBox/DialogVBox" unique_id=670461472]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="QtyTitle" type="Label" parent="BuyTicketModal/Center/DialogBox/DialogVBox/QtyRow" unique_id=588475589]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.92, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "Số lượng:"
+
+[node name="MinusBtn" type="Button" parent="BuyTicketModal/Center/DialogBox/DialogVBox/QtyRow" unique_id=1143538136]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_constants/icon_max_width = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_qty_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_qty_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_qty_btn")
+icon = ExtResource("17_remove")
+icon_alignment = 1
+expand_icon = true
+
+[node name="QtyLineEdit" type="LineEdit" parent="BuyTicketModal/Center/DialogBox/DialogVBox/QtyRow" unique_id=1815214228]
+custom_minimum_size = Vector2(130, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_modal_inset")
+theme_override_styles/focus = SubResource("StyleBoxFlat_modal_inset")
+text = "1"
+alignment = 1
+virtual_keyboard_type = 2
+select_all_on_focus = true
+
+[node name="PlusBtn" type="Button" parent="BuyTicketModal/Center/DialogBox/DialogVBox/QtyRow" unique_id=1909628398]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_constants/icon_max_width = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_qty_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_qty_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_qty_btn")
+icon = ExtResource("16_add")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Preset10Btn" type="Button" parent="BuyTicketModal/Center/DialogBox/DialogVBox/QtyRow" unique_id=1771003583]
+custom_minimum_size = Vector2(78, 50)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.45, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_qty_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_qty_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_qty_btn")
+text = "+10"
+
+[node name="Preset50Btn" type="Button" parent="BuyTicketModal/Center/DialogBox/DialogVBox/QtyRow" unique_id=1771003584]
+custom_minimum_size = Vector2(78, 50)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.45, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_qty_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_qty_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_qty_btn")
+text = "+50"
+
+[node name="MaxByCurrencyRow" type="HBoxContainer" parent="BuyTicketModal/Center/DialogBox/DialogVBox" unique_id=1771003586]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="MaxByGoldBtn" type="Button" parent="BuyTicketModal/Center/DialogBox/DialogVBox/MaxByCurrencyRow" unique_id=1771003587]
+custom_minimum_size = Vector2(260, 44)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.55, 1)
+theme_override_constants/h_separation = 8
+theme_override_constants/icon_max_width = 22
+theme_override_font_sizes/font_size = 21
+theme_override_styles/normal = SubResource("StyleBoxFlat_qty_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_qty_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_qty_btn")
+text = "Tối đa Vàng"
+icon = ExtResource("8_coin")
+expand_icon = true
+
+[node name="MaxByRauBtn" type="Button" parent="BuyTicketModal/Center/DialogBox/DialogVBox/MaxByCurrencyRow" unique_id=1771003588]
+custom_minimum_size = Vector2(260, 44)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.58, 0.98, 0.72, 1)
+theme_override_constants/h_separation = 8
+theme_override_constants/icon_max_width = 22
+theme_override_font_sizes/font_size = 21
+theme_override_styles/normal = SubResource("StyleBoxFlat_qty_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_qty_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_qty_btn")
+text = "Tối đa Rau"
+icon = ExtResource("9_rau")
+expand_icon = true
+
+[node name="BalanceHintLabel" type="Label" parent="BuyTicketModal/Center/DialogBox/DialogVBox" unique_id=28597654]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.82, 0.98, 0.92)
+theme_override_font_sizes/font_size = 22
+text = "Hiện có: 123,456 Vàng · 123,456 Rau"
+horizontal_alignment = 1
+
+[node name="ActionsHBox" type="HBoxContainer" parent="BuyTicketModal/Center/DialogBox/DialogVBox" unique_id=2087936581]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="BuyWithGoldBtn" type="Button" parent="BuyTicketModal/Center/DialogBox/DialogVBox/ActionsHBox" unique_id=706032138]
+custom_minimum_size = Vector2(260, 66)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/h_separation = 10
+theme_override_constants/icon_max_width = 30
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_gold")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_gold")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_gold")
+text = "100 Vàng"
+icon = ExtResource("8_coin")
+expand_icon = true
+
+[node name="BuyWithRauBtn" type="Button" parent="BuyTicketModal/Center/DialogBox/DialogVBox/ActionsHBox" unique_id=1578794358]
+custom_minimum_size = Vector2(260, 66)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/h_separation = 10
+theme_override_constants/icon_max_width = 30
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_rau")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_rau")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_rau")
+text = "10 Rau"
+icon = ExtResource("9_rau")
+expand_icon = true
+
+[node name="RulesModal" type="Control" parent="." unique_id=818424117]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Backdrop" type="ColorRect" parent="RulesModal" unique_id=992053971]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.65)
+
+[node name="Center" type="CenterContainer" parent="RulesModal" unique_id=1245693545]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DialogBox" type="PanelContainer" parent="RulesModal/Center" unique_id=1710744949]
+custom_minimum_size = Vector2(740, 480)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_modal_box")
+
+[node name="DialogVBox" type="VBoxContainer" parent="RulesModal/Center/DialogBox" unique_id=597188063]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HeaderHBox" type="HBoxContainer" parent="RulesModal/Center/DialogBox/DialogVBox" unique_id=543481528]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="RulesModal/Center/DialogBox/DialogVBox/HeaderHBox" unique_id=825645019]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.88, 0.35, 1)
+theme_override_font_sizes/font_size = 38
+text = "Thể lệ Rương May Mắn"
+horizontal_alignment = 1
+
+[node name="CloseBtn" type="Button" parent="RulesModal/Center/DialogBox/DialogVBox/HeaderHBox" unique_id=1881018251]
+custom_minimum_size = Vector2(46, 46)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+icon = ExtResource("12_close")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="Divider" type="ColorRect" parent="RulesModal/Center/DialogBox/DialogVBox" unique_id=570255432]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.95, 0.78, 0.25, 0.4)
+
+[node name="BodyBox" type="PanelContainer" parent="RulesModal/Center/DialogBox/DialogVBox" unique_id=721635346]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_modal_inset")
+
+[node name="RulesText" type="Label" parent="RulesModal/Center/DialogBox/DialogVBox/BodyBox" unique_id=775560614]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.93, 1, 1)
+theme_override_font_sizes/font_size = 24
+text = "• Mỗi lượt mở rương tiêu hao 1 Vé Rương May Mắn.
+• Có thể đổi Vé trực tiếp bằng 100 Vàng hoặc 10 Rau khi bấm dấu +.
+• Bảo hiểm 50 lượt: nếu 49 lượt liên tiếp chưa trúng Nhân vật hoặc Trang phục hiếm, lượt thứ 50 chắc chắn nổ quà hiếm và đặt lại bộ đếm.
+• Quay 10 lượt đảm bảo ít nhất 1 phần quà Gói Vàng / Rau lớn trở lên.
+• Nhân vật hoặc Trang phục đã sở hữu sẽ tự động quy đổi thành Vàng."
+autowrap_mode = 2
+
+[node name="OkBtn" type="Button" parent="RulesModal/Center/DialogBox/DialogVBox" unique_id=134258077]
+custom_minimum_size = Vector2(220, 62)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_cancel")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_cancel")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_cancel")
+text = "Đã hiểu"
+
+[node name="RewardResultModal" type="Control" parent="." unique_id=1433001225]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Backdrop" type="ColorRect" parent="RewardResultModal" unique_id=890772038]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.72)
+
+[node name="Center" type="CenterContainer" parent="RewardResultModal" unique_id=1364067720]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DialogBox" type="PanelContainer" parent="RewardResultModal/Center" unique_id=583517864]
+custom_minimum_size = Vector2(880, 500)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_modal_box")
+
+[node name="DialogVBox" type="VBoxContainer" parent="RewardResultModal/Center/DialogBox" unique_id=344203563]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="HeaderHBox" type="HBoxContainer" parent="RewardResultModal/Center/DialogBox/DialogVBox" unique_id=1655430805]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="RewardResultModal/Center/DialogBox/DialogVBox/HeaderHBox" unique_id=672066164]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.88, 0.35, 1)
+theme_override_font_sizes/font_size = 38
+text = "Phần Quà Mở Rương"
+horizontal_alignment = 1
+
+[node name="CloseBtn" type="Button" parent="RewardResultModal/Center/DialogBox/DialogVBox/HeaderHBox" unique_id=1105673275]
+custom_minimum_size = Vector2(46, 46)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+icon = ExtResource("12_close")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="Divider" type="ColorRect" parent="RewardResultModal/Center/DialogBox/DialogVBox" unique_id=1970381692]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.95, 0.78, 0.25, 0.4)
+
+[node name="RewardsGrid" type="GridContainer" parent="RewardResultModal/Center/DialogBox/DialogVBox" unique_id=1554519059]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 14
+columns = 5
+
+[node name="ActionsHBox" type="HBoxContainer" parent="RewardResultModal/Center/DialogBox/DialogVBox" unique_id=1982340501]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="OkBtn" type="Button" parent="RewardResultModal/Center/DialogBox/DialogVBox/ActionsHBox" unique_id=756234787]
+custom_minimum_size = Vector2(210, 62)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_rau")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_rau")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_rau")
+text = "Nhận Quà"
+
+[node name="Roll1Btn" type="Button" parent="RewardResultModal/Center/DialogBox/DialogVBox/ActionsHBox" unique_id=1982340502]
+custom_minimum_size = Vector2(180, 62)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_roll1")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_roll1")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_roll1")
+
+[node name="HBox" type="HBoxContainer" parent="RewardResultModal/Center/DialogBox/DialogVBox/ActionsHBox/Roll1Btn" unique_id=1982340503]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Label" type="Label" parent="RewardResultModal/Center/DialogBox/DialogVBox/ActionsHBox/Roll1Btn/HBox" unique_id=1982340504]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "Mở 1"
+
+[node name="TicketIcon" type="TextureRect" parent="RewardResultModal/Center/DialogBox/DialogVBox/ActionsHBox/Roll1Btn/HBox" unique_id=1982340505]
+custom_minimum_size = Vector2(36, 28)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("7_ticket")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CostLabel" type="Label" parent="RewardResultModal/Center/DialogBox/DialogVBox/ActionsHBox/Roll1Btn/HBox" unique_id=1982340506]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.5, 1)
+theme_override_font_sizes/font_size = 22
+text = "1"
+
+[node name="Roll10Btn" type="Button" parent="RewardResultModal/Center/DialogBox/DialogVBox/ActionsHBox" unique_id=1982340511]
+custom_minimum_size = Vector2(205, 62)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_roll10")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_roll10")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_roll10")
+
+[node name="HBox" type="HBoxContainer" parent="RewardResultModal/Center/DialogBox/DialogVBox/ActionsHBox/Roll10Btn" unique_id=1982340512]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Label" type="Label" parent="RewardResultModal/Center/DialogBox/DialogVBox/ActionsHBox/Roll10Btn/HBox" unique_id=1982340513]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "Mở 10"
+
+[node name="TicketIcon" type="TextureRect" parent="RewardResultModal/Center/DialogBox/DialogVBox/ActionsHBox/Roll10Btn/HBox" unique_id=1982340514]
+custom_minimum_size = Vector2(36, 28)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("7_ticket")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CostLabel" type="Label" parent="RewardResultModal/Center/DialogBox/DialogVBox/ActionsHBox/Roll10Btn/HBox" unique_id=1982340515]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.96, 0.72, 1)
+theme_override_font_sizes/font_size = 22
+text = "10"

@@ -11,6 +11,25 @@ public enum CurrencyType
     Rau
 }
 
+public enum GachaRarity
+{
+    Common,
+    Uncommon,
+    Rare,
+    Epic,
+    Legendary
+}
+
+public sealed class GachaRewardResult
+{
+    public string Name { get; set; }
+    public string AmountText { get; set; }
+    public string IconPath { get; set; }
+    public Color IconTint { get; set; } = Colors.White;
+    public GachaRarity Rarity { get; set; } = GachaRarity.Common;
+    public string Note { get; set; } = "";
+}
+
 public enum TradeAssetType
 {
     Item,
@@ -63,12 +82,25 @@ public partial class PlayerDataManager : Node
     [Signal]
     public delegate void InventoryChangedEventHandler();
 
+    [Signal]
+    public delegate void GachaStateChangedEventHandler(int tickets, int pityCount);
+
     private const string SaveFilePath = "user://save_data.json";
     private const int DefaultCoins = 123456;
     private const int DefaultRau = 123456;
+    private const int DefaultGachaTickets = 5;
+
+    public const int TicketPriceGold = 100;
+    public const int TicketPriceRau = 10;
+    public const int GachaPityLimit = 50;
+    public const int GachaMilestoneMax = 30;
+    public static readonly int[] GachaMilestoneTargets = { 1, 5, 10, 15, 30 };
 
     public int Coins { get; private set; } = DefaultCoins;
     public int Rau { get; private set; } = DefaultRau;
+    public int GachaTickets { get; private set; } = DefaultGachaTickets;
+    public int GachaPityCount { get; private set; } = 0;
+    public int GachaMilestoneProgress { get; private set; } = 0;
     public int SelectedCharacterIndex { get; private set; } = 0;
     public bool IsHatUnlocked { get; private set; } = false;
     public int EquippedSkinIndex { get; private set; } = 0;
@@ -93,6 +125,7 @@ public partial class PlayerDataManager : Node
     private CharacterProfile[] _characters;
     private readonly Dictionary<string, int> _itemQuantities = new();
     private readonly HashSet<string> _unlockedExtraSkins = new();
+    private readonly HashSet<int> _claimedGachaMilestones = new();
     private readonly List<MarketTradeListing> _playerMarketListings = new();
     public CharacterProfile[] Characters => _characters;
     public IReadOnlyList<MarketTradeListing> PlayerMarketListings => _playerMarketListings;
@@ -107,6 +140,10 @@ public partial class PlayerDataManager : Node
     {
         public int Coins { get; set; } = DefaultCoins;
         public int Rau { get; set; } = DefaultRau;
+        public int GachaTickets { get; set; } = DefaultGachaTickets;
+        public int GachaPityCount { get; set; } = 0;
+        public int GachaMilestoneProgress { get; set; } = 0;
+        public List<int> ClaimedGachaMilestones { get; set; } = new();
         public int SelectedCharacterIndex { get; set; } = 0;
         public bool IsHatUnlocked { get; set; } = false;
         public int EquippedSkinIndex { get; set; } = 0;
@@ -146,6 +183,9 @@ public partial class PlayerDataManager : Node
     {
         Coins = DefaultCoins;
         Rau = DefaultRau;
+        GachaTickets = DefaultGachaTickets;
+        GachaPityCount = 0;
+        GachaMilestoneProgress = 0;
         SelectedCharacterIndex = 0;
         IsHatUnlocked = false;
         EquippedSkinIndex = 0;
@@ -153,6 +193,7 @@ public partial class PlayerDataManager : Node
         HasClaimedStarterShopGift = false;
         _itemQuantities.Clear();
         _unlockedExtraSkins.Clear();
+        _claimedGachaMilestones.Clear();
         _playerMarketListings.Clear();
         _characters = CreateDefaultCharacters();
     }
@@ -458,10 +499,355 @@ public partial class PlayerDataManager : Node
         return true;
     }
 
+    public bool TryBuyGachaTickets(int count, CurrencyType currency)
+    {
+        if (count <= 0) return false;
+        int unitPrice = currency == CurrencyType.Rau ? TicketPriceRau : TicketPriceGold;
+        long totalCostLong = (long)unitPrice * count;
+        if (GetBalance(currency) < totalCostLong) return false;
+
+        int totalCost = (int)totalCostLong;
+        if (currency == CurrencyType.Rau) Rau -= totalCost;
+        else Coins -= totalCost;
+
+        long nextTickets = (long)GachaTickets + count;
+        GachaTickets = nextTickets > int.MaxValue ? int.MaxValue : (int)nextTickets;
+        EmitSignal(SignalName.CurrenciesChanged, Coins, Rau);
+        EmitSignal(SignalName.GachaStateChanged, GachaTickets, GachaPityCount);
+        SaveToDisk();
+        return true;
+    }
+
+    public List<GachaRewardResult> LastAutoClaimedMilestones { get; } = new();
+
+    public List<GachaRewardResult> TryExecuteGachaRoll(int count)
+    {
+        if (count <= 0 || GachaTickets < count) return null;
+
+        GachaTickets -= count;
+        LastAutoClaimedMilestones.Clear();
+
+        int cycleProgress = GachaMilestoneProgress + count;
+        while (cycleProgress >= GachaMilestoneMax)
+        {
+            foreach (int target in GachaMilestoneTargets)
+            {
+                if (!_claimedGachaMilestones.Contains(target))
+                {
+                    _claimedGachaMilestones.Add(target);
+                    LastAutoClaimedMilestones.Add(GrantGachaMilestoneRewardInternal(target));
+                }
+            }
+            _claimedGachaMilestones.Clear();
+            cycleProgress -= GachaMilestoneMax;
+        }
+        GachaMilestoneProgress = cycleProgress;
+
+        var results = new List<GachaRewardResult>(count);
+        bool hasUncommonOrBetter = false;
+
+        for (int i = 0; i < count; i++)
+        {
+            GachaPityCount++;
+            bool forceHighTier = GachaPityCount >= GachaPityLimit;
+            bool guaranteeLastTen = (count >= 10 && i == count - 1 && !hasUncommonOrBetter);
+
+            GachaRewardResult reward;
+            if (forceHighTier)
+            {
+                reward = GrantHighTierGachaReward(preferCharacter: GD.Randf() < 0.35f);
+                GachaPityCount = 0;
+            }
+            else
+            {
+                int roll = GD.RandRange(0, 9999);
+                if (roll < 100) // 1% Nhân vật
+                {
+                    reward = GrantCharacterGachaReward();
+                    GachaPityCount = 0;
+                }
+                else if (roll < 400) // 3% Trang phục
+                {
+                    reward = GrantSkinGachaReward();
+                    GachaPityCount = 0;
+                }
+                else if (roll < 1000) // 6% +2 Vé
+                {
+                    GachaTickets += 2;
+                    reward = new GachaRewardResult
+                    {
+                        Name = "Vé Rương May Mắn",
+                        AmountText = "x2",
+                        IconPath = "res://assets/sprites/icons/ticket.png",
+                        Rarity = GachaRarity.Rare,
+                        Note = "Hoàn thêm 2 Vé"
+                    };
+                }
+                else if (roll < 3500 || guaranteeLastTen) // 25% Gói Vàng / Rau lớn
+                {
+                    reward = GrantResourcePackReward(largePack: true);
+                }
+                else // 65% Vật phẩm & tài nguyên thường
+                {
+                    reward = GrantCommonGachaReward();
+                }
+            }
+
+            if (reward.Rarity >= GachaRarity.Uncommon)
+            {
+                hasUncommonOrBetter = true;
+            }
+            results.Add(reward);
+        }
+
+        EmitSignal(SignalName.CurrenciesChanged, Coins, Rau);
+        EmitSignal(SignalName.InventoryChanged);
+        EmitSignal(SignalName.GachaStateChanged, GachaTickets, GachaPityCount);
+        SaveToDisk();
+        return results;
+    }
+
+    private GachaRewardResult GrantHighTierGachaReward(bool preferCharacter)
+    {
+        if (preferCharacter)
+        {
+            return GrantCharacterGachaReward();
+        }
+        return GrantSkinGachaReward();
+    }
+
+    private GachaRewardResult GrantCharacterGachaReward()
+    {
+        var lockedChars = new List<CharacterProfile>();
+        foreach (var ch in _characters)
+        {
+            if (!ch.IsUnlocked) lockedChars.Add(ch);
+        }
+
+        if (lockedChars.Count > 0)
+        {
+            var picked = lockedChars[GD.RandRange(0, lockedChars.Count - 1)];
+            picked.IsUnlocked = true;
+            return new GachaRewardResult
+            {
+                Name = picked.Name,
+                AmountText = "Mở khóa",
+                IconPath = "res://assets/sprites/icons/avatar_character.png",
+                IconTint = picked.Tint,
+                Rarity = GachaRarity.Legendary,
+                Note = $"Nhân vật mới ({picked.Role})"
+            };
+        }
+
+        Coins += 1200;
+        return new GachaRewardResult
+        {
+            Name = "Vàng Quy Đổi",
+            AmountText = "+1,200",
+            IconPath = "res://assets/sprites/icons/coin.png",
+            Rarity = GachaRarity.Legendary,
+            Note = "Đã sở hữu hết nhân vật"
+        };
+    }
+
+    private GachaRewardResult GrantSkinGachaReward()
+    {
+        (string Id, string Name, string IconPath, Color Tint)[] skinPool =
+        {
+            ("hat_pink", "Nón Hoa Hồng", "res://assets/sprites/icons/hat_pink.png", Colors.White),
+            ("skin_apron_gold", "Áo Dài Hoàng Kim", "res://assets/sprites/icons/ao_dai.png", new Color(1.0f, 0.88f, 0.42f, 1f)),
+            ("skin_hat_jade", "Nón Ngọc Bích", "res://assets/sprites/icons/hat_pink.png", new Color(0.55f, 1.0f, 0.85f, 1f)),
+            ("skin_night_violet", "Áo Dài Chợ Đêm", "res://assets/sprites/icons/ao_dai.png", new Color(0.75f, 0.58f, 1.0f, 1f))
+        };
+
+        var lockedIndices = new List<int>();
+        for (int i = 0; i < skinPool.Length; i++)
+        {
+            if (!IsSkinUnlocked(skinPool[i].Id)) lockedIndices.Add(i);
+        }
+
+        if (lockedIndices.Count > 0)
+        {
+            var picked = skinPool[lockedIndices[GD.RandRange(0, lockedIndices.Count - 1)]];
+            if (picked.Id == "hat_pink") IsHatUnlocked = true;
+            else _unlockedExtraSkins.Add(picked.Id);
+
+            return new GachaRewardResult
+            {
+                Name = picked.Name,
+                AmountText = "Mở khóa",
+                IconPath = picked.IconPath,
+                IconTint = picked.Tint,
+                Rarity = GachaRarity.Epic,
+                Note = "Trang phục hiếm"
+            };
+        }
+
+        Coins += 800;
+        return new GachaRewardResult
+        {
+            Name = "Vàng Quy Đổi",
+            AmountText = "+800",
+            IconPath = "res://assets/sprites/icons/coin.png",
+            Rarity = GachaRarity.Epic,
+            Note = "Đã sở hữu hết trang phục"
+        };
+    }
+
+    private GachaRewardResult GrantResourcePackReward(bool largePack)
+    {
+        bool giveRau = GD.Randf() < 0.45f;
+        if (giveRau)
+        {
+            int amount = largePack ? 60 : 20;
+            Rau += amount;
+            return new GachaRewardResult
+            {
+                Name = "Rau Sạch",
+                AmountText = $"+{amount}",
+                IconPath = "res://assets/sprites/icons/rau.png",
+                Rarity = largePack ? GachaRarity.Uncommon : GachaRarity.Common,
+                Note = largePack ? "Gói lớn" : "Tài nguyên"
+            };
+        }
+
+        int gold = largePack ? 500 : 150;
+        Coins += gold;
+        return new GachaRewardResult
+        {
+            Name = "Vàng Chợ",
+            AmountText = $"+{gold:N0}",
+            IconPath = "res://assets/sprites/icons/coin.png",
+            Rarity = largePack ? GachaRarity.Uncommon : GachaRarity.Common,
+            Note = largePack ? "Gói lớn" : "Tài nguyên"
+        };
+    }
+
+    private GachaRewardResult GrantCommonGachaReward()
+    {
+        if (GD.Randf() < 0.35f)
+        {
+            return GrantResourcePackReward(largePack: false);
+        }
+
+        (string Id, string Name, string IconPath, Color Tint)[] items =
+        {
+            ("item_tra_da", "Trà Đá Hồi Sức", "res://assets/sprites/icons/emotion.png", new Color(0.55f, 0.95f, 1.0f, 1f)),
+            ("item_gio_hang", "Giỏ Hàng Siêu Tốc", "res://assets/sprites/icons/tab_shop.png", new Color(1.0f, 0.92f, 0.65f, 1f)),
+            ("item_nuoc_mia", "Nước Mía Tăng Lực", "res://assets/sprites/icons/upgrade.png", new Color(1.0f, 0.85f, 0.35f, 1f)),
+            ("item_bua_x2", "Bùa X2 Doanh Thu", "res://assets/sprites/icons/coin.png", Colors.White),
+            ("item_hat_giong", "Túi Hạt Giống Quý", "res://assets/sprites/icons/rau.png", Colors.White),
+            ("item_giap_noi", "Khiên Nắp Vung", "res://assets/sprites/icons/role.png", new Color(0.70f, 0.90f, 1.0f, 1f))
+        };
+
+        var picked = items[GD.RandRange(0, items.Length - 1)];
+        _itemQuantities[picked.Id] = GetItemQuantity(picked.Id) + 1;
+        return new GachaRewardResult
+        {
+            Name = picked.Name,
+            AmountText = "x1",
+            IconPath = picked.IconPath,
+            IconTint = picked.Tint,
+            Rarity = GachaRarity.Common,
+            Note = "Vật phẩm chợ"
+        };
+    }
+
+    public bool IsGachaMilestoneClaimed(int milestoneTurns) => _claimedGachaMilestones.Contains(milestoneTurns);
+
+    public GachaRewardResult TryClaimGachaMilestone(int milestoneTurns)
+    {
+        if (Array.IndexOf(GachaMilestoneTargets, milestoneTurns) < 0) return null;
+        if (GachaMilestoneProgress < milestoneTurns || _claimedGachaMilestones.Contains(milestoneTurns)) return null;
+
+        _claimedGachaMilestones.Add(milestoneTurns);
+        GachaRewardResult reward = GrantGachaMilestoneRewardInternal(milestoneTurns);
+
+        if (GachaMilestoneProgress >= GachaMilestoneMax && _claimedGachaMilestones.Count >= GachaMilestoneTargets.Length)
+        {
+            GachaMilestoneProgress = 0;
+            _claimedGachaMilestones.Clear();
+        }
+
+        EmitSignal(SignalName.CurrenciesChanged, Coins, Rau);
+        EmitSignal(SignalName.InventoryChanged);
+        EmitSignal(SignalName.GachaStateChanged, GachaTickets, GachaPityCount);
+        SaveToDisk();
+        return reward;
+    }
+
+    private GachaRewardResult GrantGachaMilestoneRewardInternal(int milestoneTurns)
+    {
+        switch (milestoneTurns)
+        {
+            case 1:
+                Coins += 150;
+                return new GachaRewardResult
+                {
+                    Name = "Vàng Mốc 1",
+                    AmountText = "+150",
+                    IconPath = "res://assets/sprites/icons/coin.png",
+                    Rarity = GachaRarity.Common,
+                    Note = "Quà mốc 1 lượt"
+                };
+            case 5:
+                _itemQuantities["item_tra_da"] = GetItemQuantity("item_tra_da") + 1;
+                return new GachaRewardResult
+                {
+                    Name = "Trà Đá Hồi Sức",
+                    AmountText = "x1",
+                    IconPath = "res://assets/sprites/icons/emotion.png",
+                    IconTint = new Color(0.55f, 0.95f, 1.0f, 1f),
+                    Rarity = GachaRarity.Uncommon,
+                    Note = "Quà mốc 5 lượt"
+                };
+            case 10:
+                Rau += 50;
+                return new GachaRewardResult
+                {
+                    Name = "Rau Sạch",
+                    AmountText = "+50",
+                    IconPath = "res://assets/sprites/icons/rau.png",
+                    Rarity = GachaRarity.Uncommon,
+                    Note = "Quà mốc 10 lượt"
+                };
+            case 15:
+                GachaTickets += 2;
+                return new GachaRewardResult
+                {
+                    Name = "Vé Rương May Mắn",
+                    AmountText = "+2 Vé",
+                    IconPath = "res://assets/sprites/icons/ticket.png",
+                    Rarity = GachaRarity.Rare,
+                    Note = "Quà mốc 15 lượt"
+                };
+            default: // 30 lượt
+                Coins += 1200;
+                Rau += 80;
+                return new GachaRewardResult
+                {
+                    Name = "Túi Lộc Đại Cát",
+                    AmountText = "+1,200V · +80R",
+                    IconPath = "res://assets/sprites/icons/coin_poster.png",
+                    Rarity = GachaRarity.Legendary,
+                    Note = "Quà mốc 30 lượt"
+                };
+        }
+    }
+
+    public void ResetGachaMilestones()
+    {
+        GachaMilestoneProgress = 0;
+        _claimedGachaMilestones.Clear();
+        EmitSignal(SignalName.GachaStateChanged, GachaTickets, GachaPityCount);
+        SaveToDisk();
+    }
+
     public void ResetAllData()
     {
         InitializeDefaults();
         EmitSignal(SignalName.CurrenciesChanged, Coins, Rau);
+        EmitSignal(SignalName.GachaStateChanged, GachaTickets, GachaPityCount);
         EmitSignal(SignalName.SelectedCharacterChanged, SelectedCharacterIndex);
         EmitSignal(SignalName.InventoryChanged);
         SaveToDisk();
@@ -475,6 +861,10 @@ public partial class PlayerDataManager : Node
             {
                 Coins = Coins,
                 Rau = Rau,
+                GachaTickets = GachaTickets,
+                GachaPityCount = GachaPityCount,
+                GachaMilestoneProgress = GachaMilestoneProgress,
+                ClaimedGachaMilestones = new List<int>(_claimedGachaMilestones),
                 SelectedCharacterIndex = SelectedCharacterIndex,
                 IsHatUnlocked = IsHatUnlocked,
                 EquippedSkinIndex = EquippedSkinIndex,
@@ -532,6 +922,18 @@ public partial class PlayerDataManager : Node
 
             Coins = Mathf.Max(0, dto.Coins);
             Rau = Mathf.Max(0, dto.Rau);
+            GachaTickets = Mathf.Max(0, dto.GachaTickets);
+            GachaPityCount = Mathf.Clamp(dto.GachaPityCount, 0, GachaPityLimit - 1);
+            GachaMilestoneProgress = Mathf.Clamp(dto.GachaMilestoneProgress, 0, GachaMilestoneMax);
+            _claimedGachaMilestones.Clear();
+            if (dto.ClaimedGachaMilestones != null)
+            {
+                foreach (int m in dto.ClaimedGachaMilestones)
+                {
+                    if (Array.IndexOf(GachaMilestoneTargets, m) >= 0)
+                        _claimedGachaMilestones.Add(m);
+                }
+            }
             IsHatUnlocked = dto.IsHatUnlocked;
             EquippedSkinIndex = (dto.EquippedSkinIndex == 1 && IsHatUnlocked) ? 1 : 0;
             HasClaimedStarterShopGift = dto.HasClaimedStarterShopGift;
