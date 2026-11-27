@@ -106,6 +106,8 @@ public partial class PlayerDataManager : Node
     public int EquippedSkinIndex { get; private set; } = 0;
     public string EquippedShopSkinId { get; private set; } = "outfit_default";
     public bool HasClaimedStarterShopGift { get; private set; } = false;
+    public bool HasReceivedInventoryStarterGift { get; private set; } = false;
+    public bool HasReceivedLuckBagGift { get; private set; } = false;
 
     /// <summary>
     /// Tab đích tạm thời khi chuyển sang shop_screen (ví dụ 3 = Đổi Vàng/Rau khi bấm dấu +).
@@ -118,18 +120,25 @@ public partial class PlayerDataManager : Node
     public int PendingPreviewCharacterIndex { get; set; } = -1;
 
     /// <summary>
-    /// Khi true, lobby_screen sẽ tự mở SettingsPanel ngay khi _Ready().
+    /// Khi true, lobby_screen sẽ tự mở popup Cài đặt ngay khi _Ready().
     /// </summary>
     public bool PendingOpenSettings { get; set; } = false;
 
+    /// <summary>
+    /// Khi true, lobby_screen sẽ tự mở tab Túi đồ (tab 4) ngay khi _Ready().
+    /// </summary>
+    public bool PendingOpenInventory { get; set; } = false;
+
     private CharacterProfile[] _characters;
     private readonly Dictionary<string, int> _itemQuantities = new();
+    private readonly List<string> _recentItemIds = new();
     private readonly HashSet<string> _unlockedExtraSkins = new();
     private readonly HashSet<int> _claimedGachaMilestones = new();
     private readonly List<MarketTradeListing> _playerMarketListings = new();
     public CharacterProfile[] Characters => _characters;
     public IReadOnlyList<MarketTradeListing> PlayerMarketListings => _playerMarketListings;
     public IReadOnlyDictionary<string, int> ItemQuantities => _itemQuantities;
+    public IReadOnlyList<string> RecentItemIds => _recentItemIds;
 
     public CharacterProfile ActiveCharacter =>
         _characters != null && SelectedCharacterIndex >= 0 && SelectedCharacterIndex < _characters.Length
@@ -149,7 +158,10 @@ public partial class PlayerDataManager : Node
         public int EquippedSkinIndex { get; set; } = 0;
         public string EquippedShopSkinId { get; set; } = "outfit_default";
         public bool HasClaimedStarterShopGift { get; set; } = false;
+        public bool HasReceivedInventoryStarterGift { get; set; } = false;
+        public bool HasReceivedLuckBagGift { get; set; } = false;
         public Dictionary<string, int> Items { get; set; } = new();
+        public List<string> RecentItems { get; set; } = new();
         public List<string> UnlockedExtraSkins { get; set; } = new();
         public List<MarketTradeListing> PlayerMarketListings { get; set; } = new();
         public List<CharacterSaveDto> Characters { get; set; } = new();
@@ -191,7 +203,14 @@ public partial class PlayerDataManager : Node
         EquippedSkinIndex = 0;
         EquippedShopSkinId = "outfit_default";
         HasClaimedStarterShopGift = false;
+        HasReceivedInventoryStarterGift = true;
+        HasReceivedLuckBagGift = true;
         _itemQuantities.Clear();
+        _itemQuantities["gift_tan_thu"] = 1;
+        _itemQuantities["gift_loc_cho"] = 1;
+        _recentItemIds.Clear();
+        _recentItemIds.Add("gift_loc_cho");
+        _recentItemIds.Add("gift_tan_thu");
         _unlockedExtraSkins.Clear();
         _claimedGachaMilestones.Clear();
         _playerMarketListings.Clear();
@@ -338,12 +357,120 @@ public partial class PlayerDataManager : Node
     public int GetItemQuantity(string itemId) =>
         !string.IsNullOrEmpty(itemId) && _itemQuantities.TryGetValue(itemId, out int qty) ? qty : 0;
 
+    private void RecordRecentItem(string itemId)
+    {
+        if (string.IsNullOrEmpty(itemId)) return;
+        _recentItemIds.Remove(itemId);
+        _recentItemIds.Insert(0, itemId);
+        if (_recentItemIds.Count > 24)
+        {
+            _recentItemIds.RemoveRange(24, _recentItemIds.Count - 24);
+        }
+    }
+
     public bool TryBuyShopItem(string itemId, int quantity, CurrencyType currency, int totalPrice)
     {
         if (string.IsNullOrEmpty(itemId) || quantity <= 0 || totalPrice < 0) return false;
         if (!TrySpendCurrency(currency, totalPrice)) return false;
 
         _itemQuantities[itemId] = GetItemQuantity(itemId) + quantity;
+        RecordRecentItem(itemId);
+        EmitSignal(SignalName.InventoryChanged);
+        SaveToDisk();
+        return true;
+    }
+
+    public sealed class GiftRewardEntry
+    {
+        public string Name { get; init; }
+        public string AmountText { get; init; }
+        public string IconPath { get; init; }
+        public Color IconTint { get; init; } = Colors.White;
+        public Color AccentColor { get; init; } = new Color(1.0f, 0.85f, 0.30f, 1f);
+    }
+
+    public bool TryOpenGiftBag(string giftId, out List<GiftRewardEntry> rewards, out string rewardSummary)
+    {
+        rewards = new List<GiftRewardEntry>();
+        rewardSummary = "";
+        int qty = GetItemQuantity(giftId);
+        if (string.IsNullOrEmpty(giftId) || qty <= 0) return false;
+
+        int nextQty = qty - 1;
+        if (nextQty > 0) _itemQuantities[giftId] = nextQty;
+        else _itemQuantities.Remove(giftId);
+
+        if (giftId == "gift_tan_thu")
+        {
+            Coins += 300;
+            Rau += 50;
+            _itemQuantities["item_tra_da"] = GetItemQuantity("item_tra_da") + 2;
+            RecordRecentItem("item_tra_da");
+
+            rewards.Add(new GiftRewardEntry
+            {
+                Name = "Vàng Chợ",
+                AmountText = "+300",
+                IconPath = "res://assets/sprites/icons/coin.png",
+                AccentColor = new Color(1.0f, 0.84f, 0.25f, 1f)
+            });
+            rewards.Add(new GiftRewardEntry
+            {
+                Name = "Rau Sạch",
+                AmountText = "+50",
+                IconPath = "res://assets/sprites/icons/rau.png",
+                AccentColor = new Color(0.45f, 0.94f, 0.45f, 1f)
+            });
+            rewards.Add(new GiftRewardEntry
+            {
+                Name = "Trà Đá Hồi Sức",
+                AmountText = "x2",
+                IconPath = "res://assets/sprites/icons/emotion.png",
+                IconTint = new Color(0.55f, 0.95f, 1.0f, 1f),
+                AccentColor = new Color(0.42f, 0.90f, 1.0f, 1f)
+            });
+            rewardSummary = "Đã mở Túi Quà Tân Thủ: +300 Vàng · +50 Rau · x2 Trà Đá Hồi Sức!";
+        }
+        else
+        {
+            int rollGold = GD.RandRange(150, 400);
+            int rollRau = GD.RandRange(25, 65);
+            string[] consumablePool = { "item_tra_da", "item_nuoc_mia", "item_bua_x2", "item_hat_giong" };
+            string pickedId = consumablePool[GD.RandRange(0, consumablePool.Length - 1)];
+            var pickedMeta = GameCatalog.FindConsumable(pickedId);
+            string pickedName = pickedMeta?.Name ?? pickedId;
+
+            Coins += rollGold;
+            Rau += rollRau;
+            _itemQuantities[pickedId] = GetItemQuantity(pickedId) + 1;
+            RecordRecentItem(pickedId);
+
+            rewards.Add(new GiftRewardEntry
+            {
+                Name = "Vàng Chợ",
+                AmountText = $"+{rollGold:N0}",
+                IconPath = "res://assets/sprites/icons/coin.png",
+                AccentColor = new Color(1.0f, 0.84f, 0.25f, 1f)
+            });
+            rewards.Add(new GiftRewardEntry
+            {
+                Name = "Rau Sạch",
+                AmountText = $"+{rollRau}",
+                IconPath = "res://assets/sprites/icons/rau.png",
+                AccentColor = new Color(0.45f, 0.94f, 0.45f, 1f)
+            });
+            rewards.Add(new GiftRewardEntry
+            {
+                Name = pickedName,
+                AmountText = "x1",
+                IconPath = pickedMeta?.IconPath ?? "res://assets/sprites/icons/tab_shop.png",
+                IconTint = pickedMeta?.IconTint ?? Colors.White,
+                AccentColor = new Color(0.55f, 0.95f, 0.72f, 1f)
+            });
+            rewardSummary = $"Đã mở Túi Lộc: +{rollGold:N0} Vàng · +{rollRau} Rau · x1 {pickedName}!";
+        }
+
+        EmitSignal(SignalName.CurrenciesChanged, Coins, Rau);
         EmitSignal(SignalName.InventoryChanged);
         SaveToDisk();
         return true;
@@ -437,6 +564,7 @@ public partial class PlayerDataManager : Node
         if (listing.ReceiveType == TradeAssetType.Item && !string.IsNullOrEmpty(listing.ReceiveItemId))
         {
             _itemQuantities[listing.ReceiveItemId] = GetItemQuantity(listing.ReceiveItemId) + listing.ReceiveAmount;
+            RecordRecentItem(listing.ReceiveItemId);
         }
         else if (listing.ReceiveType == TradeAssetType.Gold)
         {
@@ -512,6 +640,7 @@ public partial class PlayerDataManager : Node
 
         long nextTickets = (long)GachaTickets + count;
         GachaTickets = nextTickets > int.MaxValue ? int.MaxValue : (int)nextTickets;
+        RecordRecentItem("res_gacha_ticket");
         EmitSignal(SignalName.CurrenciesChanged, Coins, Rau);
         EmitSignal(SignalName.GachaStateChanged, GachaTickets, GachaPityCount);
         SaveToDisk();
@@ -574,6 +703,7 @@ public partial class PlayerDataManager : Node
                 else if (roll < 1000) // 6% +2 Vé
                 {
                     GachaTickets += 2;
+                    RecordRecentItem("res_gacha_ticket");
                     reward = new GachaRewardResult
                     {
                         Name = "Vé Rương May Mắn",
@@ -725,9 +855,23 @@ public partial class PlayerDataManager : Node
 
     private GachaRewardResult GrantCommonGachaReward()
     {
-        if (GD.Randf() < 0.35f)
+        float roll = GD.Randf();
+        if (roll < 0.30f)
         {
             return GrantResourcePackReward(largePack: false);
+        }
+        if (roll < 0.42f)
+        {
+            _itemQuantities["gift_loc_cho"] = GetItemQuantity("gift_loc_cho") + 1;
+            RecordRecentItem("gift_loc_cho");
+            return new GachaRewardResult
+            {
+                Name = "Túi Lộc Phiên Chợ",
+                AmountText = "x1",
+                IconPath = "res://assets/sprites/icons/coin_poster.png",
+                Rarity = GachaRarity.Uncommon,
+                Note = "Mở trong Túi đồ -> Túi quà"
+            };
         }
 
         (string Id, string Name, string IconPath, Color Tint)[] items =
@@ -742,6 +886,7 @@ public partial class PlayerDataManager : Node
 
         var picked = items[GD.RandRange(0, items.Length - 1)];
         _itemQuantities[picked.Id] = GetItemQuantity(picked.Id) + 1;
+        RecordRecentItem(picked.Id);
         return new GachaRewardResult
         {
             Name = picked.Name,
@@ -792,6 +937,7 @@ public partial class PlayerDataManager : Node
                 };
             case 5:
                 _itemQuantities["item_tra_da"] = GetItemQuantity("item_tra_da") + 1;
+                RecordRecentItem("item_tra_da");
                 return new GachaRewardResult
                 {
                     Name = "Trà Đá Hồi Sức",
@@ -813,6 +959,7 @@ public partial class PlayerDataManager : Node
                 };
             case 15:
                 GachaTickets += 2;
+                RecordRecentItem("res_gacha_ticket");
                 return new GachaRewardResult
                 {
                     Name = "Vé Rương May Mắn",
@@ -870,7 +1017,10 @@ public partial class PlayerDataManager : Node
                 EquippedSkinIndex = EquippedSkinIndex,
                 EquippedShopSkinId = EquippedShopSkinId,
                 HasClaimedStarterShopGift = HasClaimedStarterShopGift,
+                HasReceivedInventoryStarterGift = HasReceivedInventoryStarterGift,
+                HasReceivedLuckBagGift = HasReceivedLuckBagGift,
                 Items = new Dictionary<string, int>(_itemQuantities),
+                RecentItems = new List<string>(_recentItemIds),
                 UnlockedExtraSkins = new List<string>(_unlockedExtraSkins),
                 PlayerMarketListings = new List<MarketTradeListing>(_playerMarketListings),
                 Characters = new List<CharacterSaveDto>(_characters.Length)
@@ -937,6 +1087,8 @@ public partial class PlayerDataManager : Node
             IsHatUnlocked = dto.IsHatUnlocked;
             EquippedSkinIndex = (dto.EquippedSkinIndex == 1 && IsHatUnlocked) ? 1 : 0;
             HasClaimedStarterShopGift = dto.HasClaimedStarterShopGift;
+            HasReceivedInventoryStarterGift = dto.HasReceivedInventoryStarterGift;
+            HasReceivedLuckBagGift = dto.HasReceivedLuckBagGift;
 
             _itemQuantities.Clear();
             if (dto.Items != null)
@@ -950,6 +1102,19 @@ public partial class PlayerDataManager : Node
                 }
             }
 
+            if (!HasReceivedInventoryStarterGift)
+            {
+                HasReceivedInventoryStarterGift = true;
+                _itemQuantities["gift_tan_thu"] = GetItemQuantity("gift_tan_thu") + 1;
+                RecordRecentItem("gift_tan_thu");
+            }
+            if (!HasReceivedLuckBagGift)
+            {
+                HasReceivedLuckBagGift = true;
+                _itemQuantities["gift_loc_cho"] = GetItemQuantity("gift_loc_cho") + 1;
+                RecordRecentItem("gift_loc_cho");
+            }
+
             _unlockedExtraSkins.Clear();
             if (dto.UnlockedExtraSkins != null)
             {
@@ -958,6 +1123,18 @@ public partial class PlayerDataManager : Node
                     if (!string.IsNullOrEmpty(skinId))
                     {
                         _unlockedExtraSkins.Add(skinId);
+                    }
+                }
+            }
+
+            _recentItemIds.Clear();
+            if (dto.RecentItems != null)
+            {
+                foreach (var recentId in dto.RecentItems)
+                {
+                    if (!string.IsNullOrEmpty(recentId) && !_recentItemIds.Contains(recentId))
+                    {
+                        _recentItemIds.Add(recentId);
                     }
                 }
             }

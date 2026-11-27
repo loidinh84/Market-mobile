@@ -16,6 +16,7 @@ public partial class LobbyScreen : Control
 	[Export] private Button _logoutBtn;
 
 	private SettingsPanel _settingsPanel;
+	private SettingsModal _settingsModal;
 	private LeftSidebar _leftSidebar;
 	private Node2D _characterDisplay;
 	private Control _topBar;
@@ -29,6 +30,7 @@ public partial class LobbyScreen : Control
 	private const string CharacterScenePath = "res://scenes/ui/character_screen.tscn";
 	private const string EventsScenePath = "res://scenes/ui/events_screen.tscn";
 	private const string ShopScenePath = "res://scenes/ui/shop_screen.tscn";
+	private const string SettingsModalScenePath = "res://prefabs/ui/settings_modal.tscn";
 	private Control _embeddedHost;
 	private Control _modalOverlayHost;
 	private PackedScene _characterScene;
@@ -57,7 +59,7 @@ public partial class LobbyScreen : Control
 			GetNodeOrNull<SidebarTab>("LeftSidebar/TabsVBox/Tab1_NhanVat"),
 			GetNodeOrNull<SidebarTab>("LeftSidebar/TabsVBox/Tab2_SuKien"),
 			GetNodeOrNull<SidebarTab>("LeftSidebar/TabsVBox/Tab3_CuaHang"),
-			GetNodeOrNull<SidebarTab>("LeftSidebar/TabsVBox/Tab4_CaiDat")
+			GetNodeOrNull<SidebarTab>("LeftSidebar/TabsVBox/Tab4_TuiDo")
 		};
 
 		if (_leftSidebar != null)
@@ -65,6 +67,7 @@ public partial class LobbyScreen : Control
 			_leftSidebar.IsShellHost = true;
 			_leftSidebar.TabSelected += OnTabSelected;
 			_leftSidebar.TabReselected += OnTabReselected;
+			_leftSidebar.SettingsRequested += OnSettingsRequested;
 		}
 		else
 		{
@@ -170,7 +173,9 @@ public partial class LobbyScreen : Control
 		if (_settingsPanel != null)
 		{
 			_settingsPanel.Visible = false;
-			_settingsPanel.LogoutRequested += OnLogoutPressed;
+			_settingsPanel.ConfigureModalHost(_modalOverlayHost);
+			_settingsPanel.GoToShopRequested += OnInventoryGoToShop;
+			_settingsPanel.GoToEventsRequested += OnInventoryGoToEvents;
 		}
 
 		// Responsive character layout
@@ -200,23 +205,30 @@ public partial class LobbyScreen : Control
 		// Gắn hiệu ứng nhún (bounce) và tắt hover cho toàn bộ các nút bấm
 		UIButtonHelper.AttachToAllButtons(this);
 
-		// Nếu chuyển từ màn hình khác sang với cờ mở Settings (ví dụ từ tab Cài đặt bên shop/nhân vật)
-		// Áp dụng ngay để tránh flash 1 frame lobby content trước khi settings hiện
-		if (_data != null && _data.PendingOpenSettings)
+		// Nếu chuyển từ màn hình khác sang với cờ mở Túi đồ hoặc popup Cài đặt
+		if (_data != null && _data.PendingOpenInventory)
 		{
-			_data.PendingOpenSettings = false;
+			_data.PendingOpenInventory = false;
 			_currentTabIndex = 4;
 
-			// Cập nhật visual tab sidebar (LeftSidebar._Ready() đã chạy trước với Tab0 active)
 			if (_leftSidebar != null) _leftSidebar.SetActiveTabVisual(4);
 
-			// Ẩn toàn bộ lobby UI, chỉ hiện Settings ngay lập tức (không delay frame)
 			if (_characterDisplay != null) _characterDisplay.Visible = false;
 			if (_topBar != null) _topBar.Visible = false;
 			if (_nameBanner != null) _nameBanner.Visible = false;
 			if (_rightColumn != null) _rightColumn.Visible = false;
 			if (_chatBox != null) _chatBox.Visible = false;
-			if (_settingsPanel != null) _settingsPanel.Visible = true;
+			if (_settingsPanel != null)
+			{
+				_settingsPanel.RefreshInventory();
+				_settingsPanel.Visible = true;
+			}
+		}
+
+		if (_data != null && _data.PendingOpenSettings)
+		{
+			_data.PendingOpenSettings = false;
+			OpenSettingsModal();
 		}
 
 		// Khởi tạo ngầm màn hình Nhân vật & Cửa hàng ở các frame kế tiếp để chuyển tab tức thì
@@ -231,6 +243,12 @@ public partial class LobbyScreen : Control
 		{
 			_leftSidebar.TabSelected -= OnTabSelected;
 			_leftSidebar.TabReselected -= OnTabReselected;
+			_leftSidebar.SettingsRequested -= OnSettingsRequested;
+		}
+		if (_settingsPanel != null)
+		{
+			_settingsPanel.GoToShopRequested -= OnInventoryGoToShop;
+			_settingsPanel.GoToEventsRequested -= OnInventoryGoToEvents;
 		}
 		if (_data != null)
 		{
@@ -349,8 +367,8 @@ public partial class LobbyScreen : Control
 		bool isChars = tabIndex == 1;
 		bool isEvents = tabIndex == 2;
 		bool isShop = tabIndex == 3;
-		bool isSettings = tabIndex == 4;
-		bool isLobby = !isChars && !isEvents && !isShop && !isSettings;
+		bool isInventory = tabIndex == 4;
+		bool isLobby = !isChars && !isEvents && !isShop && !isInventory;
 
 		if (!isLobby && _isDropdownOpen)
 		{
@@ -378,7 +396,7 @@ public partial class LobbyScreen : Control
 		if (_nameBanner != null) _nameBanner.Visible = isLobby;
 		if (_rightColumn != null) _rightColumn.Visible = isLobby;
 		if (_chatBox != null) _chatBox.Visible = isLobby;
-		if (_settingsPanel != null) _settingsPanel.Visible = isSettings;
+		if (_settingsPanel != null) _settingsPanel.Visible = isInventory;
 
 		_tabContentTween?.Kill();
 
@@ -409,10 +427,13 @@ public partial class LobbyScreen : Control
 				FadeInControl(shop);
 			}
 		}
-		else if (isSettings)
+		else if (isInventory)
 		{
 			if (_settingsPanel != null)
+			{
+				_settingsPanel.RefreshInventory();
 				FadeInControl(_settingsPanel);
+			}
 		}
 		else
 		{
@@ -627,6 +648,48 @@ public partial class LobbyScreen : Control
 	{
 		DisplayServer.ClipboardSet("123467");
 		GD.Print("Copied ID to clipboard!");
+	}
+
+	private void OnSettingsRequested()
+	{
+		OpenSettingsModal();
+	}
+
+	private void OpenSettingsModal()
+	{
+		if (!IsInstanceValid(_settingsModal))
+		{
+			var host = _modalOverlayHost ?? (Control)this;
+			var packed = GD.Load<PackedScene>(SettingsModalScenePath);
+			_settingsModal = packed?.Instantiate<SettingsModal>();
+			if (_settingsModal != null)
+			{
+				_settingsModal.LogoutRequested += OnLogoutPressed;
+				host.AddChild(_settingsModal);
+			}
+		}
+
+		_settingsModal?.OpenModal();
+	}
+
+	private void OnInventoryGoToShop(int shopTabIndex)
+	{
+		if (_data != null && shopTabIndex >= 0)
+		{
+			_data.PendingShopTabIndex = shopTabIndex;
+		}
+		if (_leftSidebar != null)
+		{
+			_leftSidebar.SelectTab(3);
+		}
+	}
+
+	private void OnInventoryGoToEvents()
+	{
+		if (_leftSidebar != null)
+		{
+			_leftSidebar.SelectTab(2);
+		}
 	}
 
 	private void OnLogoutPressed()

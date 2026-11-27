@@ -1,5 +1,6 @@
 using Godot;
 using MarketMobile.Core;
+using MarketMobile.Utils;
 
 namespace MarketMobile.UI;
 
@@ -11,6 +12,9 @@ public partial class LeftSidebar : Control
     [Signal]
     public delegate void TabReselectedEventHandler(int tabIndex);
 
+    [Signal]
+    public delegate void SettingsRequestedEventHandler();
+
     [Export] public int ActiveTabIndex { get; set; } = 0;
 
     /// <summary>
@@ -20,6 +24,8 @@ public partial class LeftSidebar : Control
     public bool IsShellHost { get; set; } = false;
 
     private SidebarTab[] _tabs;
+    private TextureButton _settingBtn;
+    private SettingsModal _localSettingsModal;
     private bool _isSwitchingScene = false;
 
     public override void _Ready()
@@ -30,7 +36,7 @@ public partial class LeftSidebar : Control
             GetNodeOrNull<SidebarTab>("TabsVBox/Tab1_NhanVat"),
             GetNodeOrNull<SidebarTab>("TabsVBox/Tab2_SuKien"),
             GetNodeOrNull<SidebarTab>("TabsVBox/Tab3_CuaHang"),
-            GetNodeOrNull<SidebarTab>("TabsVBox/Tab4_CaiDat")
+            GetNodeOrNull<SidebarTab>("TabsVBox/Tab4_TuiDo")
         };
 
         for (int i = 0; i < _tabs.Length; i++)
@@ -42,6 +48,62 @@ public partial class LeftSidebar : Control
                 _tabs[i].SetActive(i == ActiveTabIndex, false);
             }
         }
+
+        _settingBtn = GetNodeOrNull<TextureButton>("SettingBtn");
+        if (_settingBtn != null)
+        {
+            _settingBtn.Pressed += OnSettingBtnPressed;
+            UIButtonHelper.AttachBounceEffect(_settingBtn);
+        }
+    }
+
+    public override void _ExitTree()
+    {
+        if (_settingBtn != null)
+        {
+            _settingBtn.Pressed -= OnSettingBtnPressed;
+        }
+    }
+
+    private void OnSettingBtnPressed()
+    {
+        if (_settingBtn != null)
+        {
+            _settingBtn.PivotOffset = _settingBtn.Size / 2f;
+            var spinTween = CreateTween();
+            spinTween.TweenProperty(_settingBtn, "rotation", Mathf.DegToRad(35f), 0.14f)
+                .SetTrans(Tween.TransitionType.Quad)
+                .SetEase(Tween.EaseType.Out);
+            spinTween.TweenProperty(_settingBtn, "rotation", 0f, 0.18f)
+                .SetTrans(Tween.TransitionType.Back)
+                .SetEase(Tween.EaseType.Out);
+        }
+
+        if (IsShellHost)
+        {
+            EmitSignal(SignalName.SettingsRequested);
+            return;
+        }
+
+        // Mở popup Cài đặt ngay trên scene hiện tại (ví dụ friends_screen) nếu chạy ngoài shell
+        var host = GetTree().CurrentScene;
+        if (host == null) return;
+
+        if (!IsInstanceValid(_localSettingsModal))
+        {
+            var packed = ResourceLoader.Load<PackedScene>("res://prefabs/ui/settings_modal.tscn");
+            _localSettingsModal = packed?.Instantiate<SettingsModal>();
+            if (_localSettingsModal != null)
+            {
+                _localSettingsModal.LogoutRequested += () =>
+                {
+                    GetTree().ChangeSceneToFile("res://scenes/ui/login_screen.tscn");
+                };
+                host.AddChild(_localSettingsModal);
+            }
+        }
+
+        _localSettingsModal?.OpenModal();
     }
 
     /// <summary>
@@ -146,12 +208,12 @@ public partial class LeftSidebar : Control
                 }
                 break;
             case 4:
-                GD.Print("[LeftSidebar] Mở Cài đặt");
+                GD.Print("[LeftSidebar] Mở Túi đồ");
                 if (currentScenePath != "res://scenes/ui/lobby_screen.tscn")
                 {
                     _isSwitchingScene = true;
                     var data = GetNodeOrNull<PlayerDataManager>("/root/PlayerDataManager");
-                    if (data != null) data.PendingOpenSettings = true;
+                    if (data != null) data.PendingOpenInventory = true;
                     await ToSignal(GetTree().CreateTimer(0.24f), SceneTreeTimer.SignalName.Timeout);
                     GetTree().ChangeSceneToFile("res://scenes/ui/lobby_screen.tscn");
                 }

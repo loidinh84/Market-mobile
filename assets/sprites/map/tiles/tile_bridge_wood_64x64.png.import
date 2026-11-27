@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwan2oe3rh2gk"
-path="res://.godot/imported/tab_setting.png-e5968026f5e8a368da947616d16e7efe.ctex"
+uid="uid://bu0uwofgujmog"
+path="res://.godot/imported/tile_bridge_wood_64x64.png-af75c0449147cae4afbe081c9987a9df.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/icons/tab_setting.png"
-dest_files=["res://.godot/imported/tab_setting.png-e5968026f5e8a368da947616d16e7efe.ctex"]
+source_file="res://assets/sprites/map/tiles/tile_bridge_wood_64x64.png"
+dest_files=["res://.godot/imported/tile_bridge_wood_64x64.png-af75c0449147cae4afbe081c9987a9df.ctex"]
 
 [params]
 

@@ -1,39 +1,161 @@
 [gd_scene format=3 uid="uid://doo0fbyyhpvuf"]
 
 [ext_resource type="FontFile" uid="uid://cjd25dmr5o11b" path="res://assets/fonts/FZ-Orcish.ttf" id="1_font"]
-[ext_resource type="PackedScene" uid="uid://cqikuvhbt1mqq" path="res://prefabs/ui/game_background.tscn" id="2_75ucs"]
-[ext_resource type="Texture2D" uid="uid://cusqy2oiuerwj" path="res://assets/sprites/icons/sound.png" id="2_sound"]
-[ext_resource type="Texture2D" uid="uid://fnjig16aph6b" path="res://assets/sprites/icons/btn_sound.png" id="3_btn_sound"]
-[ext_resource type="Texture2D" uid="uid://m2na6cn0x5wy" path="res://assets/sprites/icons/check_sound.png" id="4_check"]
-[ext_resource type="Texture2D" uid="uid://cb8riuvk06j1x" path="res://assets/sprites/icons/language_name.png" id="5_lang_name"]
-[ext_resource type="Texture2D" uid="uid://d17aqb1jbwo6y" path="res://assets/sprites/icons/logout.png" id="6_logout"]
-[ext_resource type="Texture2D" uid="uid://dffk8rviacr1f" path="res://assets/sprites/icons/logout_name.png" id="7_logout_name"]
-[ext_resource type="Script" uid="uid://bnshi5qdlbwhf" path="res://scripts/UI/SettingsPanel.cs" id="8_script"]
-[ext_resource type="Texture2D" uid="uid://cvo0wueq5dvmu" path="res://assets/sprites/icons/language.png" id="9_language"]
+[ext_resource type="Script" uid="uid://bnshi5qdlbwhf" path="res://scripts/UI/SettingsPanel.cs" id="2_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/icons/backpack.png" id="3_backpack"]
+[ext_resource type="Texture2D" path="res://assets/sprites/icons/animation_chest/chest_full_00.png" id="4_chest"]
 
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_divider"]
-color = Color(1, 1, 1, 0.55)
-thickness = 2
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_inventory_card"]
+content_margin_left = 26.0
+content_margin_top = 24.0
+content_margin_right = 26.0
+content_margin_bottom = 24.0
+bg_color = Color(0.18, 0.12, 0.32, 0.96)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 0.25)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slider_bg"]
-bg_color = Color(0.84, 0.86, 0.9, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
-expand_margin_top = 4.0
-expand_margin_bottom = 4.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_green"]
+content_margin_left = 18.0
+content_margin_top = 10.0
+content_margin_right = 18.0
+content_margin_bottom = 10.0
+bg_color = Color(0.15, 0.68, 0.35, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45, 0.95, 0.62, 0.85)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slider_fill"]
-bg_color = Color(0.31, 0.63, 0.96, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
-expand_margin_top = 4.0
-expand_margin_bottom = 4.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_green_hover"]
+content_margin_left = 18.0
+content_margin_top = 10.0
+content_margin_right = 18.0
+content_margin_bottom = 10.0
+bg_color = Color(0.20, 0.78, 0.42, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.55, 1, 0.72, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
 
-[node name="SettingsPanel" type="Control" unique_id=921039950]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_left_inset"]
+bg_color = Color(0.10, 0.05, 0.20, 0.78)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45, 0.35, 0.72, 0.4)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_inspector"]
+bg_color = Color(0.14, 0.08, 0.27, 0.94)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.95, 0.78, 0.28, 0.45)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tag_pill"]
+content_margin_left = 14.0
+content_margin_top = 4.0
+content_margin_right = 14.0
+content_margin_bottom = 4.0
+bg_color = Color(0.26, 0.18, 0.46, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.22)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_icon_box"]
+bg_color = Color(0.09, 0.04, 0.18, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.95, 0.78, 0.28, 0.55)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_filter_btn"]
+content_margin_left = 16.0
+content_margin_top = 10.0
+content_margin_right = 16.0
+content_margin_bottom = 10.0
+bg_color = Color(0.25, 0.18, 0.44, 0.95)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_glow_halo"]
+bg_color = Color(1, 0.85, 0.3, 0.32)
+corner_radius_top_left = 160
+corner_radius_top_right = 160
+corner_radius_bottom_right = 160
+corner_radius_bottom_left = 160
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_reward_dialog"]
+content_margin_left = 34.0
+content_margin_top = 28.0
+content_margin_right = 34.0
+content_margin_bottom = 28.0
+bg_color = Color(0.12, 0.06, 0.24, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 0.82, 0.28, 0.95)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_gold"]
+content_margin_left = 24.0
+content_margin_top = 10.0
+content_margin_right = 24.0
+content_margin_bottom = 10.0
+bg_color = Color(0.95, 0.72, 0.16, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.92, 0.55, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="SettingsPanel" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -41,234 +163,418 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = ExtResource("8_script")
+script = ExtResource("2_script")
 
-[node name="Background" parent="." unique_id=215031108 instance=ExtResource("2_75ucs")]
-layout_mode = 1
-
-[node name="ContentMargin" type="MarginContainer" parent="." unique_id=175658334]
+[node name="InventoryCard" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 480.0
+offset_top = 34.0
+offset_right = -40.0
+offset_bottom = -28.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
-theme_override_constants/margin_left = 520
-theme_override_constants/margin_top = 80
-theme_override_constants/margin_right = 100
-theme_override_constants/margin_bottom = 80
+theme_override_styles/panel = SubResource("StyleBoxFlat_inventory_card")
 
-[node name="MainVBox" type="VBoxContainer" parent="ContentMargin" unique_id=532230849]
+[node name="MainVBox" type="VBoxContainer" parent="InventoryCard"]
 layout_mode = 2
-mouse_filter = 2
-theme_override_constants/separation = 32
+theme_override_constants/separation = 18
 
-[node name="SoundHeaderHBox" type="HBoxContainer" parent="ContentMargin/MainVBox" unique_id=1644258681]
-custom_minimum_size = Vector2(0, 72)
+[node name="FilterRow" type="HBoxContainer" parent="InventoryCard/MainVBox"]
+custom_minimum_size = Vector2(0, 62)
 layout_mode = 2
-mouse_filter = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 10
 
-[node name="SoundIcon" type="TextureRect" parent="ContentMargin/MainVBox/SoundHeaderHBox" unique_id=368364807]
-custom_minimum_size = Vector2(72, 66)
+[node name="FilterAllBtn" type="Button" parent="InventoryCard/MainVBox/FilterRow"]
+custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
-size_flags_vertical = 4
-mouse_filter = 2
-texture = ExtResource("2_sound")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="SoundTitle" type="Label" parent="ContentMargin/MainVBox/SoundHeaderHBox" unique_id=193670028]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+focus_mode = 0
+mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("1_font")
-theme_override_font_sizes/font_size = 56
-text = "Âm thanh"
+theme_override_font_sizes/font_size = 29
+theme_override_styles/normal = SubResource("StyleBoxFlat_filter_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_filter_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_filter_btn")
+text = "Tất cả"
 
-[node name="Divider" type="HSeparator" parent="ContentMargin/MainVBox" unique_id=1854397898]
-custom_minimum_size = Vector2(0, 6)
+[node name="FilterRecentBtn" type="Button" parent="InventoryCard/MainVBox/FilterRow"]
+custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
-mouse_filter = 2
-theme_override_styles/separator = SubResource("StyleBoxLine_divider")
-
-[node name="VolumeRow" type="HBoxContainer" parent="ContentMargin/MainVBox" unique_id=1128866387]
-custom_minimum_size = Vector2(0, 64)
-layout_mode = 2
-mouse_filter = 2
-theme_override_constants/separation = 28
-
-[node name="VolumeLabel" type="Label" parent="ContentMargin/MainVBox/VolumeRow" unique_id=1720969439]
-custom_minimum_size = Vector2(240, 0)
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+focus_mode = 0
+mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("1_font")
-theme_override_font_sizes/font_size = 44
-text = "Âm lượng:"
+theme_override_font_sizes/font_size = 29
+theme_override_styles/normal = SubResource("StyleBoxFlat_filter_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_filter_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_filter_btn")
+text = "Gần đây"
 
-[node name="VolumeSlider" type="HSlider" parent="ContentMargin/MainVBox/VolumeRow" unique_id=620682114]
-custom_minimum_size = Vector2(0, 44)
+[node name="FilterItemsBtn" type="Button" parent="InventoryCard/MainVBox/FilterRow"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 29
+theme_override_styles/normal = SubResource("StyleBoxFlat_filter_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_filter_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_filter_btn")
+text = "Vật phẩm"
+
+[node name="FilterConsumablesBtn" type="Button" parent="InventoryCard/MainVBox/FilterRow"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 29
+theme_override_styles/normal = SubResource("StyleBoxFlat_filter_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_filter_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_filter_btn")
+text = "Tiêu thụ"
+
+[node name="FilterResourcesBtn" type="Button" parent="InventoryCard/MainVBox/FilterRow"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 29
+theme_override_styles/normal = SubResource("StyleBoxFlat_filter_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_filter_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_filter_btn")
+text = "Tài nguyên"
+
+[node name="FilterGiftBagsBtn" type="Button" parent="InventoryCard/MainVBox/FilterRow"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 29
+theme_override_styles/normal = SubResource("StyleBoxFlat_filter_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_filter_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_filter_btn")
+text = "Túi quà"
+
+[node name="Spacer" type="Control" parent="InventoryCard/MainVBox/FilterRow"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 4
+
+[node name="GoShopBtn" type="Button" parent="InventoryCard/MainVBox/FilterRow"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
-theme_override_styles/slider = SubResource("StyleBoxFlat_slider_bg")
-theme_override_styles/grabber_area = SubResource("StyleBoxFlat_slider_fill")
-theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_slider_fill")
-value = 80.0
-
-[node name="VolumeValueLabel" type="Label" parent="ContentMargin/MainVBox/VolumeRow" unique_id=1394156858]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("1_font")
-theme_override_font_sizes/font_size = 44
-text = "80/100"
-horizontal_alignment = 2
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_green")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_green")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_green_hover")
+text = "Tới Cửa hàng"
 
-[node name="SoundToggleRow" type="HBoxContainer" parent="ContentMargin/MainVBox" unique_id=147640178]
-custom_minimum_size = Vector2(0, 68)
+[node name="SplitHBox" type="HBoxContainer" parent="InventoryCard/MainVBox"]
 layout_mode = 2
-mouse_filter = 2
-theme_override_constants/separation = 20
+size_flags_vertical = 3
+theme_override_constants/separation = 18
 
-[node name="MuteLabel" type="Label" parent="ContentMargin/MainVBox/SoundToggleRow" unique_id=858791771]
-custom_minimum_size = Vector2(240, 0)
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("1_font")
-theme_override_font_sizes/font_size = 44
-text = "Bật/Tắt:"
-
-[node name="Spacer" type="Control" parent="ContentMargin/MainVBox/SoundToggleRow" unique_id=1848404288]
+[node name="LeftInset" type="PanelContainer" parent="InventoryCard/MainVBox/SplitHBox"]
 layout_mode = 2
 size_flags_horizontal = 3
-mouse_filter = 2
+size_flags_stretch_ratio = 1.65
+theme_override_styles/panel = SubResource("StyleBoxFlat_left_inset")
 
-[node name="MuteStatusLabel" type="Label" parent="ContentMargin/MainVBox/SoundToggleRow" unique_id=204815588]
-custom_minimum_size = Vector2(180, 0)
+[node name="Margin" type="MarginContainer" parent="InventoryCard/MainVBox/SplitHBox/LeftInset"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 18
+
+[node name="Scroll" type="ScrollContainer" parent="InventoryCard/MainVBox/SplitHBox/LeftInset/Margin"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="VBox" type="VBoxContainer" parent="InventoryCard/MainVBox/SplitHBox/LeftInset/Margin/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ItemsGrid" type="GridContainer" parent="InventoryCard/MainVBox/SplitHBox/LeftInset/Margin/Scroll/VBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 14
+columns = 3
+
+[node name="EmptyStateBox" type="VBoxContainer" parent="InventoryCard/MainVBox/SplitHBox/LeftInset/Margin/Scroll/VBox"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="EmptyLabel" type="Label" parent="InventoryCard/MainVBox/SplitHBox/LeftInset/Margin/Scroll/VBox/EmptyStateBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.84, 0.78, 0.96, 0.9)
 theme_override_fonts/font = ExtResource("1_font")
-theme_override_font_sizes/font_size = 40
-text = "Đang bật"
-horizontal_alignment = 2
+theme_override_font_sizes/font_size = 26
+text = "Túi đồ hiện đang trống."
+horizontal_alignment = 1
+autowrap_mode = 3
 
-[node name="SoundSwitchBtn" type="TextureButton" parent="ContentMargin/MainVBox/SoundToggleRow" unique_id=323617823]
-custom_minimum_size = Vector2(119, 59)
+[node name="EmptyShopBtn" type="Button" parent="InventoryCard/MainVBox/SplitHBox/LeftInset/Margin/Scroll/VBox/EmptyStateBox"]
+custom_minimum_size = Vector2(220, 54)
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_horizontal = 4
 focus_mode = 0
 mouse_default_cursor_shape = 2
-texture_normal = ExtResource("3_btn_sound")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="Knob" type="TextureRect" parent="ContentMargin/MainVBox/SoundToggleRow/SoundSwitchBtn" unique_id=716117856]
-layout_mode = 0
-offset_left = 54.0
-offset_top = 8.0
-offset_right = 104.0
-offset_bottom = 50.0
-mouse_filter = 2
-texture = ExtResource("4_check")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="LanguageRow" type="HBoxContainer" parent="ContentMargin/MainVBox" unique_id=1502643341]
-custom_minimum_size = Vector2(0, 77)
-layout_mode = 2
-mouse_filter = 2
-theme_override_constants/separation = 20
-
-[node name="LangIcon" type="TextureRect" parent="ContentMargin/MainVBox/LanguageRow" unique_id=2018636370]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-size_flags_vertical = 4
-mouse_filter = 2
-texture = ExtResource("9_language")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="LangLabel" type="Label" parent="ContentMargin/MainVBox/LanguageRow" unique_id=920264159]
-custom_minimum_size = Vector2(220, 0)
-layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("1_font")
-theme_override_font_sizes/font_size = 48
-text = "Ngôn ngữ"
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_green")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_green")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_green_hover")
+text = "Ghé Cửa hàng"
 
-[node name="LangBtn" type="TextureButton" parent="ContentMargin/MainVBox/LanguageRow" unique_id=1400546903]
-custom_minimum_size = Vector2(220, 77)
+[node name="InspectorPanel" type="PanelContainer" parent="InventoryCard/MainVBox/SplitHBox"]
+custom_minimum_size = Vector2(370, 0)
 layout_mode = 2
-size_flags_vertical = 4
-focus_mode = 0
-mouse_default_cursor_shape = 2
-texture_normal = ExtResource("5_lang_name")
-ignore_texture_size = true
-stretch_mode = 0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_inspector")
 
-[node name="Label" type="Label" parent="ContentMargin/MainVBox/LanguageRow/LangBtn" unique_id=1193670883]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 21.0
-offset_right = -24.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0.08, 0.08, 0.1, 1)
+[node name="Margin" type="MarginContainer" parent="InventoryCard/MainVBox/SplitHBox/InspectorPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="EmptyHint" type="Label" parent="InventoryCard/MainVBox/SplitHBox/InspectorPanel/Margin"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.75, 0.70, 0.88, 0.8)
 theme_override_fonts/font = ExtResource("1_font")
-theme_override_font_sizes/font_size = 36
-text = "Tiếng Việt"
+theme_override_font_sizes/font_size = 24
+text = "Chọn một món trong túi để xem chi tiết"
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 3
 
-[node name="LogoutBtn" type="TextureButton" parent="." unique_id=698792807]
+[node name="DetailContent" type="VBoxContainer" parent="InventoryCard/MainVBox/SplitHBox/InspectorPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="TagPill" type="PanelContainer" parent="InventoryCard/MainVBox/SplitHBox/InspectorPanel/Margin/DetailContent"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_tag_pill")
+
+[node name="TagLabel" type="Label" parent="InventoryCard/MainVBox/SplitHBox/InspectorPanel/Margin/DetailContent/TagPill"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.35, 1)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 20
+text = "Tiêu thụ"
+
+[node name="IconBox" type="PanelContainer" parent="InventoryCard/MainVBox/SplitHBox/InspectorPanel/Margin/DetailContent"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_icon_box")
+
+[node name="IconRect" type="TextureRect" parent="InventoryCard/MainVBox/SplitHBox/InspectorPanel/Margin/DetailContent/IconBox"]
+layout_mode = 2
+texture = ExtResource("3_backpack")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DetailTitle" type="Label" parent="InventoryCard/MainVBox/SplitHBox/InspectorPanel/Margin/DetailContent"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.98, 0.92, 1)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 34
+text = "Tên vật phẩm"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="DetailQty" type="Label" parent="InventoryCard/MainVBox/SplitHBox/InspectorPanel/Margin/DetailContent"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.38, 1)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 24
+text = "Số lượng: x1"
+horizontal_alignment = 1
+
+[node name="DetailSummary" type="Label" parent="InventoryCard/MainVBox/SplitHBox/InspectorPanel/Margin/DetailContent"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.95, 0.72, 1)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 24
+text = "Hiệu ứng"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="DetailDesc" type="Label" parent="InventoryCard/MainVBox/SplitHBox/InspectorPanel/Margin/DetailContent"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.86, 0.82, 0.95, 0.95)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 22
+text = "Mô tả chi tiết."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="ActionBtn" type="Button" parent="InventoryCard/MainVBox/SplitHBox/InspectorPanel/Margin/DetailContent"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_green")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_green")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_green_hover")
+text = "Hành động"
+
+[node name="GiftRewardModal" type="Control" parent="."]
+visible = false
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Backdrop" type="ColorRect" parent="GiftRewardModal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.02, 0.1, 0.78)
+
+[node name="Center" type="CenterContainer" parent="GiftRewardModal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ChestStage" type="Control" parent="GiftRewardModal/Center"]
+custom_minimum_size = Vector2(360, 340)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="GlowHalo" type="Panel" parent="GiftRewardModal/Center/ChestStage"]
+custom_minimum_size = Vector2(280, 280)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.0
+offset_top = -155.0
+offset_right = 140.0
+offset_bottom = 125.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_glow_halo")
+
+[node name="OpeningIcon" type="TextureRect" parent="GiftRewardModal/Center/ChestStage"]
+custom_minimum_size = Vector2(210, 210)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -105.0
+offset_top = -120.0
+offset_right = 105.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_chest")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="OpeningLabel" type="Label" parent="GiftRewardModal/Center/ChestStage"]
+layout_mode = 1
+anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -330.0
-offset_top = -146.0
-offset_right = -80.0
-offset_bottom = -60.0
-grow_horizontal = 0
-grow_vertical = 0
-focus_mode = 0
-mouse_default_cursor_shape = 2
-texture_normal = ExtResource("7_logout_name")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="HBox" type="HBoxContainer" parent="LogoutBtn" unique_id=1341510042]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 10.0
-offset_right = -18.0
+offset_top = -54.0
 grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_constants/separation = 12
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 0.9, 0.45, 1)
+theme_override_colors/font_outline_color = Color(0.1, 0.04, 0.2, 0.95)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 30
+text = "Đang mở Túi Quà..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RewardDialog" type="PanelContainer" parent="GiftRewardModal/Center"]
+visible = false
+custom_minimum_size = Vector2(740, 460)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_reward_dialog")
+
+[node name="VBox" type="VBoxContainer" parent="GiftRewardModal/Center/RewardDialog"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TitleLabel" type="Label" parent="GiftRewardModal/Center/RewardDialog/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.35, 1)
+theme_override_colors/font_outline_color = Color(0.25, 0.1, 0.02, 0.9)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 42
+text = "Nhận Quà Thành Công!"
+horizontal_alignment = 1
+
+[node name="BagSourceLabel" type="Label" parent="GiftRewardModal/Center/RewardDialog/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.84, 0.98, 0.95)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 24
+text = "Phần thưởng từ Túi Quà Tân Thủ"
+horizontal_alignment = 1
+
+[node name="RewardsRow" type="HBoxContainer" parent="GiftRewardModal/Center/RewardDialog/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 20
 alignment = 1
 
-[node name="Icon" type="TextureRect" parent="LogoutBtn/HBox" unique_id=1194206423]
-custom_minimum_size = Vector2(33, 37)
+[node name="ConfirmBtn" type="Button" parent="GiftRewardModal/Center/RewardDialog/VBox"]
+custom_minimum_size = Vector2(240, 56)
 layout_mode = 2
-size_flags_vertical = 4
-mouse_filter = 2
-texture = ExtResource("6_logout")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Label" type="Label" parent="LogoutBtn/HBox" unique_id=1425260167]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+size_flags_horizontal = 4
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.2, 0.1, 0.04, 1)
 theme_override_fonts/font = ExtResource("1_font")
-theme_override_font_sizes/font_size = 36
-text = "Đăng xuất"
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_gold")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_gold")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_gold")
+text = "Nhận ngay"

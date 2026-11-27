@@ -1,0 +1,345 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/UI/SettingsModal.cs" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/icons/modal_setting.png" id="2_modal_bg"]
+[ext_resource type="FontFile" uid="uid://cjd25dmr5o11b" path="res://assets/fonts/FZ-Orcish.ttf" id="3_font"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_close"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slider_bg"]
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.84, 0.76, 0.62, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.55, 0.45, 0.32, 0.85)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slider_fill"]
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.24, 0.52, 0.88, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_switch_on"]
+bg_color = Color(0.24, 0.72, 0.34, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.18, 0.14, 0.18, 0.85)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_knob"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 3
+shadow_offset = Vector2(0, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lang_btn"]
+bg_color = Color(0.25, 0.50, 0.86, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.14, 0.30, 0.58, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lang_hover"]
+bg_color = Color(0.32, 0.58, 0.94, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.14, 0.30, 0.58, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_logout_btn"]
+bg_color = Color(0.88, 0.26, 0.28, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.55, 0.12, 0.14, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_logout_hover"]
+bg_color = Color(0.95, 0.34, 0.36, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.55, 0.12, 0.14, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sep"]
+bg_color = Color(0.76, 0.67, 0.53, 0.45)
+
+[node name="SettingsModal" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_script")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05, 0.03, 0.12, 0.72)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DialogFrame" type="Control" parent="Center"]
+custom_minimum_size = Vector2(900, 623)
+layout_mode = 2
+mouse_filter = 0
+
+[node name="FrameBg" type="TextureRect" parent="Center/DialogFrame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_modal_bg")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TitleLabel" type="Label" parent="Center/DialogFrame"]
+layout_mode = 1
+anchor_left = 0.26
+anchor_top = 0.095
+anchor_right = 0.83
+anchor_bottom = 0.228
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.98, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0.12, 0.20, 0.42, 0.95)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 44
+text = "Cài đặt"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CloseBtn" type="Button" parent="Center/DialogFrame"]
+layout_mode = 1
+anchor_left = 0.845
+anchor_top = 0.088
+anchor_right = 0.97
+anchor_bottom = 0.258
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_close")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_close")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_close")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_close")
+flat = true
+
+[node name="BodyRoot" type="MarginContainer" parent="Center/DialogFrame"]
+layout_mode = 1
+anchor_left = 0.06
+anchor_top = 0.295
+anchor_right = 0.94
+anchor_bottom = 0.918
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 34
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 34
+theme_override_constants/margin_bottom = 18
+
+[node name="MainVBox" type="VBoxContainer" parent="Center/DialogFrame/BodyRoot"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="RowVolume" type="HBoxContainer" parent="Center/DialogFrame/BodyRoot/MainVBox"]
+custom_minimum_size = Vector2(0, 66)
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Label" type="Label" parent="Center/DialogFrame/BodyRoot/MainVBox/RowVolume"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.24, 0.16, 0.12, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 34
+text = "Âm lượng"
+vertical_alignment = 1
+
+[node name="VolumeSlider" type="HSlider" parent="Center/DialogFrame/BodyRoot/MainVBox/RowVolume"]
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_styles/slider = SubResource("StyleBoxFlat_slider_bg")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_slider_fill")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_slider_fill")
+value = 100.0
+
+[node name="VolumeValueLabel" type="Label" parent="Center/DialogFrame/BodyRoot/MainVBox/RowVolume"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.42, 0.78, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 32
+text = "100%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Sep1" type="HSeparator" parent="Center/DialogFrame/BodyRoot/MainVBox"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_sep")
+
+[node name="RowSound" type="HBoxContainer" parent="Center/DialogFrame/BodyRoot/MainVBox"]
+custom_minimum_size = Vector2(0, 66)
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Label" type="Label" parent="Center/DialogFrame/BodyRoot/MainVBox/RowSound"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.24, 0.16, 0.12, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 34
+text = "Âm thanh"
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="Center/DialogFrame/BodyRoot/MainVBox/RowSound"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SoundSwitchBtn" type="Button" parent="Center/DialogFrame/BodyRoot/MainVBox/RowSound"]
+custom_minimum_size = Vector2(110, 52)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_switch_on")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_switch_on")
+theme_override_styles/hover = SubResource("StyleBoxFlat_switch_on")
+
+[node name="Knob" type="Panel" parent="Center/DialogFrame/BodyRoot/MainVBox/RowSound/SoundSwitchBtn"]
+layout_mode = 0
+offset_left = 54.0
+offset_top = 6.0
+offset_right = 104.0
+offset_bottom = 46.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_knob")
+
+[node name="Sep2" type="HSeparator" parent="Center/DialogFrame/BodyRoot/MainVBox"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_sep")
+
+[node name="RowLanguage" type="HBoxContainer" parent="Center/DialogFrame/BodyRoot/MainVBox"]
+custom_minimum_size = Vector2(0, 66)
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Label" type="Label" parent="Center/DialogFrame/BodyRoot/MainVBox/RowLanguage"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.24, 0.16, 0.12, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 34
+text = "Ngôn ngữ"
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="Center/DialogFrame/BodyRoot/MainVBox/RowLanguage"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LangBtn" type="Button" parent="Center/DialogFrame/BodyRoot/MainVBox/RowLanguage"]
+custom_minimum_size = Vector2(220, 56)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_lang_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_lang_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_lang_hover")
+
+[node name="BtnLabel" type="Label" parent="Center/DialogFrame/BodyRoot/MainVBox/RowLanguage/LangBtn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.08, 0.18, 0.38, 0.8)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 30
+text = "Tiếng Việt"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LogoutRow" type="CenterContainer" parent="Center/DialogFrame/BodyRoot/MainVBox"]
+custom_minimum_size = Vector2(0, 74)
+layout_mode = 2
+
+[node name="LogoutBtn" type="Button" parent="Center/DialogFrame/BodyRoot/MainVBox/LogoutRow"]
+custom_minimum_size = Vector2(260, 58)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.35, 0.05, 0.08, 0.85)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_logout_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_logout_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_logout_hover")
+text = "Đăng xuất"

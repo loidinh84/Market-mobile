@@ -31,28 +31,28 @@ public partial class SidebarTab : Control
         string t = Title?.Trim() ?? "";
 
         if (TabIndex == 0 || t == "Sảnh")
-            return new Vector2(220f, 10f);
+            return new Vector2(242f, 18f);
 
         if (TabIndex == 1 || t == "Nhân vật")
-            return new Vector2(250f, 10f);
+            return new Vector2(258f, 18f);
 
         if (TabIndex == 2 || t == "Sự kiện")
-            return new Vector2(225f, 10f);
+            return new Vector2(246f, 18f);
 
         if (TabIndex == 3 || t == "Cửa hàng")
-            return new Vector2(250f, 10f);
+            return new Vector2(258f, 18f);
 
-        if (TabIndex == 4 || t == "Cài đặt")
-            return new Vector2(225f, 10f);
+        if (TabIndex == 4 || t == "Túi đồ" || t == "Cài đặt")
+            return new Vector2(244f, 18f);
 
-        return new Vector2(250f, 10f);
+        return new Vector2(252f, 18f);
     }
 
-    private static readonly Vector2 ActiveIconSize = new(140f, 140f);
+    private static readonly Vector2 ActiveIconSize = new(122f, 122f);
     private static readonly Vector2 ActiveLabelPos = new(45f, 46f);
     private static readonly Vector2 ActiveLabelSize = new(250f, 66f);
-    private static readonly Vector2 InactiveIconPos = new(96f, -30f);
-    private static readonly Vector2 InactiveIconSize = new(118f, 118f);
+    private static readonly Vector2 InactiveIconPos = new(103f, -26f);
+    private static readonly Vector2 InactiveIconSize = new(104f, 104f);
     private static readonly Vector2 InactiveLabelPos = new(0f, 80f);
     private static readonly Vector2 InactiveLabelSize = new(310f, 60f);
     private const int InactiveFontSize = 65;

@@ -10,7 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://4b781ymxkumt" path="res://assets/sprites/icons/tab_characters.png" id="7_uo5cp"]
 [ext_resource type="Texture2D" uid="uid://c4nltk5ryqhsf" path="res://assets/sprites/icons/tab_events.png" id="8_paoah"]
 [ext_resource type="Texture2D" uid="uid://db5h6pt774bp7" path="res://assets/sprites/icons/tab_shop.png" id="9_r2148"]
-[ext_resource type="Texture2D" uid="uid://cwan2oe3rh2gk" path="res://assets/sprites/icons/tab_setting.png" id="10_vifxs"]
+[ext_resource type="Texture2D" path="res://assets/sprites/icons/backpack.png" id="10_backpack"]
+[ext_resource type="Texture2D" path="res://assets/sprites/icons/setting.png" id="11_setting"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tabbtn"]
 
@@ -33,14 +34,26 @@ mouse_filter = 2
 texture = ExtResource("1_bw1qk")
 expand_mode = 1
 
+[node name="SettingBtn" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 18.0
+offset_right = 98.0
+offset_bottom = 92.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("11_setting")
+ignore_texture_size = true
+stretch_mode = 5
+
 [node name="TabsVBox" type="VBoxContainer" parent="." unique_id=566464429]
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
-offset_top = 110.0
+offset_top = 116.0
 offset_right = 460.0
 grow_vertical = 2
-theme_override_constants/separation = 26
+theme_override_constants/separation = 20
 
 [node name="Tab0_Sanh" type="Control" parent="TabsVBox" unique_id=1667004933]
 custom_minimum_size = Vector2(460, 158)
@@ -60,9 +73,10 @@ expand_mode = 1
 
 [node name="IconRect" type="TextureRect" parent="TabsVBox/Tab0_Sanh" unique_id=931331457]
 layout_mode = 0
-offset_left = 230.0
-offset_right = 380.0
-offset_bottom = 150.0
+offset_left = 242.0
+offset_top = 18.0
+offset_right = 364.0
+offset_bottom = 140.0
 texture = ExtResource("4_qx0kb")
 expand_mode = 1
 stretch_mode = 5
@@ -114,10 +128,10 @@ expand_mode = 1
 
 [node name="IconRect" type="TextureRect" parent="TabsVBox/Tab1_NhanVat" unique_id=453453670]
 layout_mode = 0
-offset_left = 120.0
-offset_top = -32.0
-offset_right = 240.0
-offset_bottom = 88.0
+offset_left = 103.0
+offset_top = -26.0
+offset_right = 207.0
+offset_bottom = 78.0
 texture = ExtResource("7_uo5cp")
 expand_mode = 1
 stretch_mode = 5
@@ -169,10 +183,10 @@ expand_mode = 1
 
 [node name="IconRect" type="TextureRect" parent="TabsVBox/Tab2_SuKien" unique_id=2065949173]
 layout_mode = 0
-offset_left = 120.0
-offset_top = -40.0
-offset_right = 250.0
-offset_bottom = 90.0
+offset_left = 103.0
+offset_top = -26.0
+offset_right = 207.0
+offset_bottom = 78.0
 texture = ExtResource("8_paoah")
 expand_mode = 1
 stretch_mode = 5
@@ -224,10 +238,10 @@ expand_mode = 1
 
 [node name="IconRect" type="TextureRect" parent="TabsVBox/Tab3_CuaHang" unique_id=779939281]
 layout_mode = 0
-offset_left = 105.0
-offset_top = -35.0
-offset_right = 235.0
-offset_bottom = 95.0
+offset_left = 103.0
+offset_top = -26.0
+offset_right = 207.0
+offset_bottom = 78.0
 texture = ExtResource("9_r2148")
 expand_mode = 1
 stretch_mode = 5
@@ -261,13 +275,13 @@ theme_override_styles/hover = SubResource("StyleBoxEmpty_tabbtn")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_tabbtn")
 flat = true
 
-[node name="Tab4_CaiDat" type="Control" parent="TabsVBox" unique_id=895914699]
+[node name="Tab4_TuiDo" type="Control" parent="TabsVBox" unique_id=895914699]
 custom_minimum_size = Vector2(380, 158)
 layout_mode = 2
 size_flags_horizontal = 0
 script = ExtResource("2_7oy6l")
 
-[node name="BgTexture" type="TextureRect" parent="TabsVBox/Tab4_CaiDat" unique_id=1801501194]
+[node name="BgTexture" type="TextureRect" parent="TabsVBox/Tab4_TuiDo" unique_id=1801501194]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -277,31 +291,31 @@ grow_vertical = 2
 texture = ExtResource("6_jql8r")
 expand_mode = 1
 
-[node name="IconRect" type="TextureRect" parent="TabsVBox/Tab4_CaiDat" unique_id=451792846]
+[node name="IconRect" type="TextureRect" parent="TabsVBox/Tab4_TuiDo" unique_id=451792846]
 layout_mode = 0
-offset_left = 90.0
-offset_top = -45.0
-offset_right = 240.0
-offset_bottom = 105.0
-texture = ExtResource("10_vifxs")
+offset_left = 103.0
+offset_top = -26.0
+offset_right = 207.0
+offset_bottom = 78.0
+texture = ExtResource("10_backpack")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="TitleLabel" type="Label" parent="TabsVBox/Tab4_CaiDat" unique_id=952385674]
+[node name="TitleLabel" type="Label" parent="TabsVBox/Tab4_TuiDo" unique_id=952385674]
 layout_mode = 0
 offset_top = 85.0
 offset_right = 310.0
-offset_bottom = 137.0
+offset_bottom = 148.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
 theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("5_qmxam")
 theme_override_font_sizes/font_size = 65
-text = "Cài đặt"
+text = "Túi đồ"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ClickBtn" type="Button" parent="TabsVBox/Tab4_CaiDat" unique_id=1819119819]
+[node name="ClickBtn" type="Button" parent="TabsVBox/Tab4_TuiDo" unique_id=1819119819]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
