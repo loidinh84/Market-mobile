@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using MarketMobile.Core;
 
 namespace MarketMobile.UI;
 
@@ -43,24 +44,9 @@ public partial class FriendsScreen : Control
 
     private const float TabStepY = 134f; // TabHeight (118) + Separation (16)
 
-    private readonly List<(string Id, string Name)> _friends = new()
-    {
-        ("100001", "Nguyễn Trọng Nhân"),
-        ("100002", "Trần Minh Khoa"),
-        ("100003", "Lê Hoàng Nam"),
-        ("100004", "Phạm Gia Bảo"),
-        ("100005", "Võ Thanh Tùng"),
-        ("100006", "Nguyễn Thị Mai"),
-        ("100007", "Đặng Quốc Huy"),
-        ("100008", "Bùi Ngọc Anh"),
-        ("100009", "Huỳnh Tấn Phát"),
-        ("100010", "Đỗ Khánh Linh"),
-        ("100011", "Phan Văn Đức"),
-        ("100012", "Ngô Thùy Dương"),
-        ("100013", "Lý Minh Tuấn"),
-        ("100014", "Trương Hoàng Phúc"),
-        ("100015", "Cao Thảo Vy")
-    };
+    private readonly List<(string Id, string Name)> _friends = GameCatalog.SampleFriends
+        .Select(f => (f.Id, f.Name))
+        .ToList();
 
     private readonly List<(string Id, string Name)> _searchablePlayers = new()
     {

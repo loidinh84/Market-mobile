@@ -17,6 +17,7 @@ public partial class LobbyScreen : Control
 
 	private SettingsPanel _settingsPanel;
 	private SettingsModal _settingsModal;
+	private ModeSelectScreen _modeSelectScreen;
 	private LeftSidebar _leftSidebar;
 	private Node2D _characterDisplay;
 	private Control _topBar;
@@ -24,13 +25,22 @@ public partial class LobbyScreen : Control
 	private Control _chatBox;
 	private CoinBar _coinBar;
 	private CoinBar _rauBar;
+	private TextureRect _modeMapTexture;
+	private TextureButton _modeTeamBtn;
+	private TextureButton _modeStyleBtn;
+	private Label _modeTeamLabel;
+	private Label _modeStyleLabel;
 	private PlayerDataManager _data;
+
+	private static readonly Texture2D TexLobbyTeamSlot = GD.Load<Texture2D>("res://assets/sprites/icons/mode_1vs1.png");
+	private static readonly Texture2D TexLobbyStyleNormal = GD.Load<Texture2D>("res://assets/sprites/icons/mode_style_play.png");
 
 	// Persistent Shell: giữ cố định Background & LeftSidebar, cache sẵn Nhân vật, Sự kiện & Cửa hàng
 	private const string CharacterScenePath = "res://scenes/ui/character_screen.tscn";
 	private const string EventsScenePath = "res://scenes/ui/events_screen.tscn";
 	private const string ShopScenePath = "res://scenes/ui/shop_screen.tscn";
 	private const string SettingsModalScenePath = "res://prefabs/ui/settings_modal.tscn";
+	private const string ModeSelectScenePath = "res://scenes/ui/mode_select_screen.tscn";
 	private Control _embeddedHost;
 	private Control _modalOverlayHost;
 	private PackedScene _characterScene;
@@ -123,13 +133,18 @@ public partial class LobbyScreen : Control
 
 		// Setup Right Column Buttons
 		var friendsBtn = GetNodeOrNull<BaseButton>("RightColumn/FriendsBtn");
-		var btn1vs1 = GetNodeOrNull<BaseButton>("RightColumn/ModeCard/ButtonsRow/Btn1vs1");
-		var btnStyle = GetNodeOrNull<BaseButton>("RightColumn/ModeCard/ButtonsRow/BtnStyle");
+		var mapBtn = GetNodeOrNull<BaseButton>("RightColumn/ModeCard/MapBtn");
+		_modeTeamBtn = GetNodeOrNull<TextureButton>("RightColumn/ModeCard/ButtonsRow/Btn1vs1");
+		_modeStyleBtn = GetNodeOrNull<TextureButton>("RightColumn/ModeCard/ButtonsRow/BtnStyle");
 		var startBtn = GetNodeOrNull<BaseButton>("RightColumn/StartBtn");
+		_modeMapTexture = GetNodeOrNull<TextureRect>("RightColumn/ModeCard/MapTexture");
+		_modeTeamLabel = GetNodeOrNull<Label>("RightColumn/ModeCard/ButtonsRow/Btn1vs1/Label");
+		_modeStyleLabel = GetNodeOrNull<Label>("RightColumn/ModeCard/ButtonsRow/BtnStyle/Label");
 
 		if (friendsBtn != null) friendsBtn.Pressed += OnFriendsPressed;
-		if (btn1vs1 != null) btn1vs1.Pressed += OnMode1vs1Pressed;
-		if (btnStyle != null) btnStyle.Pressed += OnModeStylePressed;
+		if (mapBtn != null) mapBtn.Pressed += OnMapCardPressed;
+		if (_modeTeamBtn != null) _modeTeamBtn.Pressed += OnMode1vs1Pressed;
+		if (_modeStyleBtn != null) _modeStyleBtn.Pressed += OnModeStylePressed;
 		if (startBtn != null) startBtn.Pressed += OnStartPressed;
 
 		// Setup ChatBox
@@ -191,6 +206,8 @@ public partial class LobbyScreen : Control
 			_coinBar?.SetCoins(_data.Coins, animate: false);
 			_rauBar?.SetCoins(_data.Rau, animate: false);
 			_data.CurrenciesChanged += OnSharedCurrenciesChanged;
+			_data.MatchConfigChanged += SyncModeCardVisual;
+			SyncModeCardVisual();
 
 			var activeCharacter = _data.ActiveCharacter;
 			if (_characterDisplay != null && activeCharacter != null)
@@ -253,6 +270,7 @@ public partial class LobbyScreen : Control
 		if (_data != null)
 		{
 			_data.CurrenciesChanged -= OnSharedCurrenciesChanged;
+			_data.MatchConfigChanged -= SyncModeCardVisual;
 		}
 		if (GetViewport() != null)
 		{
@@ -318,19 +336,99 @@ public partial class LobbyScreen : Control
 		GetTree().ChangeSceneToFile("res://scenes/ui/friends_screen.tscn");
 	}
 
+	private void OnMapCardPressed()
+	{
+		OpenModeSelect("map");
+	}
+
 	private void OnMode1vs1Pressed()
 	{
-		GD.Print("[LobbyScreen] Đổi số người chơi (1 VS 1)!");
+		OpenModeSelect("team");
 	}
 
 	private void OnModeStylePressed()
 	{
-		GD.Print("[LobbyScreen] Đổi thể loại đấu (thường / rank)!");
+		OpenModeSelect("type");
+	}
+
+	private void OpenModeSelect(string focusSection)
+	{
+		if (!IsInstanceValid(_modeSelectScreen))
+		{
+			var host = _modalOverlayHost ?? (Control)this;
+			var packed = GD.Load<PackedScene>(ModeSelectScenePath);
+			_modeSelectScreen = packed?.Instantiate<ModeSelectScreen>();
+			if (_modeSelectScreen != null)
+			{
+				_modeSelectScreen.SelectionConfirmed += SyncModeCardVisual;
+				host.AddChild(_modeSelectScreen);
+			}
+		}
+
+		_modeSelectScreen?.OpenWithFocus(focusSection, animate: true);
+	}
+
+	private void SyncModeCardVisual()
+	{
+		if (_data == null) return;
+
+		if (_modeTeamLabel != null)
+		{
+			_modeTeamLabel.Text = GameCatalog.GetTeamModeLabel(_data.SelectedTeamMode);
+		}
+		if (_modeTeamBtn != null)
+		{
+			if (TexLobbyTeamSlot != null) _modeTeamBtn.TextureNormal = TexLobbyTeamSlot;
+			// Đồng bộ màu: 1 VS 1 giữ màu xám chuẩn, 2 VS 2 đổi màu hồng khớp nút 2vs2
+			_modeTeamBtn.SelfModulate = _data.SelectedTeamMode == TeamMode.Duo2v2
+				? new Color(1.0f, 0.44f, 0.64f, 1f)
+				: Colors.White;
+		}
+
+		if (_modeStyleLabel != null)
+		{
+			_modeStyleLabel.Text = GameCatalog.GetPlayTypeShortLabel(_data.SelectedPlayType);
+		}
+		if (_modeStyleBtn != null)
+		{
+			if (_data.SelectedPlayType == PlayMatchType.Normal)
+			{
+				if (TexLobbyStyleNormal != null) _modeStyleBtn.TextureNormal = TexLobbyStyleNormal;
+				_modeStyleBtn.SelfModulate = Colors.White;
+			}
+			else
+			{
+				if (TexLobbyTeamSlot != null) _modeStyleBtn.TextureNormal = TexLobbyTeamSlot;
+				_modeStyleBtn.SelfModulate = _data.SelectedPlayType switch
+				{
+					PlayMatchType.Ranked => new Color(0.95f, 0.25f, 0.45f, 1f),
+					PlayMatchType.Bot => new Color(0.28f, 0.68f, 1.0f, 1f),
+					PlayMatchType.Custom => new Color(0.55f, 0.55f, 0.64f, 1f),
+					_ => Colors.White
+				};
+			}
+		}
+
+		var map = GameCatalog.FindMap(_data.SelectedMapId);
+		if (_modeMapTexture != null && map != null && !string.IsNullOrEmpty(map.TexturePath))
+		{
+			var tex = ResourceLoader.Load<Texture2D>(map.TexturePath);
+			if (tex != null) _modeMapTexture.Texture = tex;
+			_modeMapTexture.Modulate = map.BannerTint;
+		}
 	}
 
 	private void OnStartPressed()
 	{
-		GD.Print("[LobbyScreen] Bắt đầu ghép trận!");
+		if (_data != null)
+		{
+			var map = GameCatalog.FindMap(_data.SelectedMapId);
+			GD.Print($"[LobbyScreen] Bắt đầu ghép trận: {GameCatalog.GetPlayTypeShortLabel(_data.SelectedPlayType)} · {GameCatalog.GetTeamModeLabel(_data.SelectedTeamMode)} · {map?.Name}");
+		}
+		else
+		{
+			GD.Print("[LobbyScreen] Bắt đầu ghép trận!");
+		}
 	}
 
 	private void OnTabReselected(int tabIndex)

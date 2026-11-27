@@ -64,6 +64,9 @@ public class CharacterProfile
     public CurrencyType AltCurrency { get; set; } = CurrencyType.Rau;
     public bool IsUnlocked { get; set; }
     public Color Tint { get; set; } = Colors.White;
+    public int RedRadishCost { get; set; } = 0;
+    public int WhiteRadishCost { get; set; } = 0;
+    public float DeployCooldownSeconds { get; set; } = 2.0f;
 }
 
 /// <summary>
@@ -85,6 +88,9 @@ public partial class PlayerDataManager : Node
     [Signal]
     public delegate void GachaStateChangedEventHandler(int tickets, int pityCount);
 
+    [Signal]
+    public delegate void MatchConfigChangedEventHandler();
+
     private const string SaveFilePath = "user://save_data.json";
     private const int DefaultCoins = 123456;
     private const int DefaultRau = 123456;
@@ -105,9 +111,27 @@ public partial class PlayerDataManager : Node
     public bool IsHatUnlocked { get; private set; } = false;
     public int EquippedSkinIndex { get; private set; } = 0;
     public string EquippedShopSkinId { get; private set; } = "outfit_default";
+    public const int RankRequiredLevel = 10;
+
     public bool HasClaimedStarterShopGift { get; private set; } = false;
     public bool HasReceivedInventoryStarterGift { get; private set; } = false;
     public bool HasReceivedLuckBagGift { get; private set; } = false;
+
+    public int PlayerLevel { get; private set; } = 1;
+    public bool IsRankedUnlocked => PlayerLevel >= RankRequiredLevel;
+    public PlayMatchType SelectedPlayType { get; private set; } = PlayMatchType.Normal;
+    public TeamMode SelectedTeamMode { get; private set; } = TeamMode.Solo1v1;
+    public string SelectedMapId { get; private set; } = "map_cho_dau_moi";
+    public BotDifficulty SelectedBotDifficulty { get; private set; } = BotDifficulty.Easy;
+    public int CustomSpectatorCount { get; private set; } = 2;
+    public int CustomMatchMinutes { get; private set; } = 5; // 0 = Không giới hạn
+    public int CustomStartingRedRadish { get; private set; } = 0; // -1 = Không giới hạn
+    public int CustomStartingWhiteRadish { get; private set; } = 0; // -1 = Không giới hạn
+    public bool CustomAllowConsumables { get; private set; } = true;
+    public bool CustomIsPrivate { get; private set; } = false;
+
+    public bool CustomUnlimitedRedRadish => CustomStartingRedRadish < 0;
+    public bool CustomUnlimitedWhiteRadish => CustomStartingWhiteRadish < 0;
 
     /// <summary>
     /// Tab đích tạm thời khi chuyển sang shop_screen (ví dụ 3 = Đổi Vàng/Rau khi bấm dấu +).
@@ -160,6 +184,17 @@ public partial class PlayerDataManager : Node
         public bool HasClaimedStarterShopGift { get; set; } = false;
         public bool HasReceivedInventoryStarterGift { get; set; } = false;
         public bool HasReceivedLuckBagGift { get; set; } = false;
+        public int PlayerLevel { get; set; } = 1;
+        public int SelectedPlayType { get; set; } = 0;
+        public int SelectedTeamMode { get; set; } = 0;
+        public string SelectedMapId { get; set; } = "map_cho_dau_moi";
+        public int SelectedBotDifficulty { get; set; } = 0;
+        public int CustomSpectatorCount { get; set; } = 2;
+        public int CustomMatchMinutes { get; set; } = 5;
+        public int CustomStartingRedRadish { get; set; } = 0;
+        public int CustomStartingWhiteRadish { get; set; } = 0;
+        public bool CustomAllowConsumables { get; set; } = true;
+        public bool CustomIsPrivate { get; set; } = false;
         public Dictionary<string, int> Items { get; set; } = new();
         public List<string> RecentItems { get; set; } = new();
         public List<string> UnlockedExtraSkins { get; set; } = new();
@@ -205,6 +240,17 @@ public partial class PlayerDataManager : Node
         HasClaimedStarterShopGift = false;
         HasReceivedInventoryStarterGift = true;
         HasReceivedLuckBagGift = true;
+        PlayerLevel = 1;
+        SelectedPlayType = PlayMatchType.Normal;
+        SelectedTeamMode = TeamMode.Solo1v1;
+        SelectedMapId = "map_cho_dau_moi";
+        SelectedBotDifficulty = BotDifficulty.Easy;
+        CustomSpectatorCount = 2;
+        CustomMatchMinutes = 5;
+        CustomStartingRedRadish = 0;
+        CustomStartingWhiteRadish = 0;
+        CustomAllowConsumables = true;
+        CustomIsPrivate = false;
         _itemQuantities.Clear();
         _itemQuantities["gift_tan_thu"] = 1;
         _itemQuantities["gift_loc_cho"] = 1;
@@ -219,10 +265,10 @@ public partial class PlayerDataManager : Node
 
     public static CharacterProfile[] CreateDefaultCharacters() => new[]
     {
-        new CharacterProfile { Id = 0, Name = "Bà Bảy", Role = "Cận chiến", Damage = 15, Health = 250, Defense = 20, Price = 0, IsUnlocked = true, Tint = Colors.White },
-        new CharacterProfile { Id = 1, Name = "Chú Tư Bán Cá", Role = "Đỡ đòn", Damage = 10, Health = 420, Defense = 40, Price = 2500, Currency = CurrencyType.Gold, AltPrice = 200, AltCurrency = CurrencyType.Rau, IsUnlocked = false, Tint = new Color(0.9f, 0.95f, 1.0f) },
-        new CharacterProfile { Id = 2, Name = "Bé Ba Bán Hoa", Role = "Xạ thủ", Damage = 35, Health = 180, Defense = 15, Price = 5000, Currency = CurrencyType.Gold, IsUnlocked = false, Tint = new Color(1.0f, 0.9f, 0.95f) },
-        new CharacterProfile { Id = 3, Name = "Cậu Năm Shipper", Role = "Sát thủ", Damage = 45, Health = 210, Defense = 10, Price = 500, Currency = CurrencyType.Rau, IsUnlocked = false, Tint = new Color(0.95f, 1.0f, 0.9f) },
+        new CharacterProfile { Id = 0, Name = "Bà Bảy", Role = "Cận chiến", Damage = 15, Health = 250, Defense = 20, Price = 0, IsUnlocked = true, Tint = Colors.White, RedRadishCost = 3, WhiteRadishCost = 0, DeployCooldownSeconds = 2.0f },
+        new CharacterProfile { Id = 1, Name = "Chú Tư Bán Cá", Role = "Đỡ đòn", Damage = 10, Health = 420, Defense = 40, Price = 2500, Currency = CurrencyType.Gold, AltPrice = 200, AltCurrency = CurrencyType.Rau, IsUnlocked = false, Tint = new Color(0.9f, 0.95f, 1.0f), RedRadishCost = 0, WhiteRadishCost = 2, DeployCooldownSeconds = 3.5f },
+        new CharacterProfile { Id = 2, Name = "Bé Ba Bán Hoa", Role = "Xạ thủ", Damage = 35, Health = 180, Defense = 15, Price = 5000, Currency = CurrencyType.Gold, IsUnlocked = false, Tint = new Color(1.0f, 0.9f, 0.95f), RedRadishCost = 3, WhiteRadishCost = 2, DeployCooldownSeconds = 5.0f },
+        new CharacterProfile { Id = 3, Name = "Cậu Năm Shipper", Role = "Sát thủ", Damage = 45, Health = 210, Defense = 10, Price = 500, Currency = CurrencyType.Rau, IsUnlocked = false, Tint = new Color(0.95f, 1.0f, 0.9f), RedRadishCost = 4, WhiteRadishCost = 3, DeployCooldownSeconds = 6.0f },
     };
 
     public int GetBalance(CurrencyType currency) => currency == CurrencyType.Rau ? Rau : Coins;
@@ -352,6 +398,50 @@ public partial class PlayerDataManager : Node
         int index = PendingPreviewCharacterIndex >= 0 ? PendingPreviewCharacterIndex : fallbackIndex;
         PendingPreviewCharacterIndex = -1;
         return index;
+    }
+
+    public void SetPlayerLevel(int level)
+    {
+        PlayerLevel = Mathf.Max(1, level);
+        SaveToDisk();
+    }
+
+    public void SetMatchConfiguration(
+        PlayMatchType playType,
+        TeamMode teamMode,
+        string mapId,
+        BotDifficulty botDifficulty,
+        int customSpectatorCount,
+        int customMatchMinutes,
+        int customStartingRedRadish,
+        int customStartingWhiteRadish,
+        bool customAllowConsumables,
+        bool customIsPrivate)
+    {
+        if (playType == PlayMatchType.Ranked && !IsRankedUnlocked)
+        {
+            playType = PlayMatchType.Normal;
+        }
+
+        var map = GameCatalog.FindMap(mapId);
+        if (map == null || map.IsComingSoon || (playType == PlayMatchType.Ranked && !map.AllowInRanked))
+        {
+            map = GameCatalog.Maps[0];
+        }
+
+        SelectedPlayType = playType;
+        SelectedTeamMode = teamMode;
+        SelectedMapId = map.Id;
+        SelectedBotDifficulty = botDifficulty;
+        CustomSpectatorCount = GameCatalog.NormalizeSpectatorCount(customSpectatorCount);
+        CustomMatchMinutes = customMatchMinutes <= 0 ? 0 : Mathf.Clamp(customMatchMinutes, 1, 99);
+        CustomStartingRedRadish = customStartingRedRadish < 0 ? -1 : Mathf.Clamp(customStartingRedRadish, 0, 999);
+        CustomStartingWhiteRadish = customStartingWhiteRadish < 0 ? -1 : Mathf.Clamp(customStartingWhiteRadish, 0, 999);
+        CustomAllowConsumables = customAllowConsumables;
+        CustomIsPrivate = customIsPrivate;
+
+        EmitSignal(SignalName.MatchConfigChanged);
+        SaveToDisk();
     }
 
     public int GetItemQuantity(string itemId) =>
@@ -1019,6 +1109,17 @@ public partial class PlayerDataManager : Node
                 HasClaimedStarterShopGift = HasClaimedStarterShopGift,
                 HasReceivedInventoryStarterGift = HasReceivedInventoryStarterGift,
                 HasReceivedLuckBagGift = HasReceivedLuckBagGift,
+                PlayerLevel = PlayerLevel,
+                SelectedPlayType = (int)SelectedPlayType,
+                SelectedTeamMode = (int)SelectedTeamMode,
+                SelectedMapId = SelectedMapId,
+                SelectedBotDifficulty = (int)SelectedBotDifficulty,
+                CustomSpectatorCount = CustomSpectatorCount,
+                CustomMatchMinutes = CustomMatchMinutes,
+                CustomStartingRedRadish = CustomStartingRedRadish,
+                CustomStartingWhiteRadish = CustomStartingWhiteRadish,
+                CustomAllowConsumables = CustomAllowConsumables,
+                CustomIsPrivate = CustomIsPrivate,
                 Items = new Dictionary<string, int>(_itemQuantities),
                 RecentItems = new List<string>(_recentItemIds),
                 UnlockedExtraSkins = new List<string>(_unlockedExtraSkins),
@@ -1089,6 +1190,24 @@ public partial class PlayerDataManager : Node
             HasClaimedStarterShopGift = dto.HasClaimedStarterShopGift;
             HasReceivedInventoryStarterGift = dto.HasReceivedInventoryStarterGift;
             HasReceivedLuckBagGift = dto.HasReceivedLuckBagGift;
+            PlayerLevel = Mathf.Max(1, dto.PlayerLevel);
+            SelectedPlayType = Enum.IsDefined(typeof(PlayMatchType), dto.SelectedPlayType)
+                ? (PlayMatchType)dto.SelectedPlayType : PlayMatchType.Normal;
+            if (SelectedPlayType == PlayMatchType.Ranked && !IsRankedUnlocked)
+            {
+                SelectedPlayType = PlayMatchType.Normal;
+            }
+            SelectedTeamMode = Enum.IsDefined(typeof(TeamMode), dto.SelectedTeamMode)
+                ? (TeamMode)dto.SelectedTeamMode : TeamMode.Solo1v1;
+            SelectedMapId = GameCatalog.FindMap(dto.SelectedMapId)?.Id ?? "map_cho_dau_moi";
+            SelectedBotDifficulty = Enum.IsDefined(typeof(BotDifficulty), dto.SelectedBotDifficulty)
+                ? (BotDifficulty)dto.SelectedBotDifficulty : BotDifficulty.Easy;
+            CustomSpectatorCount = GameCatalog.NormalizeSpectatorCount(dto.CustomSpectatorCount);
+            CustomMatchMinutes = dto.CustomMatchMinutes <= 0 ? 0 : Mathf.Clamp(dto.CustomMatchMinutes, 1, 99);
+            CustomStartingRedRadish = dto.CustomStartingRedRadish < 0 ? -1 : Mathf.Clamp(dto.CustomStartingRedRadish, 0, 999);
+            CustomStartingWhiteRadish = dto.CustomStartingWhiteRadish < 0 ? -1 : Mathf.Clamp(dto.CustomStartingWhiteRadish, 0, 999);
+            CustomAllowConsumables = dto.CustomAllowConsumables;
+            CustomIsPrivate = dto.CustomIsPrivate;
 
             _itemQuantities.Clear();
             if (dto.Items != null)

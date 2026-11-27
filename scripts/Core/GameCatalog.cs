@@ -2,6 +2,39 @@ using Godot;
 
 namespace MarketMobile.Core;
 
+public enum PlayMatchType
+{
+	Normal = 0,
+	Ranked = 1,
+	Bot = 2,
+	Custom = 3
+}
+
+public enum TeamMode
+{
+	Solo1v1 = 0,
+	Duo2v2 = 1
+}
+
+public enum BotDifficulty
+{
+	Easy = 0,
+	Medium = 1,
+	Hard = 2
+}
+
+public sealed class MapMeta
+{
+	public string Id { get; init; }
+	public string Name { get; init; }
+	public string Subtitle { get; init; }
+	public string TexturePath { get; init; }
+	public Color BannerTint { get; init; } = Colors.White;
+	public Color TitleColor { get; init; } = Colors.White;
+	public bool AllowInRanked { get; init; } = true;
+	public bool IsComingSoon { get; init; } = false;
+}
+
 public sealed class ConsumableItemMeta
 {
 	public string Id { get; init; }
@@ -40,11 +73,50 @@ public sealed class GiftBagMeta
 	public Color IconTint { get; init; } = Colors.White;
 }
 
+public sealed class FriendMeta
+{
+	public string Id { get; init; }
+	public string Name { get; init; }
+	public bool IsOnline { get; init; } = true;
+	public bool IsInMatch { get; init; } = false;
+}
+
 /// <summary>
 /// Danh mục vật phẩm và trang phục dùng chung giữa Cửa hàng và Túi đồ.
 /// </summary>
 public static class GameCatalog
 {
+	public const float RedRadishIntervalSeconds = 3.0f;
+	public const float WhiteRadishIntervalSeconds = 5.0f;
+	public const int MaxCustomSpectators = 4;
+	public static readonly int[] AllowedSpectatorPresets = { 0, 2, 4 };
+
+	public static int NormalizeSpectatorCount(int raw)
+	{
+		if (raw <= 0) return 0;
+		if (raw <= 2) return 2;
+		return MaxCustomSpectators;
+	}
+
+	public static readonly FriendMeta[] SampleFriends =
+	{
+		new() { Id = "100001", Name = "Nguyễn Trọng Nhân", IsOnline = true },
+		new() { Id = "100002", Name = "Trần Minh Khoa", IsOnline = true },
+		new() { Id = "100003", Name = "Lê Hoàng Nam", IsOnline = true },
+		new() { Id = "100004", Name = "Phạm Gia Bảo", IsOnline = true },
+		new() { Id = "100005", Name = "Võ Thanh Tùng", IsOnline = true, IsInMatch = true },
+		new() { Id = "100006", Name = "Nguyễn Thị Mai", IsOnline = true },
+		new() { Id = "100007", Name = "Đặng Quốc Huy", IsOnline = true },
+		new() { Id = "100008", Name = "Bùi Ngọc Anh", IsOnline = true },
+		new() { Id = "100009", Name = "Huỳnh Tấn Phát", IsOnline = true, IsInMatch = true },
+		new() { Id = "100010", Name = "Đỗ Khánh Linh", IsOnline = true },
+		new() { Id = "100011", Name = "Phan Văn Đức", IsOnline = true },
+		new() { Id = "100012", Name = "Ngô Thùy Dương", IsOnline = false },
+		new() { Id = "100013", Name = "Lý Minh Tuấn", IsOnline = false },
+		new() { Id = "100014", Name = "Trương Hoàng Phúc", IsOnline = true },
+		new() { Id = "100015", Name = "Cao Thảo Vy", IsOnline = false }
+	};
+
 	public static readonly ConsumableItemMeta[] Consumables =
 	{
 		new()
@@ -163,6 +235,80 @@ public static class GameCatalog
 			Description = "Mở ra để nhận ngẫu nhiên Vàng, Rau sạch hoặc vật phẩm tiêu thụ hỗ trợ giao tranh.",
 			IconPath = "res://assets/sprites/icons/coin_poster.png", IconTint = Colors.White
 		}
+	};
+
+	public static readonly MapMeta[] Maps =
+	{
+		new()
+		{
+			Id = "map_cho_dau_moi",
+			Name = "Chợ Đầu Mối",
+			Subtitle = "Bản đồ chuẩn · Nhịp độ cân bằng",
+			TexturePath = "res://assets/sprites/icons/map_demo.png",
+			BannerTint = Colors.White,
+			TitleColor = new Color(1.0f, 0.90f, 0.25f, 1f),
+			AllowInRanked = true
+		},
+		new()
+		{
+			Id = "map_nga_tu_thu_duc",
+			Name = "Ngã Tư Thủ Đức",
+			Subtitle = "Chỉ mở Đấu Thường / Máy / Custom",
+			TexturePath = "res://assets/sprites/icons/map_demo.png",
+			BannerTint = new Color(0.95f, 0.92f, 1.0f, 1f),
+			TitleColor = new Color(1.0f, 0.62f, 0.22f, 1f),
+			AllowInRanked = false
+		},
+		new()
+		{
+			Id = "map_cho_ben_thanh",
+			Name = "Chợ Bến Thành",
+			Subtitle = "Bản đồ chuẩn · Giao tranh dồn dập",
+			TexturePath = "res://assets/sprites/icons/map_demo.png",
+			BannerTint = new Color(1.0f, 0.93f, 0.90f, 1f),
+			TitleColor = new Color(1.0f, 0.36f, 0.32f, 1f),
+			AllowInRanked = true
+		},
+		new()
+		{
+			Id = "map_sap_ra_mat",
+			Name = "Sắp Ra Mắt",
+			Subtitle = "Đang xây dựng thêm khu chợ mới",
+			TexturePath = "res://assets/sprites/icons/map_demo.png",
+			BannerTint = new Color(0.75f, 0.75f, 0.82f, 1f),
+			TitleColor = new Color(0.95f, 0.95f, 1.0f, 1f),
+			AllowInRanked = false,
+			IsComingSoon = true
+		}
+	};
+
+	public static MapMeta FindMap(string mapId)
+	{
+		if (!string.IsNullOrEmpty(mapId))
+		{
+			foreach (var m in Maps)
+			{
+				if (m.Id == mapId) return m;
+			}
+		}
+		return Maps[0];
+	}
+
+	public static string GetPlayTypeShortLabel(PlayMatchType type) => type switch
+	{
+		PlayMatchType.Ranked => "Xếp hạng",
+		PlayMatchType.Bot => "Đấu máy",
+		PlayMatchType.Custom => "Custom",
+		_ => "Thường"
+	};
+
+	public static string GetTeamModeLabel(TeamMode mode) => mode == TeamMode.Duo2v2 ? "2 VS 2" : "1 VS 1";
+
+	public static string GetBotDifficultyLabel(BotDifficulty diff) => diff switch
+	{
+		BotDifficulty.Hard => "Khó",
+		BotDifficulty.Medium => "Vừa",
+		_ => "Dễ"
 	};
 
 	public static ConsumableItemMeta FindConsumable(string itemId)

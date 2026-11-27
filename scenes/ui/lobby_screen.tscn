@@ -35,6 +35,8 @@ corner_radius_bottom_left = 6
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_chattab"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mapbtn"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chat_input"]
 content_margin_left = 8.0
 content_margin_top = 4.0
@@ -263,9 +265,29 @@ offset_right = -14.0
 offset_bottom = -83.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 texture = ExtResource("18_mode_map1")
 expand_mode = 1
 stretch_mode = 6
+
+[node name="MapBtn" type="Button" parent="RightColumn/ModeCard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = 12.0
+offset_right = -14.0
+offset_bottom = -83.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_mapbtn")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_mapbtn")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_mapbtn")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mapbtn")
+flat = true
 
 [node name="FrameTexture" type="TextureRect" parent="RightColumn/ModeCard" unique_id=2000000005]
 layout_mode = 1
