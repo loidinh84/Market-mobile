@@ -8,66 +8,46 @@
 [ext_resource type="Texture2D" uid="uid://py6k86kkpec5" path="res://assets/sprites/icons/rau.png" id="4_rau"]
 [ext_resource type="FontFile" uid="uid://cjd25dmr5o11b" path="res://assets/fonts/FZ-Orcish.ttf" id="5_font"]
 [ext_resource type="Texture2D" uid="uid://ds6hdmpgg38bf" path="res://assets/sprites/ui/name_banner.svg" id="6_banner"]
-[ext_resource type="Texture2D" uid="uid://derv2cl1xb4a3" path="res://assets/sprites/icons/friends.png" id="16_friends"]
+[ext_resource type="Texture2D" uid="uid://dai6lrwkwrs2w" path="res://assets/sprites/icons/chat.png" id="16_chat"]
 [ext_resource type="Texture2D" uid="uid://uclx23ccin4k" path="res://assets/sprites/icons/mode_frame.png" id="17_mode_frame"]
 [ext_resource type="Texture2D" uid="uid://dwelvoakfja5o" path="res://assets/sprites/icons/mode_map1.png" id="18_mode_map1"]
 [ext_resource type="SpriteFrames" uid="uid://eme5isxr5x2a" path="res://resources/sprite_frames/mrs_7_frames.tres" id="19_b8k5i"]
 [ext_resource type="Texture2D" uid="uid://cajiq13wffdbu" path="res://assets/sprites/icons/mode_1vs1.png" id="19_mode_1vs1"]
 [ext_resource type="Texture2D" uid="uid://cy0tpb827u41e" path="res://assets/sprites/icons/mode_style_play.png" id="20_mode_style_play"]
 [ext_resource type="Texture2D" uid="uid://cn8muhs4fbfks" path="res://assets/sprites/icons/start.png" id="21_start"]
-[ext_resource type="Texture2D" uid="uid://cvlo6rthho87x" path="res://assets/sprites/icons/emotion.png" id="22_emotion"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chat_panel"]
-content_margin_left = 12.0
+[sub_resource type="Gradient" id="Gradient_chat_preview"]
+offsets = PackedFloat32Array(0, 0.35, 0.72, 1)
+colors = PackedColorArray(0.05, 0.03, 0.13, 0.88, 0.05, 0.03, 0.13, 0.65, 0.05, 0.03, 0.13, 0.22, 0.05, 0.03, 0.13, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_chat_preview"]
+gradient = SubResource("Gradient_chat_preview")
+width = 256
+height = 64
+fill_from = Vector2(0, 1)
+fill_to = Vector2(1, 0)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_chat_preview"]
+content_margin_left = 14.0
 content_margin_top = 8.0
-content_margin_right = 12.0
+content_margin_right = 14.0
 content_margin_bottom = 8.0
-bg_color = Color(0.12156863, 0.050980393, 0.21960784, 0.75)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0, 0, 0, 0.85)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+texture = SubResource("GradientTexture2D_chat_preview")
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_chattab"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chat_badge"]
+content_margin_left = 5.0
+content_margin_top = 3.0
+content_margin_right = 5.0
+content_margin_bottom = 0.0
+bg_color = Color(0.88, 0.2, 0.18, 1)
+corner_radius_top_left = 11
+corner_radius_top_right = 11
+corner_radius_bottom_right = 11
+corner_radius_bottom_left = 11
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_previewbtn"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mapbtn"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chat_input"]
-content_margin_left = 8.0
-content_margin_top = 4.0
-content_margin_right = 8.0
-content_margin_bottom = 4.0
-bg_color = Color(0.78, 0.78, 0.82, 0.95)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.3, 0.3, 0.35, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chat_send"]
-content_margin_left = 12.0
-content_margin_top = 2.0
-content_margin_right = 12.0
-content_margin_bottom = 2.0
-bg_color = Color(0.68, 0.65, 0.75, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.25, 0.25, 0.3, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
 
 [node name="LobbyScreen" type="Control" unique_id=1218370626 node_paths=PackedStringArray("_sidebarTabs")]
 layout_mode = 3
@@ -207,40 +187,6 @@ offset_left = -460.0
 grow_horizontal = 0
 grow_vertical = 2
 mouse_filter = 2
-
-[node name="FriendsBtn" type="TextureButton" parent="RightColumn" unique_id=2000000001]
-custom_minimum_size = Vector2(250, 75)
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -390.0
-offset_top = 375.0
-offset_right = 10.0
-offset_bottom = 495.0
-grow_horizontal = 0
-mouse_default_cursor_shape = 2
-texture_normal = ExtResource("16_friends")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="Label" type="Label" parent="RightColumn/FriendsBtn" unique_id=2000000002]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -10.0
-offset_bottom = -10.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 0.4)
-theme_override_constants/outline_size = 4
-theme_override_fonts/font = ExtResource("5_font")
-theme_override_font_sizes/font_size = 60
-text = "Bạn bè"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="ModeCard" type="Control" parent="RightColumn" unique_id=2000000003]
 custom_minimum_size = Vector2(450, 320)
@@ -406,134 +352,103 @@ text = "Bắt đầu!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ChatBox" type="PanelContainer" parent="." unique_id=-1294967296]
+[node name="ChatPreviewBar" type="PanelContainer" parent="." unique_id=-1294967296]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 520.0
-offset_top = -340.0
-offset_right = 1120.0
-offset_bottom = -40.0
+offset_left = 470.0
+offset_top = -114.0
+offset_right = 1340.0
+offset_bottom = -32.0
 grow_vertical = 0
-theme_override_styles/panel = SubResource("StyleBoxFlat_chat_panel")
+theme_override_styles/panel = SubResource("StyleBoxTexture_chat_preview")
 
-[node name="VBox" type="VBoxContainer" parent="ChatBox" unique_id=-1294967295]
+[node name="HBox" type="HBoxContainer" parent="ChatPreviewBar"]
 layout_mode = 2
-theme_override_constants/separation = 6
+mouse_filter = 2
+theme_override_constants/separation = 14
 
-[node name="ChannelsHBox" type="HBoxContainer" parent="ChatBox/VBox" unique_id=-1294967294]
-custom_minimum_size = Vector2(0, 32)
-layout_mode = 2
-theme_override_constants/separation = 80
-alignment = 1
-
-[node name="TabWorld" type="Button" parent="ChatBox/VBox/ChannelsHBox" unique_id=-1294967293]
-layout_mode = 2
-focus_mode = 0
-mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
-theme_override_constants/outline_size = 4
-theme_override_fonts/font = ExtResource("5_font")
-theme_override_font_sizes/font_size = 30
-theme_override_styles/normal = SubResource("StyleBoxEmpty_chattab")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_chattab")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_chattab")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_chattab")
-text = "Thế giới"
-flat = true
-
-[node name="TabFriends" type="Button" parent="ChatBox/VBox/ChannelsHBox" unique_id=-1294967292]
-layout_mode = 2
-focus_mode = 0
-mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(0.8, 0.8, 0.85, 0.8)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 0.5)
-theme_override_constants/outline_size = 3
-theme_override_fonts/font = ExtResource("5_font")
-theme_override_font_sizes/font_size = 28
-theme_override_styles/normal = SubResource("StyleBoxEmpty_chattab")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_chattab")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_chattab")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_chattab")
-text = "Bạn bè"
-flat = true
-
-[node name="TabTeam" type="Button" parent="ChatBox/VBox/ChannelsHBox" unique_id=-1294967291]
-layout_mode = 2
-focus_mode = 0
-mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(0.8, 0.8, 0.85, 0.8)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 0.5)
-theme_override_constants/outline_size = 3
-theme_override_fonts/font = ExtResource("5_font")
-theme_override_font_sizes/font_size = 28
-theme_override_styles/normal = SubResource("StyleBoxEmpty_chattab")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_chattab")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_chattab")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_chattab")
-text = "Tổ đội"
-flat = true
-
-[node name="MessagesScroll" type="ScrollContainer" parent="ChatBox/VBox" unique_id=-1294967290]
-layout_mode = 2
-size_flags_vertical = 3
-horizontal_scroll_mode = 0
-
-[node name="MessagesLabel" type="RichTextLabel" parent="ChatBox/VBox/MessagesScroll" unique_id=-1294967289]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_colors/default_color = Color(1, 1, 1, 1)
-theme_override_fonts/normal_font = ExtResource("5_font")
-theme_override_font_sizes/normal_font_size = 22
-theme_override_font_sizes/bold_font_size = 22
-bbcode_enabled = true
-text = "Anh Tèo:, có ai set kèo đánh không
-Chị Hằng: mn kb vs mìn đi
-Chú cuội: ai có code mới không ạ
-Hai lúa miền tây: hello mọi người"
-fit_content = true
-scroll_active = false
-
-[node name="InputHBox" type="HBoxContainer" parent="ChatBox/VBox" unique_id=-1294967288]
-custom_minimum_size = Vector2(0, 42)
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="InputField" type="LineEdit" parent="ChatBox/VBox/InputHBox" unique_id=-1294967287]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.1, 0.1, 0.15, 1)
-theme_override_colors/font_placeholder_color = Color(0.4, 0.4, 0.45, 0.8)
-theme_override_fonts/font = ExtResource("5_font")
-theme_override_font_sizes/font_size = 22
-theme_override_styles/normal = SubResource("StyleBoxFlat_chat_input")
-theme_override_styles/focus = SubResource("StyleBoxFlat_chat_input")
-placeholder_text = "Nhập tin nhắn..."
-
-[node name="EmojiBtn" type="TextureButton" parent="ChatBox/VBox/InputHBox" unique_id=-1294967286]
-custom_minimum_size = Vector2(38, 38)
+[node name="IconWrap" type="Control" parent="ChatPreviewBar/HBox"]
+custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
 size_flags_vertical = 4
-focus_mode = 0
-mouse_default_cursor_shape = 2
-texture_normal = ExtResource("22_emotion")
-ignore_texture_size = true
+mouse_filter = 2
+
+[node name="ChatIcon" type="TextureRect" parent="ChatPreviewBar/HBox/IconWrap"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("16_chat")
+expand_mode = 1
 stretch_mode = 5
 
-[node name="SendBtn" type="Button" parent="ChatBox/VBox/InputHBox" unique_id=-1294967285]
-custom_minimum_size = Vector2(60, 36)
+[node name="UnreadBadge" type="PanelContainer" parent="ChatPreviewBar/HBox/IconWrap"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -18.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 16.0
+grow_horizontal = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_chat_badge")
+
+[node name="CountLabel" type="Label" parent="ChatPreviewBar/HBox/IconWrap/UnreadBadge"]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 21
+text = "13"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LinesVBox" type="VBoxContainer" parent="ChatPreviewBar/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 3
+
+[node name="Line1" type="Label" parent="ChatPreviewBar/HBox/LinesVBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.92, 0.94, 1, 0.96)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.65)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 21
+text = "[Bạn bè] Trần Minh Khoa: Mình đang đợi bạn ở sảnh nè!"
+clip_text = true
+
+[node name="Line2" type="Label" parent="ChatPreviewBar/HBox/LinesVBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.58, 0.98)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.65)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 21
+text = "[Thế giới] Hai Lúa Miền Tây: Hello mọi người, tối nay làm vài ván chợ đêm!"
+clip_text = true
+
+[node name="ClickBtn" type="Button" parent="ChatPreviewBar"]
+layout_mode = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(0.2, 0.15, 0.3, 1)
-theme_override_fonts/font = ExtResource("5_font")
-theme_override_font_sizes/font_size = 22
-theme_override_styles/normal = SubResource("StyleBoxFlat_chat_send")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_chat_send")
-theme_override_styles/hover = SubResource("StyleBoxFlat_chat_send")
-text = "Gửi"
+theme_override_styles/normal = SubResource("StyleBoxEmpty_previewbtn")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_previewbtn")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_previewbtn")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_previewbtn")
+flat = true
 

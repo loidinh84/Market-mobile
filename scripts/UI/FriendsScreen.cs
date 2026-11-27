@@ -48,29 +48,13 @@ public partial class FriendsScreen : Control
         .Select(f => (f.Id, f.Name))
         .ToList();
 
-    private readonly List<(string Id, string Name)> _searchablePlayers = new()
-    {
-        ("200101", "Thành Lợi"),
-        ("200102", "Anh Tèo"),
-        ("200103", "Chị Hằng"),
-        ("200104", "Chú Cuội"),
-        ("200105", "Hai Lúa Miền Tây"),
-        ("200106", "Sát Thủ Rau Củ"),
-        ("200107", "Vua Chợ Đêm"),
-        ("200108", "Bà Năm Bán Cá"),
-        ("200109", "Cô Ba Sài Gòn"),
-        ("200110", "Đại Gia Hạt Dẻ")
-    };
+    private readonly List<(string Id, string Name)> _searchablePlayers = GameCatalog.SearchablePlayers
+        .Select(p => (p.Id, p.Name))
+        .ToList();
 
-    private readonly List<(string Id, string Name)> _friendRequests = new()
-    {
-        ("300101", "Nguyễn Minh Anh"),
-        ("300102", "Trần Quốc Bảo"),
-        ("300103", "Lê Thu Hà"),
-        ("300104", "Phạm Tuấn Kiệt"),
-        ("300105", "Hoàng Gia Hân"),
-        ("300106", "Vũ Đức Mạnh")
-    };
+    private readonly List<(string Id, string Name)> _friendRequests = GameCatalog.SampleFriendRequests
+        .Select(r => (r.Id, r.Name))
+        .ToList();
 
     public override void _Ready()
     {
