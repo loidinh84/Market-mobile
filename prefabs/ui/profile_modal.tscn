@@ -1,0 +1,883 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/UI/ProfileModal.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://3grx6qpu4mu7" path="res://assets/sprites/ui/profile_modal.png" id="2_modal_bg"]
+[ext_resource type="Texture2D" uid="uid://bx4wiyps68tq" path="res://assets/sprites/ui/profile_scroll.png" id="3_scroll_bg"]
+[ext_resource type="Texture2D" uid="uid://cy8gr4eifo602" path="res://assets/sprites/icons/avatar_character.png" id="4_avatar"]
+[ext_resource type="Texture2D" uid="uid://drq0me00hinxl" path="res://assets/sprites/ui/pen.png" id="5_pen"]
+[ext_resource type="FontFile" uid="uid://cjd25dmr5o11b" path="res://assets/fonts/FZ-Orcish.ttf" id="6_font"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/icons_profile/icon_combat.png" id="7_matches"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/icons_profile/icon_winrate.png" id="8_winrate"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/icons_profile/icon_characters.png" id="9_heroes"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/icons_profile/icon_skin.png" id="10_skins"]
+[ext_resource type="Texture2D" uid="uid://bhfot3idbsn45" path="res://assets/sprites/ui/ranks_128x128/rank_04_ngoc_bich.png" id="11_rank_cur"]
+[ext_resource type="Texture2D" uid="uid://dn0jt5v5mf422" path="res://assets/sprites/ui/ranks_128x128/rank_07_trum_cho_lon.png" id="12_rank_max"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_close_btn"]
+bg_color = Color(0.76, 0.19, 0.21, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.95, 0.80, 0.48, 1)
+corner_radius_top_left = 34
+corner_radius_top_right = 34
+corner_radius_bottom_right = 34
+corner_radius_bottom_left = 34
+shadow_color = Color(0, 0, 0, 0.35)
+shadow_size = 5
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avatar_frame"]
+bg_color = Color(0.49411765, 0.9490196, 0.8862745, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.96, 0.80, 0.42, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.35)
+shadow_size = 6
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pen_badge"]
+bg_color = Color(0.14, 0.08, 0.06, 0.94)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.96, 0.80, 0.44, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_exp_bg"]
+bg_color = Color(0.24, 0.04, 0.06, 0.88)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.95, 0.78, 0.42, 0.88)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_exp_fill"]
+bg_color = Color(0.96, 0.75, 0.18, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1.0, 0.93, 0.65, 0.95)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_copy_btn"]
+content_margin_left = 18.0
+content_margin_top = 7.0
+content_margin_right = 18.0
+content_margin_bottom = 7.0
+bg_color = Color(0.09, 0.36, 0.43, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.92, 0.79, 0.50, 0.88)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rename_badge"]
+content_margin_left = 16.0
+content_margin_top = 6.0
+content_margin_right = 16.0
+content_margin_bottom = 6.0
+bg_color = Color(0.05, 0.23, 0.29, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.95, 0.80, 0.45, 0.8)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_info_card"]
+content_margin_left = 30.0
+content_margin_top = 24.0
+content_margin_right = 30.0
+content_margin_bottom = 24.0
+bg_color = Color(0.032, 0.175, 0.225, 0.80)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.90, 0.77, 0.50, 0.58)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0, 0, 0, 0.22)
+shadow_size = 8
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stat_tile"]
+content_margin_left = 22.0
+content_margin_top = 20.0
+content_margin_right = 22.0
+content_margin_bottom = 20.0
+bg_color = Color(0.055, 0.245, 0.305, 0.84)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.92, 0.78, 0.50, 0.42)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0, 0, 0, 0.18)
+shadow_size = 5
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_name_input"]
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 10.0
+bg_color = Color(0.02, 0.12, 0.16, 0.94)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.88, 0.75, 0.48, 0.78)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_save_btn"]
+content_margin_left = 20.0
+content_margin_top = 8.0
+content_margin_right = 20.0
+content_margin_bottom = 8.0
+bg_color = Color(0.86, 0.56, 0.13, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1.0, 0.89, 0.58, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 4
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_transparent"]
+
+[node name="ProfileModal" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_script")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.62)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DialogFrame" type="Control" parent="Center"]
+custom_minimum_size = Vector2(1648, 956)
+layout_mode = 2
+
+[node name="ModalBg" type="TextureRect" parent="Center/DialogFrame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_modal_bg")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TitleLabel" type="Label" parent="Center/DialogFrame"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 200.0
+offset_top = 16.0
+offset_right = -200.0
+offset_bottom = 104.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.24, 0.13, 0.07, 1)
+theme_override_colors/font_outline_color = Color(1, 0.96, 0.85, 0.65)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 54
+text = "HỒ SƠ TIỂU THƯƠNG"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CloseBtn" type="Button" parent="Center/DialogFrame"]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -92.0
+offset_top = 18.0
+offset_right = -24.0
+offset_bottom = 86.0
+grow_horizontal = 0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 0.96, 0.86, 1)
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_close_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_close_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_close_btn")
+theme_override_styles/focus = SubResource("StyleBoxFlat_close_btn")
+text = "✕"
+
+[node name="Body" type="HBoxContainer" parent="Center/DialogFrame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 96.0
+offset_top = 132.0
+offset_right = -96.0
+offset_bottom = -58.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 36
+
+[node name="ScrollColumn" type="Control" parent="Center/DialogFrame/Body"]
+custom_minimum_size = Vector2(550, 726)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="ScrollBg" type="TextureRect" parent="Center/DialogFrame/Body/ScrollColumn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_scroll_bg")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ScrollContent" type="VBoxContainer" parent="Center/DialogFrame/Body/ScrollColumn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 72.0
+offset_top = 78.0
+offset_right = -72.0
+offset_bottom = -92.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="AvatarCenter" type="CenterContainer" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent"]
+layout_mode = 2
+
+[node name="AvatarFrame" type="Panel" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent/AvatarCenter"]
+custom_minimum_size = Vector2(172, 172)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_avatar_frame")
+
+[node name="AvatarTexture" type="TextureRect" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent/AvatarCenter/AvatarFrame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = -6.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_avatar")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="EditPenBtn" type="Button" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent/AvatarCenter/AvatarFrame"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 18.0
+offset_bottom = 18.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_pen_badge")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pen_badge")
+theme_override_styles/hover = SubResource("StyleBoxFlat_pen_badge")
+theme_override_styles/focus = SubResource("StyleBoxFlat_pen_badge")
+
+[node name="PenIcon" type="TextureRect" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent/AvatarCenter/AvatarFrame/EditPenBtn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 9.0
+offset_right = -10.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_pen")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.98, 0.92, 1)
+theme_override_colors/font_outline_color = Color(0.22, 0.04, 0.05, 0.92)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 44
+text = "Nguyễn Văn A"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 3
+
+[node name="ExpSection" type="VBoxContainer" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="ExpHeader" type="HBoxContainer" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent/ExpSection"]
+layout_mode = 2
+
+[node name="LevelLabel" type="Label" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent/ExpSection/ExpHeader"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.88, 0.46, 1)
+theme_override_colors/font_outline_color = Color(0.24, 0.04, 0.05, 0.85)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 28
+text = "Cấp 12"
+
+[node name="ExpValueLabel" type="Label" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent/ExpSection/ExpHeader"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.95, 0.84, 0.95)
+theme_override_colors/font_outline_color = Color(0.24, 0.04, 0.05, 0.8)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 25
+text = "1,450 / 2,000"
+horizontal_alignment = 2
+
+[node name="ExpBar" type="ProgressBar" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent/ExpSection"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_exp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_exp_fill")
+max_value = 2000.0
+value = 1450.0
+show_percentage = false
+
+[node name="RanksRow" type="HBoxContainer" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="CurrentRankBtn" type="Button" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent/RanksRow"]
+custom_minimum_size = Vector2(184, 198)
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_transparent")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_transparent")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_transparent")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_transparent")
+flat = true
+
+[node name="Card" type="PanelContainer" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent/RanksRow/CurrentRankBtn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_transparent")
+
+[node name="VBox" type="VBoxContainer" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent/RanksRow/CurrentRankBtn/Card"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="Caption" type="Label" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent/RanksRow/CurrentRankBtn/Card/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.90, 0.72, 0.95)
+theme_override_colors/font_outline_color = Color(0.18, 0.03, 0.04, 0.85)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 21
+text = "MÙA NÀY"
+horizontal_alignment = 1
+
+[node name="BadgeIcon" type="TextureRect" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent/RanksRow/CurrentRankBtn/Card/VBox"]
+custom_minimum_size = Vector2(102, 102)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+texture = ExtResource("11_rank_cur")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RankName" type="Label" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent/RanksRow/CurrentRankBtn/Card/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.96, 0.72, 1)
+theme_override_colors/font_outline_color = Color(0.18, 0.03, 0.04, 0.92)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 26
+text = "Ngọc Bích"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="RankSub" type="Label" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent/RanksRow/CurrentRankBtn/Card/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.68, 0.95)
+theme_override_colors/font_outline_color = Color(0.18, 0.03, 0.04, 0.82)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 20
+text = "1,850 điểm"
+horizontal_alignment = 1
+
+[node name="HighestRankBtn" type="Button" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent/RanksRow"]
+custom_minimum_size = Vector2(184, 198)
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_transparent")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_transparent")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_transparent")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_transparent")
+flat = true
+
+[node name="Card" type="PanelContainer" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent/RanksRow/HighestRankBtn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_transparent")
+
+[node name="VBox" type="VBoxContainer" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent/RanksRow/HighestRankBtn/Card"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="Caption" type="Label" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent/RanksRow/HighestRankBtn/Card/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.46, 1)
+theme_override_colors/font_outline_color = Color(0.18, 0.03, 0.04, 0.85)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 21
+text = "CAO NHẤT"
+horizontal_alignment = 1
+
+[node name="BadgeIcon" type="TextureRect" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent/RanksRow/HighestRankBtn/Card/VBox"]
+custom_minimum_size = Vector2(102, 102)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+texture = ExtResource("12_rank_max")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RankName" type="Label" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent/RanksRow/HighestRankBtn/Card/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.64, 0.32, 1)
+theme_override_colors/font_outline_color = Color(0.18, 0.03, 0.04, 0.92)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 26
+text = "Trùm Chợ Lớn"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="RankSub" type="Label" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent/RanksRow/HighestRankBtn/Card/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.68, 0.95)
+theme_override_colors/font_outline_color = Color(0.18, 0.03, 0.04, 0.82)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 20
+text = "Kỷ lục mùa"
+horizontal_alignment = 1
+
+[node name="InfoColumn" type="VBoxContainer" parent="Center/DialogFrame/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 28
+
+[node name="RenameCard" type="PanelContainer" parent="Center/DialogFrame/Body/InfoColumn"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_info_card")
+
+[node name="RenameVBox" type="VBoxContainer" parent="Center/DialogFrame/Body/InfoColumn/RenameCard"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HeaderRow" type="HBoxContainer" parent="Center/DialogFrame/Body/InfoColumn/RenameCard/RenameVBox"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="SectionTitle" type="Label" parent="Center/DialogFrame/Body/InfoColumn/RenameCard/RenameVBox/HeaderRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.88, 0.62, 1)
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 33
+text = "THÔNG TIN TÀI KHOẢN"
+vertical_alignment = 1
+
+[node name="RenameCostBadge" type="PanelContainer" parent="Center/DialogFrame/Body/InfoColumn/RenameCard/RenameVBox/HeaderRow"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_rename_badge")
+
+[node name="HBox" type="HBoxContainer" parent="Center/DialogFrame/Body/InfoColumn/RenameCard/RenameVBox/HeaderRow/RenameCostBadge"]
+layout_mode = 2
+theme_override_constants/separation = 9
+
+[node name="Icon" type="TextureRect" parent="Center/DialogFrame/Body/InfoColumn/RenameCard/RenameVBox/HeaderRow/RenameCostBadge/HBox"]
+modulate = Color(1, 0.88, 0.45, 1)
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("5_pen")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CountLabel" type="Label" parent="Center/DialogFrame/Body/InfoColumn/RenameCard/RenameVBox/HeaderRow/RenameCostBadge/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.90, 0.50, 1)
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 26
+text = "Thẻ Đổi Tên: x1"
+vertical_alignment = 1
+
+[node name="HeaderSpacer" type="Control" parent="Center/DialogFrame/Body/InfoColumn/RenameCard/RenameVBox/HeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="InputRow" type="HBoxContainer" parent="Center/DialogFrame/Body/InfoColumn/RenameCard/RenameVBox"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="NameInput" type="LineEdit" parent="Center/DialogFrame/Body/InfoColumn/RenameCard/RenameVBox/InputRow"]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.98, 0.94, 1)
+theme_override_colors/font_placeholder_color = Color(0.7, 0.82, 0.84, 0.55)
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 35
+theme_override_styles/normal = SubResource("StyleBoxFlat_name_input")
+theme_override_styles/focus = SubResource("StyleBoxFlat_name_input")
+placeholder_text = "Nhập tên tiểu thương..."
+max_length = 18
+
+[node name="SaveNameBtn" type="Button" parent="Center/DialogFrame/Body/InfoColumn/RenameCard/RenameVBox/InputRow"]
+custom_minimum_size = Vector2(210, 72)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 0.98, 0.92, 1)
+theme_override_colors/font_outline_color = Color(0.28, 0.14, 0.03, 0.9)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 34
+theme_override_styles/normal = SubResource("StyleBoxFlat_save_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_save_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_save_btn")
+theme_override_styles/focus = SubResource("StyleBoxFlat_save_btn")
+text = "Đổi tên"
+
+[node name="CardDivider" type="ColorRect" parent="Center/DialogFrame/Body/InfoColumn/RenameCard/RenameVBox"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.92, 0.79, 0.52, 0.24)
+
+[node name="IdRow" type="HBoxContainer" parent="Center/DialogFrame/Body/InfoColumn/RenameCard/RenameVBox"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="IdValueLabel" type="Label" parent="Center/DialogFrame/Body/InfoColumn/RenameCard/RenameVBox/IdRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.95, 0.94, 0.95)
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 30
+text = "ID tài khoản: 123467"
+vertical_alignment = 1
+
+[node name="CopyIdBtn" type="Button" parent="Center/DialogFrame/Body/InfoColumn/RenameCard/RenameVBox/IdRow"]
+custom_minimum_size = Vector2(190, 52)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.98, 0.92, 0.72, 1)
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBoxFlat_copy_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_copy_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_copy_btn")
+theme_override_styles/focus = SubResource("StyleBoxFlat_copy_btn")
+text = "Sao chép ID"
+
+[node name="StatusLabel" type="Label" parent="Center/DialogFrame/Body/InfoColumn/RenameCard/RenameVBox/IdRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.54, 0.96, 0.72, 1)
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 25
+horizontal_alignment = 2
+vertical_alignment = 1
+text_overrun_behavior = 3
+
+[node name="StatsCard" type="PanelContainer" parent="Center/DialogFrame/Body/InfoColumn"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_info_card")
+
+[node name="StatsVBox" type="VBoxContainer" parent="Center/DialogFrame/Body/InfoColumn/StatsCard"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="SectionTitle" type="Label" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.88, 0.62, 1)
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 33
+text = "THÀNH TÍCH CHIẾN ĐẤU"
+
+[node name="StatsGrid" type="GridContainer" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 22
+theme_override_constants/v_separation = 20
+columns = 2
+
+[node name="MatchesStat" type="PanelContainer" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox/StatsGrid"]
+custom_minimum_size = Vector2(0, 148)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_stat_tile")
+
+[node name="HBox" type="HBoxContainer" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox/StatsGrid/MatchesStat"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Icon" type="TextureRect" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox/StatsGrid/MatchesStat/HBox"]
+custom_minimum_size = Vector2(86, 86)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("7_matches")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBox" type="VBoxContainer" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox/StatsGrid/MatchesStat/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 4
+
+[node name="Label" type="Label" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox/StatsGrid/MatchesStat/HBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.77, 0.90, 0.91, 0.9)
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 26
+text = "Số trận chiến đấu"
+text_overrun_behavior = 3
+
+[node name="Value" type="Label" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox/StatsGrid/MatchesStat/HBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.42, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.10, 0.13, 0.85)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 42
+text = "48 trận"
+
+[node name="WinRateStat" type="PanelContainer" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox/StatsGrid"]
+custom_minimum_size = Vector2(0, 148)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_stat_tile")
+
+[node name="HBox" type="HBoxContainer" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox/StatsGrid/WinRateStat"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Icon" type="TextureRect" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox/StatsGrid/WinRateStat/HBox"]
+custom_minimum_size = Vector2(86, 86)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("8_winrate")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBox" type="VBoxContainer" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox/StatsGrid/WinRateStat/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 4
+
+[node name="Label" type="Label" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox/StatsGrid/WinRateStat/HBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.77, 0.90, 0.91, 0.9)
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 26
+text = "Tỉ lệ thắng"
+text_overrun_behavior = 3
+
+[node name="Value" type="Label" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox/StatsGrid/WinRateStat/HBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.96, 0.66, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.10, 0.13, 0.85)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 42
+text = "68.8%"
+
+[node name="HeroesStat" type="PanelContainer" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox/StatsGrid"]
+custom_minimum_size = Vector2(0, 148)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_stat_tile")
+
+[node name="HBox" type="HBoxContainer" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox/StatsGrid/HeroesStat"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Icon" type="TextureRect" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox/StatsGrid/HeroesStat/HBox"]
+custom_minimum_size = Vector2(86, 86)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("9_heroes")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBox" type="VBoxContainer" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox/StatsGrid/HeroesStat/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 4
+
+[node name="Label" type="Label" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox/StatsGrid/HeroesStat/HBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.77, 0.90, 0.91, 0.9)
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 26
+text = "Tướng sở hữu"
+text_overrun_behavior = 3
+
+[node name="Value" type="Label" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox/StatsGrid/HeroesStat/HBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.97, 0.92, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.10, 0.13, 0.85)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 42
+text = "2/4"
+
+[node name="SkinsStat" type="PanelContainer" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox/StatsGrid"]
+custom_minimum_size = Vector2(0, 148)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_stat_tile")
+
+[node name="HBox" type="HBoxContainer" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox/StatsGrid/SkinsStat"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Icon" type="TextureRect" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox/StatsGrid/SkinsStat/HBox"]
+custom_minimum_size = Vector2(86, 86)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("10_skins")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBox" type="VBoxContainer" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox/StatsGrid/SkinsStat/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 4
+
+[node name="Label" type="Label" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox/StatsGrid/SkinsStat/HBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.77, 0.90, 0.91, 0.9)
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 26
+text = "Trang phục sở hữu"
+text_overrun_behavior = 3
+
+[node name="Value" type="Label" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox/StatsGrid/SkinsStat/HBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.78, 0.56, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.10, 0.13, 0.85)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 42
+text = "1/5"
