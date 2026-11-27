@@ -105,6 +105,7 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 90.0
 grow_horizontal = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 40
 theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 40
@@ -112,14 +113,17 @@ theme_override_constants/margin_right = 40
 [node name="TopHBox" type="HBoxContainer" parent="TopBar" unique_id=1043463493]
 custom_minimum_size = Vector2(0, 75)
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 15
 
 [node name="LeftSpacer" type="Control" parent="TopBar/TopHBox" unique_id=1082522479]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 
 [node name="CurrenciesHBox" type="HBoxContainer" parent="TopBar/TopHBox" unique_id=-800944581]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 20
 
 [node name="CoinBar" parent="TopBar/TopHBox/CurrenciesHBox" unique_id=1718561001 instance=ExtResource("200_coinbar")]
@@ -133,6 +137,7 @@ IconSize = Vector2(48, 48)
 [node name="RightSpacer" type="Control" parent="TopBar/TopHBox" unique_id=309066530]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 
 [node name="NameBanner" type="Control" parent="." unique_id=1310177641]
 custom_minimum_size = Vector2(460, 150)
