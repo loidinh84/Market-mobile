@@ -7,8 +7,10 @@
 [ext_resource type="PackedScene" uid="uid://bo1iw1air8xno" path="res://prefabs/ui/left_sidebar.tscn" id="4_b515e"]
 [ext_resource type="Texture2D" uid="uid://py6k86kkpec5" path="res://assets/sprites/icons/rau.png" id="4_rau"]
 [ext_resource type="FontFile" uid="uid://cjd25dmr5o11b" path="res://assets/fonts/FZ-Orcish.ttf" id="5_font"]
-[ext_resource type="Texture2D" uid="uid://ds6hdmpgg38bf" path="res://assets/sprites/ui/name_banner.svg" id="6_banner"]
+[ext_resource type="Texture2D" uid="uid://c4wv2gc3hmbrv" path="res://assets/sprites/ui/profile_banner.png" id="6_banner"]
 [ext_resource type="Texture2D" uid="uid://dai6lrwkwrs2w" path="res://assets/sprites/icons/chat.png" id="16_chat"]
+[ext_resource type="Texture2D" uid="uid://drq0me00hinxl" path="res://assets/sprites/ui/pen.png" id="23_pen"]
+[ext_resource type="Texture2D" uid="uid://cy8gr4eifo602" path="res://assets/sprites/icons/avatar_character.png" id="24_avatar"]
 [ext_resource type="Texture2D" uid="uid://uclx23ccin4k" path="res://assets/sprites/icons/mode_frame.png" id="17_mode_frame"]
 [ext_resource type="Texture2D" uid="uid://dwelvoakfja5o" path="res://assets/sprites/icons/mode_map1.png" id="18_mode_map1"]
 [ext_resource type="SpriteFrames" uid="uid://eme5isxr5x2a" path="res://resources/sprite_frames/mrs_7_frames.tres" id="19_b8k5i"]
@@ -46,6 +48,14 @@ corner_radius_bottom_right = 11
 corner_radius_bottom_left = 11
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_previewbtn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avatar_frame"]
+bg_color = Color(0.49411765, 0.9490196, 0.8862745, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mapbtn"]
 
@@ -120,62 +130,6 @@ IconSize = Vector2(48, 48)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
-
-[node name="NameBanner" type="Control" parent="." unique_id=1310177641]
-custom_minimum_size = Vector2(460, 150)
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -460.0
-offset_bottom = 150.0
-grow_horizontal = 0
-
-[node name="BannerTexture" type="TextureRect" parent="NameBanner" unique_id=1234567890]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("6_banner")
-expand_mode = 1
-
-[node name="HeaderContent" type="VBoxContainer" parent="NameBanner" unique_id=1122334455]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -38.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 2
-alignment = 1
-
-[node name="NameLabel" type="Label" parent="NameBanner/HeaderContent" unique_id=1100223344]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 0.4)
-theme_override_constants/outline_size = 4
-theme_override_fonts/font = ExtResource("5_font")
-theme_override_font_sizes/font_size = 50
-text = "Nguyễn Văn A"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="IdLabel" type="Label" parent="NameBanner/HeaderContent" unique_id=1398842063]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 0.95)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 0.35)
-theme_override_constants/outline_size = 3
-theme_override_fonts/font = ExtResource("5_font")
-theme_override_font_sizes/font_size = 30
-text = "ID: 123467"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="RightColumn" type="Control" parent="." unique_id=2000000000]
 layout_mode = 1
@@ -444,6 +398,102 @@ clip_text = true
 
 [node name="ClickBtn" type="Button" parent="ChatPreviewBar"]
 layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_previewbtn")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_previewbtn")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_previewbtn")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_previewbtn")
+flat = true
+
+[node name="NameBanner" type="Control" parent="." unique_id=1310177641]
+custom_minimum_size = Vector2(265, 330)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -300.0
+offset_top = 8.0
+offset_right = -35.0
+offset_bottom = 338.0
+grow_horizontal = 0
+
+[node name="BannerTexture" type="TextureRect" parent="NameBanner" unique_id=1234567890]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("6_banner")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HeaderContent" type="CenterContainer" parent="NameBanner" unique_id=1122334455]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 46.0
+offset_top = 62.0
+offset_right = -46.0
+offset_bottom = -86.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="AvatarFrame" type="Panel" parent="NameBanner/HeaderContent"]
+custom_minimum_size = Vector2(122, 122)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_avatar_frame")
+
+[node name="AvatarTexture" type="TextureRect" parent="NameBanner/HeaderContent/AvatarFrame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = -6.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("24_avatar")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="PenIcon" type="TextureRect" parent="NameBanner/HeaderContent/AvatarFrame"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = -22.0
+offset_right = 18.0
+offset_bottom = 16.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("23_pen")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ProfileBtn" type="Button" parent="NameBanner"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = 24.0
+offset_right = -30.0
+offset_bottom = -44.0
+grow_horizontal = 2
+grow_vertical = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_previewbtn")

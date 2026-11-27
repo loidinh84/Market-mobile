@@ -8,17 +8,13 @@ public partial class LobbyScreen : Control
 {
 	[Export] private SidebarTab[] _sidebarTabs;
 	[Export] private Control _nameBanner;
-	[Export] private Control _dropdownContent;
-	[Export] private Button _headerBtn;
-	[Export] private Control _dismissBackdrop;
-	[Export] private Button _copyIdBtn;
-	[Export] private Button _changeNameBtn;
-	[Export] private Button _logoutBtn;
 
 	private SettingsPanel _settingsPanel;
 	private SettingsModal _settingsModal;
 	private ModeSelectScreen _modeSelectScreen;
 	private LobbySocialDrawer _socialDrawer;
+	private ProfileModal _profileModal;
+	private Button _profileBtn;
 	private LeftSidebar _leftSidebar;
 	private Node2D _characterDisplay;
 	private Control _topBar;
@@ -47,6 +43,7 @@ public partial class LobbyScreen : Control
 	private const string SettingsModalScenePath = "res://prefabs/ui/settings_modal.tscn";
 	private const string ModeSelectScenePath = "res://scenes/ui/mode_select_screen.tscn";
 	private const string SocialDrawerScenePath = "res://prefabs/ui/lobby_social_drawer.tscn";
+	private const string ProfileModalScenePath = "res://prefabs/ui/profile_modal.tscn";
 	private Control _embeddedHost;
 	private Control _modalOverlayHost;
 	private PackedScene _characterScene;
@@ -58,12 +55,6 @@ public partial class LobbyScreen : Control
 	private Tween _tabContentTween;
 
 	private int _currentTabIndex = 0;
-	private bool _isDropdownOpen = false;
-	private Tween _bannerTween;
-
-	private const float CollapsedHeight = 150f;
-	private const float ExpandedHeight = 460f;
-	private const float AnimDuration = 0.28f;
 
 	public override void _Ready()
 	{
@@ -101,40 +92,12 @@ public partial class LobbyScreen : Control
 		// Tạo host cho màn hình con (nằm dưới LeftSidebar) và modal overlay (nằm trên LeftSidebar)
 		SetupShellHosts();
 
-		// Setup Name Banner Dropdown (if present)
+		// Setup Name Banner
 		_nameBanner ??= GetNodeOrNull<Control>("NameBanner");
-		_dropdownContent ??= GetNodeOrNull<Control>("NameBanner/DropdownContent");
-		_headerBtn ??= GetNodeOrNull<Button>("NameBanner/HeaderBtn");
-		_dismissBackdrop ??= GetNodeOrNull<Control>("DismissBackdrop");
-		_copyIdBtn ??= GetNodeOrNull<Button>("NameBanner/DropdownContent/CopyIdBtn");
-		_changeNameBtn ??= GetNodeOrNull<Button>("NameBanner/DropdownContent/ChangeNameBtn");
-		_logoutBtn ??= GetNodeOrNull<Button>("NameBanner/DropdownContent/LogoutBtn");
-
-		if (_headerBtn != null)
+		_profileBtn = GetNodeOrNull<Button>("NameBanner/ProfileBtn");
+		if (_profileBtn != null)
 		{
-			_headerBtn.Pressed += ToggleDropdown;
-		}
-
-		if (_dismissBackdrop != null)
-		{
-			_dismissBackdrop.GuiInput += OnBackdropInput;
-			_dismissBackdrop.Visible = false;
-		}
-
-		if (_copyIdBtn != null)
-		{
-			_copyIdBtn.Pressed += OnCopyIdPressed;
-		}
-
-		if (_logoutBtn != null)
-		{
-			_logoutBtn.Pressed += OnLogoutPressed;
-		}
-
-		if (_dropdownContent != null)
-		{
-			_dropdownContent.Visible = false;
-			_dropdownContent.Modulate = new Color(1, 1, 1, 0);
+			_profileBtn.Pressed += OpenProfileModal;
 		}
 
 		// Setup Right Column Buttons
@@ -241,7 +204,6 @@ public partial class LobbyScreen : Control
 	public override void _ExitTree()
 	{
 		_tabContentTween?.Kill();
-		_bannerTween?.Kill();
 		if (_leftSidebar != null)
 		{
 			_leftSidebar.TabSelected -= OnTabSelected;
@@ -457,11 +419,6 @@ public partial class LobbyScreen : Control
 		bool isInventory = tabIndex == 4;
 		bool isLobby = !isChars && !isEvents && !isShop && !isInventory;
 
-		if (!isLobby && _isDropdownOpen)
-		{
-			CloseDropdown();
-		}
-
 		if (!isChars && _characterScreen != null)
 		{
 			_characterScreen.OnDeactivatedInShell();
@@ -668,79 +625,6 @@ public partial class LobbyScreen : Control
 		}
 	}
 
-	private void ToggleDropdown()
-	{
-		if (_isDropdownOpen)
-			CloseDropdown();
-		else
-			OpenDropdown();
-	}
-
-	private void OpenDropdown()
-	{
-		if (_nameBanner == null) return;
-		_isDropdownOpen = true;
-
-		if (_dismissBackdrop != null)
-			_dismissBackdrop.Visible = true;
-
-		if (_dropdownContent != null)
-			_dropdownContent.Visible = true;
-
-		_bannerTween?.Kill();
-		_bannerTween = CreateTween().SetParallel(true);
-		_bannerTween.TweenProperty(_nameBanner, "custom_minimum_size:y", ExpandedHeight, AnimDuration)
-			.SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
-		_bannerTween.TweenProperty(_nameBanner, "size:y", ExpandedHeight, AnimDuration)
-			.SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
-
-		if (_dropdownContent != null)
-		{
-			_bannerTween.TweenProperty(_dropdownContent, "modulate:a", 1.0f, AnimDuration * 0.8f)
-				.SetDelay(AnimDuration * 0.2f);
-		}
-	}
-
-	private void CloseDropdown()
-	{
-		if (_nameBanner == null) return;
-		_isDropdownOpen = false;
-
-		if (_dismissBackdrop != null)
-			_dismissBackdrop.Visible = false;
-
-		_bannerTween?.Kill();
-		_bannerTween = CreateTween().SetParallel(true);
-		_bannerTween.TweenProperty(_nameBanner, "custom_minimum_size:y", CollapsedHeight, AnimDuration * 0.8f)
-			.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
-		_bannerTween.TweenProperty(_nameBanner, "size:y", CollapsedHeight, AnimDuration * 0.8f)
-			.SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
-
-		if (_dropdownContent != null)
-		{
-			_bannerTween.TweenProperty(_dropdownContent, "modulate:a", 0.0f, AnimDuration * 0.5f);
-			_bannerTween.Chain().TweenCallback(Callable.From(() =>
-			{
-				if (!_isDropdownOpen && _dropdownContent != null)
-					_dropdownContent.Visible = false;
-			}));
-		}
-	}
-
-	private void OnBackdropInput(InputEvent @event)
-	{
-		if (@event is InputEventMouseButton mouseBtn && mouseBtn.Pressed && mouseBtn.ButtonIndex == MouseButton.Left)
-		{
-			CloseDropdown();
-		}
-	}
-
-	private void OnCopyIdPressed()
-	{
-		DisplayServer.ClipboardSet("123467");
-		GD.Print("Copied ID to clipboard!");
-	}
-
 	private void OnSettingsRequested()
 	{
 		OpenSettingsModal();
@@ -761,6 +645,22 @@ public partial class LobbyScreen : Control
 		}
 
 		_settingsModal?.OpenModal();
+	}
+
+	private void OpenProfileModal()
+	{
+		if (!IsInstanceValid(_profileModal))
+		{
+			var host = _modalOverlayHost ?? (Control)this;
+			var packed = GD.Load<PackedScene>(ProfileModalScenePath);
+			_profileModal = packed?.Instantiate<ProfileModal>();
+			if (_profileModal != null)
+			{
+				host.AddChild(_profileModal);
+			}
+		}
+
+		_profileModal?.OpenModal();
 	}
 
 	private void OnInventoryGoToShop(int shopTabIndex)

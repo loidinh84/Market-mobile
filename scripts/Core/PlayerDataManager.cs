@@ -91,17 +91,35 @@ public partial class PlayerDataManager : Node
     [Signal]
     public delegate void MatchConfigChangedEventHandler();
 
+    [Signal]
+    public delegate void ProfileChangedEventHandler(string playerName, int avatarStyleIndex);
+
     private const string SaveFilePath = "user://save_data.json";
+    private const string DefaultPlayerName = "Nguyễn Văn A";
+    private const string DefaultPlayerId = "123467";
     private const int DefaultCoins = 123456;
     private const int DefaultRau = 123456;
     private const int DefaultGachaTickets = 5;
 
+    public const string RenameCardItemId = "item_the_doi_ten";
     public const int TicketPriceGold = 100;
     public const int TicketPriceRau = 10;
     public const int GachaPityLimit = 50;
     public const int GachaMilestoneMax = 30;
     public static readonly int[] GachaMilestoneTargets = { 1, 5, 10, 15, 30 };
 
+    public string PlayerName { get; private set; } = DefaultPlayerName;
+    public string PlayerId { get; private set; } = DefaultPlayerId;
+    public int AvatarStyleIndex { get; private set; } = 0;
+    public int PlayerLevel { get; private set; } = 12;
+    public int PlayerExp { get; private set; } = 1450;
+    public int PlayerExpToNextLevel => 500 + PlayerLevel * 125;
+    public int CurrentSeasonRankIndex { get; private set; } = 3; // 0..6 (mẫu: Ngọc Bích)
+    public int CurrentRankPoints { get; private set; } = 1850;
+    public int HighestRankIndex { get; private set; } = 6;       // 0..6 (mẫu: Trùm Chợ Lớn)
+    public int TotalMatches { get; private set; } = 48;
+    public int TotalWins { get; private set; } = 33;
+    public float WinRatePercent => TotalMatches > 0 ? (TotalWins * 100f) / TotalMatches : 0f;
     public int Coins { get; private set; } = DefaultCoins;
     public int Rau { get; private set; } = DefaultRau;
     public int GachaTickets { get; private set; } = DefaultGachaTickets;
@@ -116,8 +134,9 @@ public partial class PlayerDataManager : Node
     public bool HasClaimedStarterShopGift { get; private set; } = false;
     public bool HasReceivedInventoryStarterGift { get; private set; } = false;
     public bool HasReceivedLuckBagGift { get; private set; } = false;
+    public bool HasReceivedRenameCardGift { get; private set; } = false;
+    public int RenameCardCount => GetItemQuantity(RenameCardItemId);
 
-    public int PlayerLevel { get; private set; } = 1;
     public bool IsRankedUnlocked => PlayerLevel >= RankRequiredLevel;
     public PlayMatchType SelectedPlayType { get; private set; } = PlayMatchType.Normal;
     public TeamMode SelectedTeamMode { get; private set; } = TeamMode.Solo1v1;
@@ -171,6 +190,16 @@ public partial class PlayerDataManager : Node
 
     private class SaveDataDto
     {
+        public string PlayerName { get; set; } = DefaultPlayerName;
+        public string PlayerId { get; set; } = DefaultPlayerId;
+        public int AvatarStyleIndex { get; set; } = 0;
+        public int PlayerLevel { get; set; } = 12;
+        public int PlayerExp { get; set; } = 1450;
+        public int CurrentSeasonRankIndex { get; set; } = 3;
+        public int CurrentRankPoints { get; set; } = 1850;
+        public int HighestRankIndex { get; set; } = 6;
+        public int TotalMatches { get; set; } = 48;
+        public int TotalWins { get; set; } = 33;
         public int Coins { get; set; } = DefaultCoins;
         public int Rau { get; set; } = DefaultRau;
         public int GachaTickets { get; set; } = DefaultGachaTickets;
@@ -184,7 +213,7 @@ public partial class PlayerDataManager : Node
         public bool HasClaimedStarterShopGift { get; set; } = false;
         public bool HasReceivedInventoryStarterGift { get; set; } = false;
         public bool HasReceivedLuckBagGift { get; set; } = false;
-        public int PlayerLevel { get; set; } = 1;
+        public bool HasReceivedRenameCardGift { get; set; } = false;
         public int SelectedPlayType { get; set; } = 0;
         public int SelectedTeamMode { get; set; } = 0;
         public string SelectedMapId { get; set; } = "map_cho_dau_moi";
@@ -228,6 +257,16 @@ public partial class PlayerDataManager : Node
 
     private void InitializeDefaults()
     {
+        PlayerName = DefaultPlayerName;
+        PlayerId = DefaultPlayerId;
+        AvatarStyleIndex = 0;
+        PlayerLevel = 12;
+        PlayerExp = 1450;
+        CurrentSeasonRankIndex = 3;
+        CurrentRankPoints = 1850;
+        HighestRankIndex = 6;
+        TotalMatches = 48;
+        TotalWins = 33;
         Coins = DefaultCoins;
         Rau = DefaultRau;
         GachaTickets = DefaultGachaTickets;
@@ -240,7 +279,7 @@ public partial class PlayerDataManager : Node
         HasClaimedStarterShopGift = false;
         HasReceivedInventoryStarterGift = true;
         HasReceivedLuckBagGift = true;
-        PlayerLevel = 1;
+        HasReceivedRenameCardGift = true;
         SelectedPlayType = PlayMatchType.Normal;
         SelectedTeamMode = TeamMode.Solo1v1;
         SelectedMapId = "map_cho_dau_moi";
@@ -254,7 +293,9 @@ public partial class PlayerDataManager : Node
         _itemQuantities.Clear();
         _itemQuantities["gift_tan_thu"] = 1;
         _itemQuantities["gift_loc_cho"] = 1;
+        _itemQuantities[RenameCardItemId] = 1;
         _recentItemIds.Clear();
+        _recentItemIds.Add(RenameCardItemId);
         _recentItemIds.Add("gift_loc_cho");
         _recentItemIds.Add("gift_tan_thu");
         _unlockedExtraSkins.Clear();
@@ -1090,12 +1131,128 @@ public partial class PlayerDataManager : Node
         SaveToDisk();
     }
 
+    public bool TryRenamePlayer(string newName, out string errorMessage)
+    {
+        errorMessage = string.Empty;
+        string trimmed = (newName ?? string.Empty).Trim();
+        if (trimmed.Length < 2 || trimmed.Length > 18)
+        {
+            errorMessage = "Tên cần từ 2 đến 18 ký tự!";
+            return false;
+        }
+
+        if (string.Equals(trimmed, PlayerName, StringComparison.Ordinal))
+        {
+            errorMessage = "Tên mới phải khác tên hiện tại!";
+            return false;
+        }
+
+        int currentCards = GetItemQuantity(RenameCardItemId);
+        if (currentCards < 1)
+        {
+            errorMessage = "Thiếu Thẻ Đổi Tên (mua ở Cửa hàng)!";
+            return false;
+        }
+
+        int nextCards = currentCards - 1;
+        if (nextCards <= 0)
+        {
+            _itemQuantities.Remove(RenameCardItemId);
+        }
+        else
+        {
+            _itemQuantities[RenameCardItemId] = nextCards;
+        }
+
+        PlayerName = trimmed;
+        SaveToDisk();
+        EmitSignal(SignalName.InventoryChanged);
+        EmitSignal(SignalName.ProfileChanged, PlayerName, AvatarStyleIndex);
+        return true;
+    }
+
+    public bool SetPlayerName(string newName)
+    {
+        string trimmed = (newName ?? string.Empty).Trim();
+        if (trimmed.Length < 2 || trimmed.Length > 18)
+        {
+            return false;
+        }
+
+        PlayerName = trimmed;
+        SaveToDisk();
+        EmitSignal(SignalName.ProfileChanged, PlayerName, AvatarStyleIndex);
+        return true;
+    }
+
+    public void SetAvatarStyle(int styleIndex)
+    {
+        int clamped = Mathf.Clamp(styleIndex, 0, 3);
+        if (AvatarStyleIndex == clamped) return;
+
+        AvatarStyleIndex = clamped;
+        SaveToDisk();
+        EmitSignal(SignalName.ProfileChanged, PlayerName, AvatarStyleIndex);
+    }
+
+    public void AddPlayerExp(int amount)
+    {
+        if (amount <= 0) return;
+        PlayerExp += amount;
+        while (PlayerExp >= PlayerExpToNextLevel)
+        {
+            PlayerExp -= PlayerExpToNextLevel;
+            PlayerLevel++;
+        }
+
+        SaveToDisk();
+        EmitSignal(SignalName.ProfileChanged, PlayerName, AvatarStyleIndex);
+    }
+
+    public void SetSeasonRank(int rankIndex, int points)
+    {
+        CurrentSeasonRankIndex = Mathf.Clamp(rankIndex, 0, 6);
+        CurrentRankPoints = Mathf.Max(0, points);
+        if (CurrentSeasonRankIndex > HighestRankIndex)
+        {
+            HighestRankIndex = CurrentSeasonRankIndex;
+        }
+
+        SaveToDisk();
+        EmitSignal(SignalName.ProfileChanged, PlayerName, AvatarStyleIndex);
+    }
+
+    public void SetHighestRankForPreview(int rankIndex)
+    {
+        HighestRankIndex = Mathf.Clamp(rankIndex, 0, 6);
+        SaveToDisk();
+        EmitSignal(SignalName.ProfileChanged, PlayerName, AvatarStyleIndex);
+    }
+
+    public void RecordMatchResult(bool isWin)
+    {
+        TotalMatches++;
+        if (isWin) TotalWins++;
+        SaveToDisk();
+        EmitSignal(SignalName.ProfileChanged, PlayerName, AvatarStyleIndex);
+    }
+
     public void SaveToDisk()
     {
         try
         {
             var dto = new SaveDataDto
             {
+                PlayerName = PlayerName,
+                PlayerId = PlayerId,
+                AvatarStyleIndex = AvatarStyleIndex,
+                PlayerLevel = PlayerLevel,
+                PlayerExp = PlayerExp,
+                CurrentSeasonRankIndex = CurrentSeasonRankIndex,
+                CurrentRankPoints = CurrentRankPoints,
+                HighestRankIndex = HighestRankIndex,
+                TotalMatches = TotalMatches,
+                TotalWins = TotalWins,
                 Coins = Coins,
                 Rau = Rau,
                 GachaTickets = GachaTickets,
@@ -1109,7 +1266,7 @@ public partial class PlayerDataManager : Node
                 HasClaimedStarterShopGift = HasClaimedStarterShopGift,
                 HasReceivedInventoryStarterGift = HasReceivedInventoryStarterGift,
                 HasReceivedLuckBagGift = HasReceivedLuckBagGift,
-                PlayerLevel = PlayerLevel,
+                HasReceivedRenameCardGift = HasReceivedRenameCardGift,
                 SelectedPlayType = (int)SelectedPlayType,
                 SelectedTeamMode = (int)SelectedTeamMode,
                 SelectedMapId = SelectedMapId,
@@ -1171,6 +1328,22 @@ public partial class PlayerDataManager : Node
             var dto = JsonSerializer.Deserialize<SaveDataDto>(json);
             if (dto == null) return;
 
+            if (!string.IsNullOrWhiteSpace(dto.PlayerName))
+            {
+                PlayerName = dto.PlayerName.Trim();
+            }
+            if (!string.IsNullOrWhiteSpace(dto.PlayerId))
+            {
+                PlayerId = dto.PlayerId.Trim();
+            }
+            AvatarStyleIndex = Mathf.Clamp(dto.AvatarStyleIndex, 0, 3);
+            PlayerLevel = Mathf.Max(1, dto.PlayerLevel);
+            PlayerExp = Mathf.Max(0, dto.PlayerExp);
+            CurrentSeasonRankIndex = Mathf.Clamp(dto.CurrentSeasonRankIndex, 0, 6);
+            CurrentRankPoints = Mathf.Max(0, dto.CurrentRankPoints);
+            HighestRankIndex = Mathf.Clamp(Mathf.Max(dto.HighestRankIndex, CurrentSeasonRankIndex), 0, 6);
+            TotalMatches = Mathf.Max(0, dto.TotalMatches);
+            TotalWins = Mathf.Clamp(dto.TotalWins, 0, TotalMatches);
             Coins = Mathf.Max(0, dto.Coins);
             Rau = Mathf.Max(0, dto.Rau);
             GachaTickets = Mathf.Max(0, dto.GachaTickets);
@@ -1190,7 +1363,7 @@ public partial class PlayerDataManager : Node
             HasClaimedStarterShopGift = dto.HasClaimedStarterShopGift;
             HasReceivedInventoryStarterGift = dto.HasReceivedInventoryStarterGift;
             HasReceivedLuckBagGift = dto.HasReceivedLuckBagGift;
-            PlayerLevel = Mathf.Max(1, dto.PlayerLevel);
+            HasReceivedRenameCardGift = dto.HasReceivedRenameCardGift;
             SelectedPlayType = Enum.IsDefined(typeof(PlayMatchType), dto.SelectedPlayType)
                 ? (PlayMatchType)dto.SelectedPlayType : PlayMatchType.Normal;
             if (SelectedPlayType == PlayMatchType.Ranked && !IsRankedUnlocked)
@@ -1232,6 +1405,12 @@ public partial class PlayerDataManager : Node
                 HasReceivedLuckBagGift = true;
                 _itemQuantities["gift_loc_cho"] = GetItemQuantity("gift_loc_cho") + 1;
                 RecordRecentItem("gift_loc_cho");
+            }
+            if (!HasReceivedRenameCardGift)
+            {
+                HasReceivedRenameCardGift = true;
+                _itemQuantities[RenameCardItemId] = GetItemQuantity(RenameCardItemId) + 1;
+                RecordRecentItem(RenameCardItemId);
             }
 
             _unlockedExtraSkins.Clear();

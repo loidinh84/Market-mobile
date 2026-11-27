@@ -212,6 +212,15 @@ public static class GameCatalog
 			Price = 120, Currency = CurrencyType.Rau,
 			IconPath = "res://assets/sprites/icons/role.png", IconTint = new Color(0.70f, 0.90f, 1.0f, 1f),
 			IsConsumable = false
+		},
+		new()
+		{
+			Id = "item_the_doi_ten", Name = "Thẻ Đổi Tên", Tag = "Hồ sơ",
+			Summary = "Đổi tên tiểu thương 1 lần",
+			Description = "Tấm thẻ giúp bạn đổi tên hiển thị mới trong Hồ Sơ Tiểu Thương (tốn 1 thẻ mỗi lần đổi).",
+			Price = 500, Currency = CurrencyType.Gold,
+			IconPath = "res://assets/sprites/ui/pen.png", IconTint = new Color(1.0f, 0.88f, 0.45f, 1f),
+			IsConsumable = false
 		}
 	};
 
