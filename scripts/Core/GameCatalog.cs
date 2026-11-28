@@ -2,6 +2,39 @@ using Godot;
 
 namespace MarketMobile.Core;
 
+public enum PlayMatchType
+{
+	Normal = 0,
+	Ranked = 1,
+	Bot = 2,
+	Custom = 3
+}
+
+public enum TeamMode
+{
+	Solo1v1 = 0,
+	Duo2v2 = 1
+}
+
+public enum BotDifficulty
+{
+	Easy = 0,
+	Medium = 1,
+	Hard = 2
+}
+
+public sealed class MapMeta
+{
+	public string Id { get; init; }
+	public string Name { get; init; }
+	public string Subtitle { get; init; }
+	public string TexturePath { get; init; }
+	public Color BannerTint { get; init; } = Colors.White;
+	public Color TitleColor { get; init; } = Colors.White;
+	public bool AllowInRanked { get; init; } = true;
+	public bool IsComingSoon { get; init; } = false;
+}
+
 public sealed class ConsumableItemMeta
 {
 	public string Id { get; init; }
@@ -40,11 +73,90 @@ public sealed class GiftBagMeta
 	public Color IconTint { get; init; } = Colors.White;
 }
 
+public sealed class FriendMeta
+{
+	public string Id { get; init; }
+	public string Name { get; init; }
+	public bool IsOnline { get; init; } = true;
+	public bool IsInMatch { get; init; } = false;
+}
+
+public sealed class StickerMeta
+{
+	public string Id { get; init; }
+	public string PackId { get; init; }
+	public string Label { get; init; }
+	public string TexturePath { get; init; }
+}
+
+public sealed class StickerPackMeta
+{
+	public string Id { get; init; }
+	public string Name { get; init; }
+	public string CoverPath { get; init; }
+	public StickerMeta[] Items { get; init; }
+}
+
 /// <summary>
 /// Danh mục vật phẩm và trang phục dùng chung giữa Cửa hàng và Túi đồ.
 /// </summary>
 public static class GameCatalog
 {
+	public const float RedRadishIntervalSeconds = 3.0f;
+	public const float WhiteRadishIntervalSeconds = 5.0f;
+	public const int MaxCustomSpectators = 4;
+	public static readonly int[] AllowedSpectatorPresets = { 0, 2, 4 };
+
+	public static int NormalizeSpectatorCount(int raw)
+	{
+		if (raw <= 0) return 0;
+		if (raw <= 2) return 2;
+		return MaxCustomSpectators;
+	}
+
+	public static readonly FriendMeta[] SampleFriends =
+	{
+		new() { Id = "100001", Name = "Nguyễn Trọng Nhân", IsOnline = true },
+		new() { Id = "100002", Name = "Trần Minh Khoa", IsOnline = true },
+		new() { Id = "100003", Name = "Lê Hoàng Nam", IsOnline = true },
+		new() { Id = "100004", Name = "Phạm Gia Bảo", IsOnline = true },
+		new() { Id = "100005", Name = "Võ Thanh Tùng", IsOnline = true, IsInMatch = true },
+		new() { Id = "100006", Name = "Nguyễn Thị Mai", IsOnline = true },
+		new() { Id = "100007", Name = "Đặng Quốc Huy", IsOnline = true },
+		new() { Id = "100008", Name = "Bùi Ngọc Anh", IsOnline = true },
+		new() { Id = "100009", Name = "Huỳnh Tấn Phát", IsOnline = true, IsInMatch = true },
+		new() { Id = "100010", Name = "Đỗ Khánh Linh", IsOnline = true },
+		new() { Id = "100011", Name = "Phan Văn Đức", IsOnline = true },
+		new() { Id = "100012", Name = "Ngô Thùy Dương", IsOnline = false },
+		new() { Id = "100013", Name = "Lý Minh Tuấn", IsOnline = false },
+		new() { Id = "100014", Name = "Trương Hoàng Phúc", IsOnline = true },
+		new() { Id = "100015", Name = "Cao Thảo Vy", IsOnline = false }
+	};
+
+	public static readonly FriendMeta[] SearchablePlayers =
+	{
+		new() { Id = "200101", Name = "Thành Lợi", IsOnline = true },
+		new() { Id = "200102", Name = "Anh Tèo", IsOnline = true },
+		new() { Id = "200103", Name = "Chị Hằng", IsOnline = true },
+		new() { Id = "200104", Name = "Chú Cuội", IsOnline = true },
+		new() { Id = "200105", Name = "Hai Lúa Miền Tây", IsOnline = true },
+		new() { Id = "200106", Name = "Sát Thủ Rau Củ", IsOnline = false },
+		new() { Id = "200107", Name = "Vua Chợ Đêm", IsOnline = true },
+		new() { Id = "200108", Name = "Bà Năm Bán Cá", IsOnline = false },
+		new() { Id = "200109", Name = "Cô Ba Sài Gòn", IsOnline = true },
+		new() { Id = "200110", Name = "Đại Gia Hạt Dẻ", IsOnline = true }
+	};
+
+	public static readonly FriendMeta[] SampleFriendRequests =
+	{
+		new() { Id = "300101", Name = "Nguyễn Minh Anh", IsOnline = true },
+		new() { Id = "300102", Name = "Trần Quốc Bảo", IsOnline = true },
+		new() { Id = "300103", Name = "Lê Thu Hà", IsOnline = false },
+		new() { Id = "300104", Name = "Phạm Tuấn Kiệt", IsOnline = true },
+		new() { Id = "300105", Name = "Hoàng Gia Hân", IsOnline = true },
+		new() { Id = "300106", Name = "Vũ Đức Mạnh", IsOnline = false }
+	};
+
 	public static readonly ConsumableItemMeta[] Consumables =
 	{
 		new()
@@ -174,6 +286,80 @@ public static class GameCatalog
 		}
 	};
 
+	public static readonly MapMeta[] Maps =
+	{
+		new()
+		{
+			Id = "map_cho_dau_moi",
+			Name = "Chợ Đầu Mối",
+			Subtitle = "Bản đồ chuẩn · Nhịp độ cân bằng",
+			TexturePath = "res://assets/sprites/icons/map_demo.png",
+			BannerTint = Colors.White,
+			TitleColor = new Color(1.0f, 0.90f, 0.25f, 1f),
+			AllowInRanked = true
+		},
+		new()
+		{
+			Id = "map_nga_tu_thu_duc",
+			Name = "Ngã Tư Thủ Đức",
+			Subtitle = "Chỉ mở Đấu Thường / Máy / Custom",
+			TexturePath = "res://assets/sprites/icons/map_demo.png",
+			BannerTint = new Color(0.95f, 0.92f, 1.0f, 1f),
+			TitleColor = new Color(1.0f, 0.62f, 0.22f, 1f),
+			AllowInRanked = false
+		},
+		new()
+		{
+			Id = "map_cho_ben_thanh",
+			Name = "Chợ Bến Thành",
+			Subtitle = "Bản đồ chuẩn · Giao tranh dồn dập",
+			TexturePath = "res://assets/sprites/icons/map_demo.png",
+			BannerTint = new Color(1.0f, 0.93f, 0.90f, 1f),
+			TitleColor = new Color(1.0f, 0.36f, 0.32f, 1f),
+			AllowInRanked = true
+		},
+		new()
+		{
+			Id = "map_sap_ra_mat",
+			Name = "Sắp Ra Mắt",
+			Subtitle = "Đang xây dựng thêm khu chợ mới",
+			TexturePath = "res://assets/sprites/icons/map_demo.png",
+			BannerTint = new Color(0.75f, 0.75f, 0.82f, 1f),
+			TitleColor = new Color(0.95f, 0.95f, 1.0f, 1f),
+			AllowInRanked = false,
+			IsComingSoon = true
+		}
+	};
+
+	public static MapMeta FindMap(string mapId)
+	{
+		if (!string.IsNullOrEmpty(mapId))
+		{
+			foreach (var m in Maps)
+			{
+				if (m.Id == mapId) return m;
+			}
+		}
+		return Maps[0];
+	}
+
+	public static string GetPlayTypeShortLabel(PlayMatchType type) => type switch
+	{
+		PlayMatchType.Ranked => "Xếp hạng",
+		PlayMatchType.Bot => "Đấu máy",
+		PlayMatchType.Custom => "Custom",
+		_ => "Thường"
+	};
+
+	public static string GetTeamModeLabel(TeamMode mode) => mode == TeamMode.Duo2v2 ? "2 VS 2" : "1 VS 1";
+
+	public static string GetBotDifficultyLabel(BotDifficulty diff) => diff switch
+	{
+		BotDifficulty.Hard => "Khó",
+		BotDifficulty.Medium => "Vừa",
+		_ => "Dễ"
+	};
+
 	public static ConsumableItemMeta FindConsumable(string itemId)
 	{
 		if (string.IsNullOrEmpty(itemId)) return null;
@@ -190,6 +376,92 @@ public static class GameCatalog
 		foreach (var bag in GiftBags)
 		{
 			if (bag.Id == giftId) return bag;
+		}
+		return null;
+	}
+
+	private static StickerMeta[] BuildStickerPackItems(string packId, string folder, params string[] labels)
+	{
+		var items = new StickerMeta[labels.Length];
+		for (int i = 0; i < labels.Length; i++)
+		{
+			string code = $"{packId}_{(i + 1):D2}";
+			items[i] = new StickerMeta
+			{
+				Id = code,
+				PackId = packId,
+				Label = labels[i],
+				TexturePath = $"res://assets/sprites/stickers/packs/{folder}/{code}.png"
+			};
+		}
+		return items;
+	}
+
+	public static readonly StickerPackMeta[] StickerPacks =
+	{
+		new()
+		{
+			Id = "capybara",
+			Name = "Capybara",
+			CoverPath = "res://assets/sprites/stickers/packs/capybara/capybara_01.png",
+			Items = BuildStickerPackItems(
+				"capybara", "capybara",
+				"Thả tim", "Sinh nhật", "Đánh đàn", "Vui sướng",
+				"Chào nha", "Kính hồng", "Siêu ngầu", "Trà sữa",
+				"Bánh quy", "Ăn kem", "Ôm dâu", "Burger",
+				"Ngủ ngon", "Bánh kem", "Cõng ếch", "Cười tít",
+				"Mũ ếch", "Bánh donut", "Dưa hấu", "Đeo kính",
+				"Làm việc", "Đọc sách", "Xếp sách", "Anh em"
+			)
+		},
+		new()
+		{
+			Id = "duck",
+			Name = "Vịt Vàng",
+			CoverPath = "res://assets/sprites/stickers/packs/duck/duck_01.png",
+			Items = BuildStickerPackItems(
+				"duck", "duck",
+				"Ôm tim", "Mũ ếch", "Xin chào", "Mũ hoa cúc",
+				"Hoa tulip", "Ngủ khò", "Kính tim", "Trà sữa",
+				"Áo mưa", "Vương miện", "Quàng khăn", "Ôm gấu",
+				"Nở trứng", "Mũ cói", "Hoa cúc", "Thư giãn",
+				"Phao bơi", "Hoan hô", "Đọc sách", "Nơ hồng"
+			)
+		},
+		new()
+		{
+			Id = "pochacco",
+			Name = "Pochacco",
+			CoverPath = "res://assets/sprites/stickers/packs/pochacco/pochacco_01.png",
+			Items = BuildStickerPackItems(
+				"pochacco", "pochacco",
+				"Ngơ ngác", "Dỏng tai", "Mơ màng",
+				"Tức giận", "Tặng tim", "Toát mồ hôi"
+			)
+		}
+	};
+
+	public static readonly string[] QuickChatPhrases =
+	{
+		"Vô kèo 2v2 không?",
+		"Lập phòng nhé!",
+		"Đợi mình xíu nha!",
+		"Sẵn sàng rồi nè!",
+		"Hay quá bạn ơi!",
+		"Cố lên nào!",
+		"Thiếu 1 slot nữa!",
+		"Trận hay, cảm ơn nha!"
+	};
+
+	public static StickerMeta FindSticker(string stickerId)
+	{
+		if (string.IsNullOrEmpty(stickerId)) return null;
+		foreach (var pack in StickerPacks)
+		{
+			foreach (var item in pack.Items)
+			{
+				if (item.Id == stickerId) return item;
+			}
 		}
 		return null;
 	}

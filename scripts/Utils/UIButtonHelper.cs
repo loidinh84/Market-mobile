@@ -70,6 +70,7 @@ public static class UIButtonHelper
         // Nút nhún nhẹ xuống và TIẾP TỤC GIỮ TRẠNG THÁI LÚN NÀY chừng nào ngón tay còn đè trên nút.
         button.ButtonDown += () =>
         {
+            if (button.Disabled) return;
             UpdatePivot();
             currentTween?.Kill();
             currentTween = target.CreateTween();
@@ -81,6 +82,7 @@ public static class UIButtonHelper
         // Nút nảy bật trở lại kích thước chuẩn (có hiệu ứng lò xo nhẹ) và kích hoạt hành động.
         button.ButtonUp += () =>
         {
+            if (button.Disabled) return;
             currentTween?.Kill();
             currentTween = target.CreateTween();
             currentTween.TweenProperty(target, "scale", Vector2.One, 0.12f)

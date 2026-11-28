@@ -1,12 +1,12 @@
 [gd_resource type="TileSet" format=3 uid="uid://bdxop04n5xk0e"]
 
-[ext_resource type="Texture2D" path="res://assets/sprites/map/tiles/tile_village_ground_64x64.png" id="1_map2"]
-[ext_resource type="Texture2D" path="res://assets/sprites/map/tiles/tile_water_animated_64x64.png" id="2_water"]
-[ext_resource type="Texture2D" path="res://assets/sprites/map/tiles/tile_bridge_wood_64x64.png" id="3_bridge"]
-[ext_resource type="PackedScene" path="res://prefabs/environment/market_base_lv1/market_base_lv1_north.tscn" id="4_cho_north"]
+[ext_resource type="Texture2D" uid="uid://drdyolla8hseg" path="res://assets/sprites/map/tiles/tile_village_ground_64x64.png" id="1_map2"]
+[ext_resource type="Texture2D" uid="uid://cql4ccem1cp8m" path="res://assets/sprites/map/tiles/tile_water_animated_64x64.png" id="2_water"]
+[ext_resource type="Texture2D" uid="uid://bu0uwofgujmog" path="res://assets/sprites/map/tiles/tile_bridge_wood_64x64.png" id="3_bridge"]
+[ext_resource type="PackedScene" uid="uid://gm5w6p4xccc0" path="res://prefabs/environment/market_base_lv1/market_base_lv1_north.tscn" id="4_cho_north"]
 [ext_resource type="PackedScene" uid="uid://bqk5fmwug0bta" path="res://prefabs/environment/market_base_lv1/market_base_lv1_east.tscn" id="5_cho_east"]
-[ext_resource type="PackedScene" path="res://prefabs/environment/market_base_lv1/market_base_lv1_south.tscn" id="6_cho_south"]
-[ext_resource type="PackedScene" path="res://prefabs/environment/market_base_lv1/market_base_lv1_west.tscn" id="7_cho_west"]
+[ext_resource type="PackedScene" uid="uid://c2xqnva3t3f1d" path="res://prefabs/environment/market_base_lv1/market_base_lv1_south.tscn" id="6_cho_south"]
+[ext_resource type="PackedScene" uid="uid://dgwo5djjjaww7" path="res://prefabs/environment/market_base_lv1/market_base_lv1_west.tscn" id="7_cho_west"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_map2"]
 resource_name = "Grass & Dirt"

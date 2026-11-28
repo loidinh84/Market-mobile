@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using MarketMobile.Core;
 
 namespace MarketMobile.UI;
 
@@ -43,48 +44,17 @@ public partial class FriendsScreen : Control
 
     private const float TabStepY = 134f; // TabHeight (118) + Separation (16)
 
-    private readonly List<(string Id, string Name)> _friends = new()
-    {
-        ("100001", "Nguyễn Trọng Nhân"),
-        ("100002", "Trần Minh Khoa"),
-        ("100003", "Lê Hoàng Nam"),
-        ("100004", "Phạm Gia Bảo"),
-        ("100005", "Võ Thanh Tùng"),
-        ("100006", "Nguyễn Thị Mai"),
-        ("100007", "Đặng Quốc Huy"),
-        ("100008", "Bùi Ngọc Anh"),
-        ("100009", "Huỳnh Tấn Phát"),
-        ("100010", "Đỗ Khánh Linh"),
-        ("100011", "Phan Văn Đức"),
-        ("100012", "Ngô Thùy Dương"),
-        ("100013", "Lý Minh Tuấn"),
-        ("100014", "Trương Hoàng Phúc"),
-        ("100015", "Cao Thảo Vy")
-    };
+    private readonly List<(string Id, string Name)> _friends = GameCatalog.SampleFriends
+        .Select(f => (f.Id, f.Name))
+        .ToList();
 
-    private readonly List<(string Id, string Name)> _searchablePlayers = new()
-    {
-        ("200101", "Thành Lợi"),
-        ("200102", "Anh Tèo"),
-        ("200103", "Chị Hằng"),
-        ("200104", "Chú Cuội"),
-        ("200105", "Hai Lúa Miền Tây"),
-        ("200106", "Sát Thủ Rau Củ"),
-        ("200107", "Vua Chợ Đêm"),
-        ("200108", "Bà Năm Bán Cá"),
-        ("200109", "Cô Ba Sài Gòn"),
-        ("200110", "Đại Gia Hạt Dẻ")
-    };
+    private readonly List<(string Id, string Name)> _searchablePlayers = GameCatalog.SearchablePlayers
+        .Select(p => (p.Id, p.Name))
+        .ToList();
 
-    private readonly List<(string Id, string Name)> _friendRequests = new()
-    {
-        ("300101", "Nguyễn Minh Anh"),
-        ("300102", "Trần Quốc Bảo"),
-        ("300103", "Lê Thu Hà"),
-        ("300104", "Phạm Tuấn Kiệt"),
-        ("300105", "Hoàng Gia Hân"),
-        ("300106", "Vũ Đức Mạnh")
-    };
+    private readonly List<(string Id, string Name)> _friendRequests = GameCatalog.SampleFriendRequests
+        .Select(r => (r.Id, r.Name))
+        .ToList();
 
     public override void _Ready()
     {

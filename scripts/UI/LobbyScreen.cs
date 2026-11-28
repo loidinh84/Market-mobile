@@ -11,6 +11,8 @@ public partial class LobbyScreen : Control
 
 	private SettingsPanel _settingsPanel;
 	private SettingsModal _settingsModal;
+	private ModeSelectScreen _modeSelectScreen;
+	private LobbySocialDrawer _socialDrawer;
 	private ProfileModal _profileModal;
 	private Button _profileBtn;
 	private LeftSidebar _leftSidebar;
@@ -18,15 +20,29 @@ public partial class LobbyScreen : Control
 	private Control _topBar;
 	private Control _rightColumn;
 	private Control _chatBox;
+	private Label _previewLine1;
+	private Label _previewLine2;
+	private Control _previewUnreadBadge;
+	private Label _previewUnreadLabel;
 	private CoinBar _coinBar;
 	private CoinBar _rauBar;
+	private TextureRect _modeMapTexture;
+	private TextureButton _modeTeamBtn;
+	private TextureButton _modeStyleBtn;
+	private Label _modeTeamLabel;
+	private Label _modeStyleLabel;
 	private PlayerDataManager _data;
+
+	private static readonly Texture2D TexLobbyTeamSlot = GD.Load<Texture2D>("res://assets/sprites/icons/mode_1vs1.png");
+	private static readonly Texture2D TexLobbyStyleNormal = GD.Load<Texture2D>("res://assets/sprites/icons/mode_style_play.png");
 
 	// Persistent Shell: giữ cố định Background & LeftSidebar, cache sẵn Nhân vật, Sự kiện & Cửa hàng
 	private const string CharacterScenePath = "res://scenes/ui/character_screen.tscn";
 	private const string EventsScenePath = "res://scenes/ui/events_screen.tscn";
 	private const string ShopScenePath = "res://scenes/ui/shop_screen.tscn";
 	private const string SettingsModalScenePath = "res://prefabs/ui/settings_modal.tscn";
+	private const string ModeSelectScenePath = "res://scenes/ui/mode_select_screen.tscn";
+	private const string SocialDrawerScenePath = "res://prefabs/ui/lobby_social_drawer.tscn";
 	private const string ProfileModalScenePath = "res://prefabs/ui/profile_modal.tscn";
 	private Control _embeddedHost;
 	private Control _modalOverlayHost;
@@ -85,52 +101,33 @@ public partial class LobbyScreen : Control
 		}
 
 		// Setup Right Column Buttons
-		var friendsBtn = GetNodeOrNull<BaseButton>("RightColumn/FriendsBtn");
-		var btn1vs1 = GetNodeOrNull<BaseButton>("RightColumn/ModeCard/ButtonsRow/Btn1vs1");
-		var btnStyle = GetNodeOrNull<BaseButton>("RightColumn/ModeCard/ButtonsRow/BtnStyle");
+		var mapBtn = GetNodeOrNull<BaseButton>("RightColumn/ModeCard/MapBtn");
+		_modeTeamBtn = GetNodeOrNull<TextureButton>("RightColumn/ModeCard/ButtonsRow/Btn1vs1");
+		_modeStyleBtn = GetNodeOrNull<TextureButton>("RightColumn/ModeCard/ButtonsRow/BtnStyle");
 		var startBtn = GetNodeOrNull<BaseButton>("RightColumn/StartBtn");
+		_modeMapTexture = GetNodeOrNull<TextureRect>("RightColumn/ModeCard/MapTexture");
+		_modeTeamLabel = GetNodeOrNull<Label>("RightColumn/ModeCard/ButtonsRow/Btn1vs1/Label");
+		_modeStyleLabel = GetNodeOrNull<Label>("RightColumn/ModeCard/ButtonsRow/BtnStyle/Label");
 
-		if (friendsBtn != null) friendsBtn.Pressed += OnFriendsPressed;
-		if (btn1vs1 != null) btn1vs1.Pressed += OnMode1vs1Pressed;
-		if (btnStyle != null) btnStyle.Pressed += OnModeStylePressed;
+		if (mapBtn != null) mapBtn.Pressed += OnMapCardPressed;
+		if (_modeTeamBtn != null) _modeTeamBtn.Pressed += OnMode1vs1Pressed;
+		if (_modeStyleBtn != null) _modeStyleBtn.Pressed += OnModeStylePressed;
 		if (startBtn != null) startBtn.Pressed += OnStartPressed;
 
-		// Setup ChatBox
-		var chatInput = GetNodeOrNull<LineEdit>("ChatBox/VBox/InputHBox/InputField");
-		var chatSendBtn = GetNodeOrNull<Button>("ChatBox/VBox/InputHBox/SendBtn");
-		var chatEmojiBtn = GetNodeOrNull<BaseButton>("ChatBox/VBox/InputHBox/EmojiBtn");
-		var messagesLabel = GetNodeOrNull<RichTextLabel>("ChatBox/VBox/MessagesScroll/MessagesLabel");
-
-		if (chatSendBtn != null && chatInput != null)
-		{
-			chatSendBtn.Pressed += () => SendChatMessage(chatInput, messagesLabel);
-			chatInput.TextSubmitted += (_) => SendChatMessage(chatInput, messagesLabel);
-		}
-
-		if (chatEmojiBtn != null && chatInput != null)
-		{
-			chatEmojiBtn.Pressed += () =>
-			{
-				chatInput.Text += "😊";
-				chatInput.GrabFocus();
-				chatInput.CaretColumn = chatInput.Text.Length;
-			};
-		}
-
-		// Setup Channel Tabs
-		var tabWorld = GetNodeOrNull<Button>("ChatBox/VBox/ChannelsHBox/TabWorld");
-		var tabFriends = GetNodeOrNull<Button>("ChatBox/VBox/ChannelsHBox/TabFriends");
-		var tabTeam = GetNodeOrNull<Button>("ChatBox/VBox/ChannelsHBox/TabTeam");
-
-		if (tabWorld != null) tabWorld.Pressed += () => SwitchChatChannel(0, tabWorld, tabFriends, tabTeam);
-		if (tabFriends != null) tabFriends.Pressed += () => SwitchChatChannel(1, tabWorld, tabFriends, tabTeam);
-		if (tabTeam != null) tabTeam.Pressed += () => SwitchChatChannel(2, tabWorld, tabFriends, tabTeam);
-
-		// Setup Lobby content refs & SettingsPanel
+		// Setup Lobby content refs, compact ChatPreviewBar & SettingsPanel
 		_characterDisplay = GetNodeOrNull<Node2D>("CharacterDisplay");
 		_topBar = GetNodeOrNull<Control>("TopBar");
 		_rightColumn = GetNodeOrNull<Control>("RightColumn");
-		_chatBox = GetNodeOrNull<Control>("ChatBox");
+		_chatBox = GetNodeOrNull<Control>("ChatPreviewBar");
+		_previewLine1 = GetNodeOrNull<Label>("ChatPreviewBar/HBox/LinesVBox/Line1");
+		_previewLine2 = GetNodeOrNull<Label>("ChatPreviewBar/HBox/LinesVBox/Line2");
+		_previewUnreadBadge = GetNodeOrNull<Control>("ChatPreviewBar/HBox/IconWrap/UnreadBadge");
+		_previewUnreadLabel = GetNodeOrNull<Label>("ChatPreviewBar/HBox/IconWrap/UnreadBadge/CountLabel");
+		var openSocialBtn = GetNodeOrNull<Button>("ChatPreviewBar/ClickBtn");
+		if (openSocialBtn != null)
+		{
+			openSocialBtn.Pressed += OnChatPreviewPressed;
+		}
 
 		_settingsPanel = GetNodeOrNull<SettingsPanel>("SettingsPanel");
 		if (_settingsPanel != null)
@@ -154,6 +151,8 @@ public partial class LobbyScreen : Control
 			_coinBar?.SetCoins(_data.Coins, animate: false);
 			_rauBar?.SetCoins(_data.Rau, animate: false);
 			_data.CurrenciesChanged += OnSharedCurrenciesChanged;
+			_data.MatchConfigChanged += SyncModeCardVisual;
+			SyncModeCardVisual();
 
 			var activeCharacter = _data.ActiveCharacter;
 			if (_characterDisplay != null && activeCharacter != null)
@@ -167,6 +166,10 @@ public partial class LobbyScreen : Control
 
 		// Gắn hiệu ứng nhún (bounce) và tắt hover cho toàn bộ các nút bấm
 		UIButtonHelper.AttachToAllButtons(this);
+		if (openSocialBtn != null && _chatBox != null)
+		{
+			UIButtonHelper.AttachBounceEffect(openSocialBtn, 0.97f, ButtonPivotMode.Center, _chatBox);
+		}
 
 		// Nếu chuyển từ màn hình khác sang với cờ mở Túi đồ hoặc popup Cài đặt
 		if (_data != null && _data.PendingOpenInventory)
@@ -215,6 +218,7 @@ public partial class LobbyScreen : Control
 		if (_data != null)
 		{
 			_data.CurrenciesChanged -= OnSharedCurrenciesChanged;
+			_data.MatchConfigChanged -= SyncModeCardVisual;
 		}
 		if (GetViewport() != null)
 		{
@@ -253,46 +257,129 @@ public partial class LobbyScreen : Control
 		}
 	}
 
-	private void SendChatMessage(LineEdit input, RichTextLabel messages)
+	private void OnChatPreviewPressed()
 	{
-		if (input == null || string.IsNullOrWhiteSpace(input.Text) || messages == null)
-			return;
-
-		messages.AppendText($"\n[b]Bạn:[/b] {input.Text}");
-		input.Text = string.Empty;
+		EnsureSocialDrawer();
+		_socialDrawer?.OpenDrawer();
 	}
 
-	private void SwitchChatChannel(int channel, Button tabWorld, Button tabFriends, Button tabTeam)
+	private void EnsureSocialDrawer()
 	{
-		var activeColor = new Color(1, 1, 1, 1);
-		var inactiveColor = new Color(0.8f, 0.8f, 0.85f, 0.8f);
-
-		if (tabWorld != null) tabWorld.AddThemeColorOverride("font_color", channel == 0 ? activeColor : inactiveColor);
-		if (tabFriends != null) tabFriends.AddThemeColorOverride("font_color", channel == 1 ? activeColor : inactiveColor);
-		if (tabTeam != null) tabTeam.AddThemeColorOverride("font_color", channel == 2 ? activeColor : inactiveColor);
-
-		string channelName = channel switch { 0 => "Thế giới", 1 => "Bạn bè", 2 => "Tổ đội", _ => "" };
-		GD.Print($"[LobbyScreen] Chuyển kênh chat sang: {channelName}");
+		if (IsInstanceValid(_socialDrawer)) return;
+		var host = _modalOverlayHost ?? (Control)this;
+		var packed = GD.Load<PackedScene>(SocialDrawerScenePath);
+		_socialDrawer = packed?.Instantiate<LobbySocialDrawer>();
+		if (_socialDrawer != null)
+		{
+			_socialDrawer.PreviewUpdated += SyncChatPreviewBar;
+			host.AddChild(_socialDrawer);
+			SyncChatPreviewBar();
+		}
 	}
 
-	private void OnFriendsPressed()
+	private void SyncChatPreviewBar()
 	{
-		GetTree().ChangeSceneToFile("res://scenes/ui/friends_screen.tscn");
+		if (_socialDrawer == null) return;
+		var (line1, line2, totalUnread) = _socialDrawer.GetPreviewSnapshot();
+		if (_previewLine1 != null) _previewLine1.Text = line1;
+		if (_previewLine2 != null) _previewLine2.Text = line2;
+		if (_previewUnreadBadge != null) _previewUnreadBadge.Visible = totalUnread > 0;
+		if (_previewUnreadLabel != null) _previewUnreadLabel.Text = totalUnread > 99 ? "99+" : totalUnread.ToString();
+	}
+
+	private void OnMapCardPressed()
+	{
+		OpenModeSelect("map");
 	}
 
 	private void OnMode1vs1Pressed()
 	{
-		GD.Print("[LobbyScreen] Đổi số người chơi (1 VS 1)!");
+		OpenModeSelect("team");
 	}
 
 	private void OnModeStylePressed()
 	{
-		GD.Print("[LobbyScreen] Đổi thể loại đấu (thường / rank)!");
+		OpenModeSelect("type");
+	}
+
+	private void OpenModeSelect(string focusSection)
+	{
+		if (!IsInstanceValid(_modeSelectScreen))
+		{
+			var host = _modalOverlayHost ?? (Control)this;
+			var packed = GD.Load<PackedScene>(ModeSelectScenePath);
+			_modeSelectScreen = packed?.Instantiate<ModeSelectScreen>();
+			if (_modeSelectScreen != null)
+			{
+				_modeSelectScreen.SelectionConfirmed += SyncModeCardVisual;
+				host.AddChild(_modeSelectScreen);
+			}
+		}
+
+		_modeSelectScreen?.OpenWithFocus(focusSection, animate: true);
+	}
+
+	private void SyncModeCardVisual()
+	{
+		if (_data == null) return;
+
+		if (_modeTeamLabel != null)
+		{
+			_modeTeamLabel.Text = GameCatalog.GetTeamModeLabel(_data.SelectedTeamMode);
+		}
+		if (_modeTeamBtn != null)
+		{
+			if (TexLobbyTeamSlot != null) _modeTeamBtn.TextureNormal = TexLobbyTeamSlot;
+			// Đồng bộ màu: 1 VS 1 giữ màu xám chuẩn, 2 VS 2 đổi màu hồng khớp nút 2vs2
+			_modeTeamBtn.SelfModulate = _data.SelectedTeamMode == TeamMode.Duo2v2
+				? new Color(1.0f, 0.44f, 0.64f, 1f)
+				: Colors.White;
+		}
+
+		if (_modeStyleLabel != null)
+		{
+			_modeStyleLabel.Text = GameCatalog.GetPlayTypeShortLabel(_data.SelectedPlayType);
+		}
+		if (_modeStyleBtn != null)
+		{
+			if (_data.SelectedPlayType == PlayMatchType.Normal)
+			{
+				if (TexLobbyStyleNormal != null) _modeStyleBtn.TextureNormal = TexLobbyStyleNormal;
+				_modeStyleBtn.SelfModulate = Colors.White;
+			}
+			else
+			{
+				if (TexLobbyTeamSlot != null) _modeStyleBtn.TextureNormal = TexLobbyTeamSlot;
+				_modeStyleBtn.SelfModulate = _data.SelectedPlayType switch
+				{
+					PlayMatchType.Ranked => new Color(0.95f, 0.25f, 0.45f, 1f),
+					PlayMatchType.Bot => new Color(0.28f, 0.68f, 1.0f, 1f),
+					PlayMatchType.Custom => new Color(0.55f, 0.55f, 0.64f, 1f),
+					_ => Colors.White
+				};
+			}
+		}
+
+		var map = GameCatalog.FindMap(_data.SelectedMapId);
+		if (_modeMapTexture != null && map != null && !string.IsNullOrEmpty(map.TexturePath))
+		{
+			var tex = ResourceLoader.Load<Texture2D>(map.TexturePath);
+			if (tex != null) _modeMapTexture.Texture = tex;
+			_modeMapTexture.Modulate = map.BannerTint;
+		}
 	}
 
 	private void OnStartPressed()
 	{
-		GD.Print("[LobbyScreen] Bắt đầu ghép trận!");
+		if (_data != null)
+		{
+			var map = GameCatalog.FindMap(_data.SelectedMapId);
+			GD.Print($"[LobbyScreen] Bắt đầu ghép trận: {GameCatalog.GetPlayTypeShortLabel(_data.SelectedPlayType)} · {GameCatalog.GetTeamModeLabel(_data.SelectedTeamMode)} · {map?.Name}");
+		}
+		else
+		{
+			GD.Print("[LobbyScreen] Bắt đầu ghép trận!");
+		}
 	}
 
 	private void OnTabReselected(int tabIndex)
@@ -440,6 +527,10 @@ public partial class LobbyScreen : Control
 		await ToSignal(tree, SceneTree.SignalName.ProcessFrame);
 		if (!IsInstanceValid(this) || !IsInsideTree()) return;
 		EnsureEventsScreen();
+
+		await ToSignal(tree, SceneTree.SignalName.ProcessFrame);
+		if (!IsInstanceValid(this) || !IsInsideTree()) return;
+		EnsureSocialDrawer();
 	}
 
 	private EventsScreen EnsureEventsScreen()
