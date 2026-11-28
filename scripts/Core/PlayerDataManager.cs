@@ -556,7 +556,7 @@ public partial class PlayerDataManager : Node
             {
                 Name = "Trà Đá Hồi Sức",
                 AmountText = "x2",
-                IconPath = "res://assets/sprites/icons/emotion.png",
+                IconPath = "res://assets/sprites/icons/social/emotion.png",
                 IconTint = new Color(0.55f, 0.95f, 1.0f, 1f),
                 AccentColor = new Color(0.42f, 0.90f, 1.0f, 1f)
             });
@@ -594,7 +594,7 @@ public partial class PlayerDataManager : Node
             {
                 Name = pickedName,
                 AmountText = "x1",
-                IconPath = pickedMeta?.IconPath ?? "res://assets/sprites/icons/tab_shop.png",
+                IconPath = pickedMeta?.IconPath ?? "res://assets/sprites/ui/buttons/tab_shop.png",
                 IconTint = pickedMeta?.IconTint ?? Colors.White,
                 AccentColor = new Color(0.55f, 0.95f, 0.72f, 1f)
             });
@@ -999,7 +999,7 @@ public partial class PlayerDataManager : Node
             {
                 Name = "Túi Lộc Phiên Chợ",
                 AmountText = "x1",
-                IconPath = "res://assets/sprites/icons/coin_poster.png",
+                IconPath = "res://assets/sprites/ui/posters/coin_poster.png",
                 Rarity = GachaRarity.Uncommon,
                 Note = "Mở trong Túi đồ -> Túi quà"
             };
@@ -1007,8 +1007,8 @@ public partial class PlayerDataManager : Node
 
         (string Id, string Name, string IconPath, Color Tint)[] items =
         {
-            ("item_tra_da", "Trà Đá Hồi Sức", "res://assets/sprites/icons/emotion.png", new Color(0.55f, 0.95f, 1.0f, 1f)),
-            ("item_gio_hang", "Giỏ Hàng Siêu Tốc", "res://assets/sprites/icons/tab_shop.png", new Color(1.0f, 0.92f, 0.65f, 1f)),
+            ("item_tra_da", "Trà Đá Hồi Sức", "res://assets/sprites/icons/social/emotion.png", new Color(0.55f, 0.95f, 1.0f, 1f)),
+            ("item_gio_hang", "Giỏ Hàng Siêu Tốc", "res://assets/sprites/ui/buttons/tab_shop.png", new Color(1.0f, 0.92f, 0.65f, 1f)),
             ("item_nuoc_mia", "Nước Mía Tăng Lực", "res://assets/sprites/icons/upgrade.png", new Color(1.0f, 0.85f, 0.35f, 1f)),
             ("item_bua_x2", "Bùa X2 Doanh Thu", "res://assets/sprites/icons/coin.png", Colors.White),
             ("item_hat_giong", "Túi Hạt Giống Quý", "res://assets/sprites/icons/rau.png", Colors.White),
@@ -1073,7 +1073,7 @@ public partial class PlayerDataManager : Node
                 {
                     Name = "Trà Đá Hồi Sức",
                     AmountText = "x1",
-                    IconPath = "res://assets/sprites/icons/emotion.png",
+                    IconPath = "res://assets/sprites/icons/social/emotion.png",
                     IconTint = new Color(0.55f, 0.95f, 1.0f, 1f),
                     Rarity = GachaRarity.Uncommon,
                     Note = "Quà mốc 5 lượt"
@@ -1106,7 +1106,7 @@ public partial class PlayerDataManager : Node
                 {
                     Name = "Túi Lộc Đại Cát",
                     AmountText = "+1,200V · +80R",
-                    IconPath = "res://assets/sprites/icons/coin_poster.png",
+                    IconPath = "res://assets/sprites/ui/posters/coin_poster.png",
                     Rarity = GachaRarity.Legendary,
                     Note = "Quà mốc 30 lượt"
                 };

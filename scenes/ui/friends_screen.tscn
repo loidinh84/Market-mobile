@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bbq64ldrfdvte" path="res://assets/sprites/icons/back.png" id="3_back"]
 [ext_resource type="PackedScene" path="res://prefabs/ui/friend_item.tscn" id="5_friend_item"]
 [ext_resource type="Script" path="res://scripts/UI/FriendsScreen.cs" id="6_script"]
-[ext_resource type="Texture2D" uid="uid://cvlo6rthho87x" path="res://assets/sprites/icons/emotion.png" id="7_emotion"]
+[ext_resource type="Texture2D" uid="uid://cvlo6rthho87x" path="res://assets/sprites/icons/social/emotion.png" id="7_emotion"]
 [ext_resource type="Shader" path="res://assets/shaders/tab_highlight_sweep.gdshader" id="8_tab_shader"]
 [ext_resource type="PackedScene" path="res://prefabs/ui/find_friend_item.tscn" id="9_find_friend_item"]
 [ext_resource type="Script" path="res://scripts/UI/FriendChatDrawer.cs" id="10_chat_drawer_script"]

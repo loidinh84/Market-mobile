@@ -14,11 +14,11 @@
 [ext_resource type="Texture2D" uid="uid://iet6ido3sk2t" path="res://assets/sprites/icons/close.png" id="12_close"]
 [ext_resource type="Texture2D" uid="uid://cy8gr4eifo602" path="res://assets/sprites/icons/avatar_character.png" id="13_avatar"]
 [ext_resource type="Texture2D" uid="uid://pwj0gm25rqlh" path="res://assets/sprites/icons/ao_dai.png" id="14_aodai"]
-[ext_resource type="Texture2D" uid="uid://cvlo6rthho87x" path="res://assets/sprites/icons/emotion.png" id="15_emotion"]
+[ext_resource type="Texture2D" uid="uid://cvlo6rthho87x" path="res://assets/sprites/icons/social/emotion.png" id="15_emotion"]
 [ext_resource type="Texture2D" uid="uid://c6316kqnef77g" path="res://assets/sprites/icons/Add.svg" id="16_add"]
 [ext_resource type="Texture2D" uid="uid://c0qmyw32bvisi" path="res://assets/sprites/icons/remove.svg" id="17_remove"]
 [ext_resource type="Texture2D" uid="uid://dy06cpkpenosu" path="res://assets/sprites/icons/refresh.svg" id="19_refresh"]
-[ext_resource type="Texture2D" uid="uid://32v1ugfxvx62" path="res://assets/sprites/icons/coin_poster.png" id="20_coin_poster"]
+[ext_resource type="Texture2D" uid="uid://32v1ugfxvx62" path="res://assets/sprites/ui/posters/coin_poster.png" id="20_coin_poster"]
 [ext_resource type="Texture2D" uid="uid://c0y8xxfrqol7" path="res://assets/sprites/icons/check.svg" id="21_check"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_subtle"]

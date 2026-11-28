@@ -79,10 +79,10 @@ public partial class LobbySocialDrawer : Control
 
 	private static readonly Font OrcishFont = GD.Load<Font>("res://assets/fonts/FZ-Orcish.ttf");
 	private static readonly Texture2D TexAvatar = GD.Load<Texture2D>("res://assets/sprites/icons/avatar_character.png");
-	private static readonly Texture2D TexSocialGroup = GD.Load<Texture2D>("res://assets/sprites/icons/icon_social_group.png");
-	private static readonly Texture2D TexSocialAdd = GD.Load<Texture2D>("res://assets/sprites/icons/icon_social_add.png");
-	private static readonly Texture2D TexSocialRequest = GD.Load<Texture2D>("res://assets/sprites/icons/icon_social_request.png");
-	private static readonly Texture2D TexWorldIcon = GD.Load<Texture2D>("res://assets/sprites/icons/chat.png");
+	private static readonly Texture2D TexSocialGroup = GD.Load<Texture2D>("res://assets/sprites/icons/social/icon_social_group.png");
+	private static readonly Texture2D TexSocialAdd = GD.Load<Texture2D>("res://assets/sprites/icons/social/icon_social_add.png");
+	private static readonly Texture2D TexSocialRequest = GD.Load<Texture2D>("res://assets/sprites/icons/social/icon_social_request.png");
+	private static readonly Texture2D TexWorldIcon = GD.Load<Texture2D>("res://assets/sprites/icons/social/chat.png");
 	private static readonly Texture2D TexTeamIcon = GD.Load<Texture2D>("res://assets/sprites/icons/role.png");
 	private static readonly Texture2D TexChevronLeft = GD.Load<Texture2D>("res://assets/sprites/icons/chevron_left.svg");
 
@@ -1512,10 +1512,10 @@ public partial class LobbySocialDrawer : Control
 	{
 		if (isPin)
 		{
-			_texThreadPin ??= LoadTextureWithFallback("res://assets/sprites/icons/icon_thread_pin.png");
+			_texThreadPin ??= LoadTextureWithFallback("res://assets/sprites/icons/social/icon_thread_pin.png");
 			return _texThreadPin;
 		}
-		_texThreadDelete ??= LoadTextureWithFallback("res://assets/sprites/icons/icon_thread_delete.png");
+		_texThreadDelete ??= LoadTextureWithFallback("res://assets/sprites/icons/social/icon_thread_delete.png");
 		return _texThreadDelete;
 	}
 
