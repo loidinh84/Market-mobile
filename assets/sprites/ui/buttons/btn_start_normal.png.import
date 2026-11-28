@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0xjqmty7e2qt"
-path="res://.godot/imported/tab_untick.png-abb4be4b0752156fe7aca958cf621fe7.ctex"
+uid="uid://bm8j41w65d6bf"
+path="res://.godot/imported/btn_start_normal.png-51d305ff85a065e4076065165b14b723.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/icons/tab_untick.png"
-dest_files=["res://.godot/imported/tab_untick.png-abb4be4b0752156fe7aca958cf621fe7.ctex"]
+source_file="res://assets/sprites/ui/buttons/btn_start_normal.png"
+dest_files=["res://.godot/imported/btn_start_normal.png-51d305ff85a065e4076065165b14b723.ctex"]
 
 [params]
 

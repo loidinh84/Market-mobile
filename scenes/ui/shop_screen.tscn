@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://jitrneoxq65d" path="res://scripts/UI/ShopScreen.cs" id="4_script"]
 [ext_resource type="Texture2D" uid="uid://py6k86kkpec5" path="res://assets/sprites/icons/rau.png" id="5_rau"]
 [ext_resource type="Texture2D" uid="uid://bhpfaoskgd5o1" path="res://assets/sprites/icons/coin.png" id="6_coin"]
-[ext_resource type="Texture2D" uid="uid://iet6ido3sk2t" path="res://assets/sprites/icons/close.png" id="7_close"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/buttons/btn_close_normal.png" id="7_close"]
 [ext_resource type="Texture2D" uid="uid://2xluolj4bpjd" path="res://assets/sprites/icons/hat_pink.png" id="8_preview"]
 [ext_resource type="PackedScene" uid="uid://ps2cwmwtip0p" path="res://prefabs/ui/shop_character_card.tscn" id="9_charcard"]
 [ext_resource type="PackedScene" uid="uid://cxu8ae1tuef1t" path="res://prefabs/ui/shop_skin_card.tscn" id="10_skincard"]

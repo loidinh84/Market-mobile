@@ -3,10 +3,10 @@
 [ext_resource type="Script" path="res://scripts/UI/LeftSidebar.cs" id="1_sidebar_script"]
 [ext_resource type="Texture2D" uid="uid://cfpcheaj7fsph" path="res://assets/sprites/ui/backgrounds/background_navbar.png" id="1_bw1qk"]
 [ext_resource type="Script" uid="uid://q8sf68eptkfl" path="res://scripts/UI/SidebarTab.cs" id="2_7oy6l"]
-[ext_resource type="Texture2D" uid="uid://cy7sikbvc35k0" path="res://assets/sprites/ui/buttons/tab_ticked.png" id="3_hnh47"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/buttons/btn_sidebar_tab_normal.png" id="3_hnh47"]
 [ext_resource type="Texture2D" uid="uid://dq0icct61slao" path="res://assets/sprites/ui/buttons/tab_lobby.png" id="4_qx0kb"]
 [ext_resource type="FontFile" uid="uid://cjd25dmr5o11b" path="res://assets/fonts/FZ-Orcish.ttf" id="5_qmxam"]
-[ext_resource type="Texture2D" uid="uid://c0xjqmty7e2qt" path="res://assets/sprites/ui/buttons/tab_untick.png" id="6_jql8r"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/buttons/btn_sidebar_tab_pressed.png" id="6_jql8r"]
 [ext_resource type="Texture2D" uid="uid://4b781ymxkumt" path="res://assets/sprites/ui/buttons/tab_characters.png" id="7_uo5cp"]
 [ext_resource type="Texture2D" uid="uid://c4nltk5ryqhsf" path="res://assets/sprites/ui/buttons/tab_events.png" id="8_paoah"]
 [ext_resource type="Texture2D" uid="uid://db5h6pt774bp7" path="res://assets/sprites/ui/buttons/tab_shop.png" id="9_r2148"]
@@ -66,6 +66,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -10.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_hnh47")
@@ -121,6 +122,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -10.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("6_jql8r")
@@ -176,6 +178,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -10.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("6_jql8r")
@@ -231,6 +234,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -10.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("6_jql8r")
@@ -286,6 +290,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -10.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("6_jql8r")

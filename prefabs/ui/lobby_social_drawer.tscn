@@ -9,6 +9,14 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/icons/social/icon_social_add.png" id="7_friend_add"]
 [ext_resource type="Texture2D" path="res://assets/sprites/icons/social/icon_social_request.png" id="8_friend_req"]
 [ext_resource type="Texture2D" path="res://assets/sprites/icons/close_x.svg" id="10_close_x"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/buttons/btn_close_normal.png" id="12_close_normal"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/buttons/btn_close_pressed.png" id="13_close_pressed"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_modal_close_normal"]
+texture = ExtResource("12_close_normal")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_modal_close_pressed"]
+texture = ExtResource("13_close_pressed")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_drawer_bg"]
 bg_color = Color(0.953, 0.922, 0.863, 1)
@@ -732,35 +740,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="CloseModalBtn" type="Button" parent="SocialModal/Center/DialogBox/VBox/HeaderPanel/HBox"]
-custom_minimum_size = Vector2(58, 58)
+custom_minimum_size = Vector2(62, 62)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
 mouse_default_cursor_shape = 2
-theme_override_styles/normal = SubResource("StyleBoxEmpty_flat_icon")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_flat_icon")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_flat_icon")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_flat_icon")
-flat = true
-
-[node name="Icon" type="TextureRect" parent="SocialModal/Center/DialogBox/VBox/HeaderPanel/HBox/CloseModalBtn"]
-modulate = Color(1, 0.95, 0.9, 1)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -18.0
-offset_top = -18.0
-offset_right = 18.0
-offset_bottom = 18.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("10_close_x")
-expand_mode = 1
-stretch_mode = 5
+theme_override_styles/normal = SubResource("StyleBoxTexture_modal_close_normal")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_modal_close_pressed")
+theme_override_styles/hover = SubResource("StyleBoxTexture_modal_close_normal")
+theme_override_styles/focus = SubResource("StyleBoxTexture_modal_close_normal")
 
 [node name="BodyMargin" type="MarginContainer" parent="SocialModal/Center/DialogBox/VBox"]
 layout_mode = 2

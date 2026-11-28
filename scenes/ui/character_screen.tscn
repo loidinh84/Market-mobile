@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://pwj0gm25rqlh" path="res://assets/sprites/icons/ao_dai.png" id="9_aodai"]
 [ext_resource type="Texture2D" uid="uid://2xluolj4bpjd" path="res://assets/sprites/icons/hat_pink.png" id="10_hatpink"]
 [ext_resource type="Texture2D" uid="uid://bvfem2paim6ka" path="res://assets/sprites/icons/locked.png" id="11_locked"]
-[ext_resource type="Texture2D" uid="uid://iet6ido3sk2t" path="res://assets/sprites/icons/close.png" id="12_close"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/buttons/btn_close_normal.png" id="12_close"]
 [ext_resource type="PackedScene" path="res://prefabs/ui/coin_bar.tscn" id="13_coinbar"]
 [ext_resource type="Texture2D" uid="uid://py6k86kkpec5" path="res://assets/sprites/icons/rau.png" id="14_rau"]
 

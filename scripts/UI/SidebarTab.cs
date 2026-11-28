@@ -68,8 +68,8 @@ public partial class SidebarTab : Control
         _titleLabel = GetNodeOrNull<Label>("TitleLabel");
         _clickBtn = GetNodeOrNull<Button>("ClickBtn");
 
-        _tickedTexture ??= GD.Load<Texture2D>("res://assets/sprites/ui/buttons/tab_ticked.png");
-        _untickTexture ??= GD.Load<Texture2D>("res://assets/sprites/ui/buttons/tab_untick.png");
+        _tickedTexture ??= GD.Load<Texture2D>("res://assets/sprites/ui/buttons/btn_sidebar_tab_normal.png");
+        _untickTexture ??= GD.Load<Texture2D>("res://assets/sprites/ui/buttons/btn_sidebar_tab_pressed.png");
 
         if (_iconRect != null && IconTexture != null)
             _iconRect.Texture = IconTexture;
@@ -83,7 +83,24 @@ public partial class SidebarTab : Control
         }
 
         if (_clickBtn != null)
+        {
             _clickBtn.Pressed += OnClick;
+            _clickBtn.ButtonDown += OnPressVisualDown;
+            _clickBtn.ButtonUp += OnPressVisualUp;
+            _clickBtn.MouseExited += OnPressVisualUp;
+        }
+    }
+
+    private void OnPressVisualDown()
+    {
+        if (_bgTexture != null && _untickTexture != null)
+            _bgTexture.Texture = _untickTexture;
+    }
+
+    private void OnPressVisualUp()
+    {
+        if (_bgTexture == null) return;
+        _bgTexture.Texture = IsActive ? _tickedTexture : _untickTexture;
     }
 
     private void OnClick()
@@ -112,6 +129,7 @@ public partial class SidebarTab : Control
         {
             if (_tickedTexture != null)
                 _bgTexture.Texture = _tickedTexture;
+            _bgTexture.SelfModulate = Colors.White;
 
             _titleLabel.HorizontalAlignment = HorizontalAlignment.Left;
             var activeIconPos = GetActiveIconPos();
@@ -152,6 +170,7 @@ public partial class SidebarTab : Control
         {
             if (_untickTexture != null)
                 _bgTexture.Texture = _untickTexture;
+            _bgTexture.SelfModulate = new Color(0.84f, 0.86f, 0.90f, 0.96f);
 
             _titleLabel.HorizontalAlignment = HorizontalAlignment.Center;
 
