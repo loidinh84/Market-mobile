@@ -33,8 +33,8 @@ public partial class LobbyScreen : Control
 	private Label _modeStyleLabel;
 	private PlayerDataManager _data;
 
-	private static readonly Texture2D TexLobbyTeamSlot = GD.Load<Texture2D>("res://assets/sprites/icons/mode_1vs1.png");
-	private static readonly Texture2D TexLobbyStyleNormal = GD.Load<Texture2D>("res://assets/sprites/icons/mode_style_play.png");
+	private static readonly Texture2D TexLobbyTeamSlot = GD.Load<Texture2D>("res://assets/sprites/ui/buttons/mode_1vs1.png");
+	private static readonly Texture2D TexLobbyStyleNormal = GD.Load<Texture2D>("res://assets/sprites/ui/buttons/mode_style_play.png");
 
 	// Persistent Shell: giữ cố định Background & LeftSidebar, cache sẵn Nhân vật, Sự kiện & Cửa hàng
 	private const string CharacterScenePath = "res://scenes/ui/character_screen.tscn";

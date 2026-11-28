@@ -68,8 +68,8 @@ public partial class SidebarTab : Control
         _titleLabel = GetNodeOrNull<Label>("TitleLabel");
         _clickBtn = GetNodeOrNull<Button>("ClickBtn");
 
-        _tickedTexture ??= GD.Load<Texture2D>("res://assets/sprites/icons/tab_ticked.png");
-        _untickTexture ??= GD.Load<Texture2D>("res://assets/sprites/icons/tab_untick.png");
+        _tickedTexture ??= GD.Load<Texture2D>("res://assets/sprites/ui/buttons/tab_ticked.png");
+        _untickTexture ??= GD.Load<Texture2D>("res://assets/sprites/ui/buttons/tab_untick.png");
 
         if (_iconRect != null && IconTexture != null)
             _iconRect.Texture = IconTexture;

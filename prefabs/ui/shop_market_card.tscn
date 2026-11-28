@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ccu7qg55dnheb"]
 
-[ext_resource type="Texture2D" uid="uid://cvlo6rthho87x" path="res://assets/sprites/icons/emotion.png" id="1_give"]
-[ext_resource type="Texture2D" uid="uid://db5h6pt774bp7" path="res://assets/sprites/icons/tab_shop.png" id="2_receive"]
+[ext_resource type="Texture2D" uid="uid://cvlo6rthho87x" path="res://assets/sprites/icons/social/emotion.png" id="1_give"]
+[ext_resource type="Texture2D" uid="uid://db5h6pt774bp7" path="res://assets/sprites/ui/buttons/tab_shop.png" id="2_receive"]
 [ext_resource type="PackedScene" uid="uid://cdr7dhulrq3ux" path="res://prefabs/ui/shop_price_button.tscn" id="3_pricebtn"]
 [ext_resource type="Texture2D" path="res://assets/sprites/icons/swap_arrows.svg" id="4_swap"]
 

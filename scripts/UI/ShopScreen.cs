@@ -677,7 +677,7 @@ public partial class ShopScreen : Control
 						Summary = "+1,000 Vàng · +100 Rau",
 						Description = "Phần quà hỗ trợ tiểu thương mới khai trương, nhận 1 lần cho tài khoản.",
 						Price = 0, Currency = CurrencyType.Gold,
-						IconPath = "res://assets/sprites/icons/tab_events.png", IconTint = Colors.White,
+						IconPath = "res://assets/sprites/ui/buttons/tab_events.png", IconTint = Colors.White,
 						GainCoins = 1000, GainRau = 100, IsStarterGift = true
 					}
 				});
@@ -1961,7 +1961,7 @@ public partial class ShopScreen : Control
 	{
 		TradeAssetType.Gold => "res://assets/sprites/icons/coin.png",
 		TradeAssetType.Rau => "res://assets/sprites/icons/rau.png",
-		_ => GameCatalog.FindConsumable(itemId)?.IconPath ?? "res://assets/sprites/icons/tab_shop.png"
+		_ => GameCatalog.FindConsumable(itemId)?.IconPath ?? "res://assets/sprites/ui/buttons/tab_shop.png"
 	};
 
 	private static Color GetTradeAssetTint(TradeAssetType type, string itemId) => type switch

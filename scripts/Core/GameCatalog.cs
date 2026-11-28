@@ -165,7 +165,7 @@ public static class GameCatalog
 			Summary = "Hồi +40% Máu tức thì",
 			Description = "Ly trà đá mát lạnh giúp hồi nhanh 40% lượng máu khi giao tranh ở chợ.",
 			Price = 150, Currency = CurrencyType.Gold,
-			IconPath = "res://assets/sprites/icons/emotion.png", IconTint = new Color(0.55f, 0.95f, 1.0f, 1f),
+			IconPath = "res://assets/sprites/icons/social/emotion.png", IconTint = new Color(0.55f, 0.95f, 1.0f, 1f),
 			IsConsumable = true
 		},
 		new()
@@ -174,7 +174,7 @@ public static class GameCatalog
 			Summary = "+25% Tốc chạy trong 15s",
 			Description = "Đẩy xe hàng nhẹ như bay, tăng tốc độ di chuyển và né đòn trong 15 giây.",
 			Price = 250, Currency = CurrencyType.Gold,
-			IconPath = "res://assets/sprites/icons/tab_shop.png", IconTint = new Color(1.0f, 0.92f, 0.65f, 1f),
+			IconPath = "res://assets/sprites/ui/buttons/tab_shop.png", IconTint = new Color(1.0f, 0.92f, 0.65f, 1f),
 			IsConsumable = false
 		},
 		new()
@@ -282,7 +282,7 @@ public static class GameCatalog
 			Id = "gift_loc_cho", Name = "Túi Lộc Phiên Chợ", Tag = "Quà may mắn",
 			Summary = "Ngẫu nhiên Vàng, Rau & Tiêu thụ",
 			Description = "Mở ra để nhận ngẫu nhiên Vàng, Rau sạch hoặc vật phẩm tiêu thụ hỗ trợ giao tranh.",
-			IconPath = "res://assets/sprites/icons/coin_poster.png", IconTint = Colors.White
+			IconPath = "res://assets/sprites/ui/posters/coin_poster.png", IconTint = Colors.White
 		}
 	};
 
@@ -293,7 +293,7 @@ public static class GameCatalog
 			Id = "map_cho_dau_moi",
 			Name = "Chợ Đầu Mối",
 			Subtitle = "Bản đồ chuẩn · Nhịp độ cân bằng",
-			TexturePath = "res://assets/sprites/icons/map_demo.png",
+			TexturePath = "res://assets/sprites/ui/frames/map_demo.png",
 			BannerTint = Colors.White,
 			TitleColor = new Color(1.0f, 0.90f, 0.25f, 1f),
 			AllowInRanked = true
@@ -303,7 +303,7 @@ public static class GameCatalog
 			Id = "map_nga_tu_thu_duc",
 			Name = "Ngã Tư Thủ Đức",
 			Subtitle = "Chỉ mở Đấu Thường / Máy / Custom",
-			TexturePath = "res://assets/sprites/icons/map_demo.png",
+			TexturePath = "res://assets/sprites/ui/frames/map_demo.png",
 			BannerTint = new Color(0.95f, 0.92f, 1.0f, 1f),
 			TitleColor = new Color(1.0f, 0.62f, 0.22f, 1f),
 			AllowInRanked = false
@@ -313,7 +313,7 @@ public static class GameCatalog
 			Id = "map_cho_ben_thanh",
 			Name = "Chợ Bến Thành",
 			Subtitle = "Bản đồ chuẩn · Giao tranh dồn dập",
-			TexturePath = "res://assets/sprites/icons/map_demo.png",
+			TexturePath = "res://assets/sprites/ui/frames/map_demo.png",
 			BannerTint = new Color(1.0f, 0.93f, 0.90f, 1f),
 			TitleColor = new Color(1.0f, 0.36f, 0.32f, 1f),
 			AllowInRanked = true
@@ -323,7 +323,7 @@ public static class GameCatalog
 			Id = "map_sap_ra_mat",
 			Name = "Sắp Ra Mắt",
 			Subtitle = "Đang xây dựng thêm khu chợ mới",
-			TexturePath = "res://assets/sprites/icons/map_demo.png",
+			TexturePath = "res://assets/sprites/ui/frames/map_demo.png",
 			BannerTint = new Color(0.75f, 0.75f, 0.82f, 1f),
 			TitleColor = new Color(0.95f, 0.95f, 1.0f, 1f),
 			AllowInRanked = false,

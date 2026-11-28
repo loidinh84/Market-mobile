@@ -2,12 +2,12 @@
 
 [ext_resource type="FontFile" uid="uid://cjd25dmr5o11b" path="res://assets/fonts/FZ-Orcish.ttf" id="1_font"]
 [ext_resource type="Script" path="res://scripts/UI/LobbySocialDrawer.cs" id="2_script"]
-[ext_resource type="Texture2D" uid="uid://cvlo6rthho87x" path="res://assets/sprites/icons/emotion.png" id="3_emotion"]
+[ext_resource type="Texture2D" uid="uid://cvlo6rthho87x" path="res://assets/sprites/icons/social/emotion.png" id="3_emotion"]
 [ext_resource type="Texture2D" path="res://assets/sprites/icons/chevron_left.svg" id="4_chevron"]
-[ext_resource type="Texture2D" path="res://assets/sprites/icons/close_message.png" id="5_close_message"]
-[ext_resource type="Texture2D" path="res://assets/sprites/icons/icon_social_group.png" id="6_friend_group"]
-[ext_resource type="Texture2D" path="res://assets/sprites/icons/icon_social_add.png" id="7_friend_add"]
-[ext_resource type="Texture2D" path="res://assets/sprites/icons/icon_social_request.png" id="8_friend_req"]
+[ext_resource type="Texture2D" path="res://assets/sprites/icons/social/close_message.png" id="5_close_message"]
+[ext_resource type="Texture2D" path="res://assets/sprites/icons/social/icon_social_group.png" id="6_friend_group"]
+[ext_resource type="Texture2D" path="res://assets/sprites/icons/social/icon_social_add.png" id="7_friend_add"]
+[ext_resource type="Texture2D" path="res://assets/sprites/icons/social/icon_social_request.png" id="8_friend_req"]
 [ext_resource type="Texture2D" path="res://assets/sprites/icons/close_x.svg" id="10_close_x"]
 [ext_resource type="Texture2D" path="res://assets/sprites/icons/close_popup.png" id="11_close_popup"]
 

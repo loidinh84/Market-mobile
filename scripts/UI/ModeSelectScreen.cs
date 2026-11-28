@@ -22,11 +22,11 @@ public partial class ModeSelectScreen : Control
 	private const double InviteCooldownSeconds = 5.0;
 
 	private static readonly Font OrcishFont = GD.Load<Font>("res://assets/fonts/FZ-Orcish.ttf");
-	private static readonly Texture2D TexTabNormal = GD.Load<Texture2D>("res://assets/sprites/icons/tab_normal.png");
-	private static readonly Texture2D TexTabRank = GD.Load<Texture2D>("res://assets/sprites/icons/tab_rank.png");
-	private static readonly Texture2D TexTabBot = GD.Load<Texture2D>("res://assets/sprites/icons/tab_bot.png");
-	private static readonly Texture2D TexTabCustom = GD.Load<Texture2D>("res://assets/sprites/icons/tab_custom.png");
-	private static readonly Texture2D TexTabLocked = GD.Load<Texture2D>("res://assets/sprites/icons/tab_locked.png");
+	private static readonly Texture2D TexTabNormal = GD.Load<Texture2D>("res://assets/sprites/ui/buttons/tab_normal.png");
+	private static readonly Texture2D TexTabRank = GD.Load<Texture2D>("res://assets/sprites/ui/buttons/tab_rank.png");
+	private static readonly Texture2D TexTabBot = GD.Load<Texture2D>("res://assets/sprites/ui/buttons/tab_bot.png");
+	private static readonly Texture2D TexTabCustom = GD.Load<Texture2D>("res://assets/sprites/ui/buttons/tab_custom.png");
+	private static readonly Texture2D TexTabLocked = GD.Load<Texture2D>("res://assets/sprites/ui/buttons/tab_locked.png");
 	private static readonly Texture2D TexModeInactive = GD.Load<Texture2D>("res://assets/sprites/icons/1vs1.png");
 	private static readonly Texture2D TexModeActive = GD.Load<Texture2D>("res://assets/sprites/icons/2vs2.png");
 	private static readonly Texture2D TexLockedIcon = GD.Load<Texture2D>("res://assets/sprites/icons/locked.png");

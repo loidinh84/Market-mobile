@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cqikuvhbt1mqq"]
 
-[ext_resource type="Texture2D" uid="uid://ca02lccacljte" path="res://assets/sprites/icons/background.png" id="1_3tihx"]
+[ext_resource type="Texture2D" uid="uid://ca02lccacljte" path="res://assets/sprites/ui/backgrounds/background.png" id="1_3tihx"]
 
 [node name="Background" type="ColorRect" unique_id=215031108]
 anchors_preset = 15

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://iu8nshbrftqj"]
 
-[ext_resource type="Texture2D" uid="uid://iuithbsk4sn3" path="res://assets/sprites/icons/background_character.png" id="1_skmd1"]
+[ext_resource type="Texture2D" uid="uid://iuithbsk4sn3" path="res://assets/sprites/ui/backgrounds/background_character.png" id="1_skmd1"]
 [ext_resource type="SpriteFrames" uid="uid://eme5isxr5x2a" path="res://resources/sprite_frames/mrs_7_frames.tres" id="2_g28ar"]
 [ext_resource type="PackedScene" uid="uid://bo1iw1air8xno" path="res://prefabs/ui/left_sidebar.tscn" id="3_8nc40"]
 [ext_resource type="Texture2D" uid="uid://cy8gr4eifo602" path="res://assets/sprites/icons/avatar_character.png" id="4_g77md"]
