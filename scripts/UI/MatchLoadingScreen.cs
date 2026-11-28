@@ -5,16 +5,6 @@ using MarketMobile.Gameplay;
 using MarketMobile.Utils;
 
 namespace MarketMobile.UI;
-
-/// <summary>
-/// Màn hình Tải trận (VS Screen) chạy bằng ResourceLoader.LoadThreadedRequest:
-/// - Hiển thị đội hình đối kháng Phe bạn VS Đối thủ trên nền bản đồ thật đã chọn.
-/// - Giữ chân người chơi lúc chờ bằng 3 tương tác nhẹ:
-///   1. Chạm vào bất kỳ thẻ người chơi nào để lật xem vật phẩm mang theo & tỉ lệ thắng.
-///   2. Thả sticker biểu cảm nổi bay lên từ thẻ của mình (đồng đội/đối thủ có thể thả đáp lại).
-///   3. Chạm thanh mẹo vặt chợ đêm để đổi mẹo chơi nhanh.
-/// - Tự động chuyển sang scene bản đồ khi tải ngầm xong 100%.
-/// </summary>
 public partial class MatchLoadingScreen : Control
 {
 	private sealed class LoadingPlayerCard
