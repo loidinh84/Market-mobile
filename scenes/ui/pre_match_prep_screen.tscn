@@ -1,0 +1,363 @@
+[gd_scene format=3]
+
+[ext_resource type="FontFile" uid="uid://cjd25dmr5o11b" path="res://assets/fonts/FZ-Orcish.ttf" id="2_font"]
+[ext_resource type="Script" path="res://scripts/UI/PreMatchPrepScreen.cs" id="3_script"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxFlat_header"]
+content_margin_left = 30.0
+content_margin_top = 12.0
+content_margin_right = 30.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxFlat_side_panel"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_warehouse_bg"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.32, 0.22, 0.14, 0.62)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.96, 0.86, 0.68, 0.35)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_warehouse_inner"]
+content_margin_left = 12.0
+content_margin_top = 10.0
+content_margin_right = 12.0
+content_margin_bottom = 10.0
+bg_color = Color(0.96, 0.93, 0.87, 0.78)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_teammate_panel"]
+content_margin_left = 18.0
+content_margin_top = 12.0
+content_margin_right = 18.0
+content_margin_bottom = 12.0
+bg_color = Color(0.06, 0.07, 0.15, 0.36)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxFlat_footer_bg"]
+content_margin_left = 30.0
+content_margin_top = 8.0
+content_margin_right = 30.0
+content_margin_bottom = 14.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lock_btn"]
+content_margin_left = 28.0
+content_margin_top = 12.0
+content_margin_right = 28.0
+content_margin_bottom = 8.0
+bg_color = Color(0.15, 0.62, 0.5, 1)
+border_width_bottom = 4
+border_color = Color(0.08, 0.42, 0.33, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[node name="PreMatchPrepScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_script")
+
+[node name="MapBgFallback" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="MapBgViewportContainer" type="SubViewportContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stretch = true
+
+[node name="MapBgViewport" type="SubViewport" parent="MapBgViewportContainer"]
+disable_3d = true
+gui_disable_input = true
+handle_input_locally = false
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="MapBgVeil" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.06, 0.05, 0.12, 0.38)
+
+[node name="MainVBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="HeaderPanel" type="PanelContainer" parent="MainVBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_header")
+
+[node name="HBox" type="HBoxContainer" parent="MainVBox/HeaderPanel"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="TitleLabel" type="Label" parent="MainVBox/HeaderPanel/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.95, 0.75, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.78)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 38
+text = "Chuẩn bị"
+vertical_alignment = 1
+
+[node name="SubLabel" type="Label" parent="MainVBox/HeaderPanel/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.92, 0.95, 1, 0.96)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.72)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 26
+text = "· Thường · 2 VS 2 · Chợ Đầu Mối"
+vertical_alignment = 1
+
+[node name="TimerLabel" type="Label" parent="MainVBox/HeaderPanel/HBox"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.78)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 46
+text = "60s"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="BodyMargin" type="MarginContainer" parent="MainVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 14
+
+[node name="ThreeColsHBox" type="HBoxContainer" parent="MainVBox/BodyMargin"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="LeftSlotsPanel" type="PanelContainer" parent="MainVBox/BodyMargin/ThreeColsHBox"]
+custom_minimum_size = Vector2(184, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_side_panel")
+
+[node name="VBox" type="VBoxContainer" parent="MainVBox/BodyMargin/ThreeColsHBox/LeftSlotsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="MainVBox/BodyMargin/ThreeColsHBox/LeftSlotsPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.95, 0.78, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.78)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 24
+text = "Nhân vật"
+horizontal_alignment = 1
+
+[node name="CharSlotsVBox" type="VBoxContainer" parent="MainVBox/BodyMargin/ThreeColsHBox/LeftSlotsPanel/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="CenterHost" type="CenterContainer" parent="MainVBox/BodyMargin/ThreeColsHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CenterVBox" type="VBoxContainer" parent="MainVBox/BodyMargin/ThreeColsHBox/CenterHost"]
+custom_minimum_size = Vector2(1260, 0)
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="CenterWarehouse" type="PanelContainer" parent="MainVBox/BodyMargin/ThreeColsHBox/CenterHost/CenterVBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_warehouse_bg")
+
+[node name="InnerBoard" type="PanelContainer" parent="MainVBox/BodyMargin/ThreeColsHBox/CenterHost/CenterVBox/CenterWarehouse"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_warehouse_inner")
+
+[node name="SplitHBox" type="HBoxContainer" parent="MainVBox/BodyMargin/ThreeColsHBox/CenterHost/CenterVBox/CenterWarehouse/InnerBoard"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="CharsCol" type="VBoxContainer" parent="MainVBox/BodyMargin/ThreeColsHBox/CenterHost/CenterVBox/CenterWarehouse/InnerBoard/SplitHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="ColTitle" type="Label" parent="MainVBox/BodyMargin/ThreeColsHBox/CenterHost/CenterVBox/CenterWarehouse/InnerBoard/SplitHBox/CharsCol"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.30, 0.54, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 28
+text = "Nhân vật"
+horizontal_alignment = 1
+
+[node name="CharsScroll" type="ScrollContainer" parent="MainVBox/BodyMargin/ThreeColsHBox/CenterHost/CenterVBox/CenterWarehouse/InnerBoard/SplitHBox/CharsCol"]
+custom_minimum_size = Vector2(0, 286)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="CharsGrid" type="GridContainer" parent="MainVBox/BodyMargin/ThreeColsHBox/CenterHost/CenterVBox/CenterWarehouse/InnerBoard/SplitHBox/CharsCol/CharsScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+columns = 3
+
+[node name="Divider" type="ColorRect" parent="MainVBox/BodyMargin/ThreeColsHBox/CenterHost/CenterVBox/CenterWarehouse/InnerBoard/SplitHBox"]
+custom_minimum_size = Vector2(3, 0)
+layout_mode = 2
+color = Color(0.76, 0.68, 0.56, 0.72)
+
+[node name="ItemsCol" type="VBoxContainer" parent="MainVBox/BodyMargin/ThreeColsHBox/CenterHost/CenterVBox/CenterWarehouse/InnerBoard/SplitHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="ColTitle" type="Label" parent="MainVBox/BodyMargin/ThreeColsHBox/CenterHost/CenterVBox/CenterWarehouse/InnerBoard/SplitHBox/ItemsCol"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56, 0.30, 0.14, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 28
+text = "Vật phẩm"
+horizontal_alignment = 1
+
+[node name="ItemsScroll" type="ScrollContainer" parent="MainVBox/BodyMargin/ThreeColsHBox/CenterHost/CenterVBox/CenterWarehouse/InnerBoard/SplitHBox/ItemsCol"]
+custom_minimum_size = Vector2(0, 286)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="ItemsGrid" type="GridContainer" parent="MainVBox/BodyMargin/ThreeColsHBox/CenterHost/CenterVBox/CenterWarehouse/InnerBoard/SplitHBox/ItemsCol/ItemsScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+columns = 3
+
+[node name="TeammatePanel" type="PanelContainer" parent="MainVBox/BodyMargin/ThreeColsHBox/CenterHost/CenterVBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_teammate_panel")
+
+[node name="VBox" type="VBoxContainer" parent="MainVBox/BodyMargin/ThreeColsHBox/CenterHost/CenterVBox/TeammatePanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="HeaderRow" type="HBoxContainer" parent="MainVBox/BodyMargin/ThreeColsHBox/CenterHost/CenterVBox/TeammatePanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="SectionTitle" type="Label" parent="MainVBox/BodyMargin/ThreeColsHBox/CenterHost/CenterVBox/TeammatePanel/VBox/HeaderRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.76, 0.92, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.78)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 25
+text = "Đồng đội"
+
+[node name="TeammatesHBox" type="HBoxContainer" parent="MainVBox/BodyMargin/ThreeColsHBox/CenterHost/CenterVBox/TeammatePanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="RightSlotsPanel" type="PanelContainer" parent="MainVBox/BodyMargin/ThreeColsHBox"]
+custom_minimum_size = Vector2(184, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_side_panel")
+
+[node name="VBox" type="VBoxContainer" parent="MainVBox/BodyMargin/ThreeColsHBox/RightSlotsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="MainVBox/BodyMargin/ThreeColsHBox/RightSlotsPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.95, 0.78, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.78)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 24
+text = "Vật phẩm"
+horizontal_alignment = 1
+
+[node name="ItemSlotsVBox" type="VBoxContainer" parent="MainVBox/BodyMargin/ThreeColsHBox/RightSlotsPanel/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="FooterPanel" type="PanelContainer" parent="MainVBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_footer_bg")
+
+[node name="FooterRow" type="HBoxContainer" parent="MainVBox/FooterPanel"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="TeamStatusLabel" type="Label" parent="MainVBox/FooterPanel/FooterRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.95, 0.9, 0.96)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.65)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 26
+text = "Chờ khóa chọn"
+vertical_alignment = 1
+
+[node name="LockInBtn" type="Button" parent="MainVBox/FooterPanel/FooterRow"]
+custom_minimum_size = Vector2(280, 68)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 34
+theme_override_styles/normal = SubResource("StyleBoxFlat_lock_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_lock_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_lock_btn")
+text = "Khóa chọn"

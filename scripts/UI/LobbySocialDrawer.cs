@@ -161,7 +161,7 @@ public partial class LobbySocialDrawer : Control
 	private bool _pendingDeleteIsConversation = false;
 	private bool _isStickerTrayOpen = false;
 	private bool _stickerTrayBuilt = false;
-	private int _activeStickerTabIndex = 0; // 0..2 = packs, 3 = Chat nhanh
+	private int _activeStickerTabIndex = 0;
 	private string _swipedThreadId;
 	private string _dragRowThreadId;
 	private float _dragRowStartOffset = 0f;
@@ -178,6 +178,7 @@ public partial class LobbySocialDrawer : Control
 	private float _scrollVelocity = 0f;
 	private ScrollContainer _inertiaScroll;
 	private bool _suppressClickAfterDrag = false;
+	private bool _stickerTrayTapOutsideCandidate = false;
 	private int _pendingScrollBottomFrames = 0;
 
 	private Tween _slideTween;
@@ -320,6 +321,16 @@ public partial class LobbySocialDrawer : Control
 			return;
 		}
 
+		if (@event is InputEventKey key && key.Pressed && !key.Echo && key.Keycode == Key.Escape)
+		{
+			if (_isStickerTrayOpen && (_socialModal == null || !_socialModal.Visible))
+			{
+				SetStickerTrayOpen(false);
+				GetViewport()?.SetInputAsHandled();
+				return;
+			}
+		}
+
 		if (@event is InputEventMouseButton wheel && wheel.Pressed && wheel.ButtonIndex == MouseButton.WheelUp)
 		{
 			_pendingScrollBottomFrames = 0;
@@ -343,9 +354,16 @@ public partial class LobbySocialDrawer : Control
 					ResetDragGesture();
 					return;
 				}
-				_pointerDown = _dragScrollTarget != null || !string.IsNullOrEmpty(_dragRowThreadId) || CanStartHorizontalSwipe(mb.Position);
+				bool insideTray = _isStickerTrayOpen && _stickerTrayPanel != null && _stickerTrayPanel.GetGlobalRect().HasPoint(mb.Position);
+				bool onEmojiBtn = _emojiBtn != null && _emojiBtn.GetGlobalRect().HasPoint(mb.Position);
+				bool modalClosed = _socialModal == null || !_socialModal.Visible;
+				bool menuClosed = _menuDropdown == null || !_menuDropdown.Visible;
+				_stickerTrayTapOutsideCandidate = _isStickerTrayOpen && modalClosed && menuClosed && !insideTray && !onEmojiBtn
+					&& _drawerShell != null && _drawerShell.GetGlobalRect().HasPoint(mb.Position);
+
+				_pointerDown = _dragScrollTarget != null || !string.IsNullOrEmpty(_dragRowThreadId) || CanStartHorizontalSwipe(mb.Position) || insideTray;
 			}
-			else if (_pointerDown)
+			else if (_pointerDown || _stickerTrayTapOutsideCandidate)
 			{
 				if (_gestureAxis == GestureAxis.RowSwipe)
 				{
@@ -357,6 +375,10 @@ public partial class LobbySocialDrawer : Control
 				{
 					_suppressClickAfterDrag = true;
 					CallDeferred(MethodName.ResetDragClickSuppression);
+				}
+				else if (_stickerTrayTapOutsideCandidate && _isStickerTrayOpen && _dragStartPos.DistanceTo(mb.Position) <= 12f)
+				{
+					SetStickerTrayOpen(false);
 				}
 				ResetDragGesture();
 			}
@@ -395,6 +417,14 @@ public partial class LobbySocialDrawer : Control
 					_pointerDown = false;
 					if (totalDelta.X > 0 && !_isListExpanded) SetListExpanded(true);
 					else if (totalDelta.X < 0 && _isListExpanded) SetListExpanded(false);
+					GetViewport()?.SetInputAsHandled();
+					return;
+				}
+				if (_gestureAxis == GestureAxis.None && _dragScrollTarget == null && _isStickerTrayOpen && _stickerTrayPanel != null
+					&& _stickerTrayPanel.GetGlobalRect().HasPoint(_dragStartPos) && totalDelta.Y > 36f && Mathf.Abs(totalDelta.Y) > Mathf.Abs(totalDelta.X) * 1.25f)
+				{
+					SetStickerTrayOpen(false);
+					ResetDragGesture();
 					GetViewport()?.SetInputAsHandled();
 					return;
 				}
@@ -525,6 +555,7 @@ public partial class LobbySocialDrawer : Control
 	private void ResetDragGesture()
 	{
 		_pointerDown = false;
+		_stickerTrayTapOutsideCandidate = false;
 		_gestureAxis = GestureAxis.None;
 		_dragScrollTarget = null;
 		_dragAccumDy = 0f;
@@ -1617,7 +1648,7 @@ public partial class LobbySocialDrawer : Control
 				{
 					Texture = iconTex,
 					Modulate = iconTint,
-					CustomMinimumSize = new Vector2(isQuickChat ? 28 : 38, isQuickChat ? 28 : 38),
+					CustomMinimumSize = new Vector2(isQuickChat ? 36 : 38, isQuickChat ? 36 : 38),
 					SizeFlagsVertical = SizeFlags.ShrinkCenter,
 					ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
 					StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,

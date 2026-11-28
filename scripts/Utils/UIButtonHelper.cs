@@ -118,15 +118,16 @@ public static class UIButtonHelper
             ButtonPivotMode mode = (btnName == "StartBtn" || btnName == "FriendsBtn")
                 ? ButtonPivotMode.RightEdge
                 : ButtonPivotMode.Center;
+            float targetScale = btnName == "StartBtn" ? 0.975f : pressedScale;
 
             
             if (btn.GetParent() is PanelContainer parentCard && parentCard.Name.ToString().StartsWith("Card"))
             {
-                AttachBounceEffect(btn, pressedScale, mode, parentCard);
+                AttachBounceEffect(btn, targetScale, mode, parentCard);
             }
             else
             {
-                AttachBounceEffect(btn, pressedScale, mode);
+                AttachBounceEffect(btn, targetScale, mode);
             }
         }
 

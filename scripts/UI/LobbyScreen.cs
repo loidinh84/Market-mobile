@@ -14,6 +14,7 @@ public partial class LobbyScreen : Control
 	private ModeSelectScreen _modeSelectScreen;
 	private LobbySocialDrawer _socialDrawer;
 	private ProfileModal _profileModal;
+	private MatchFoundOverlay _matchFoundOverlay;
 	private Button _profileBtn;
 	private LeftSidebar _leftSidebar;
 	private Node2D _characterDisplay;
@@ -31,6 +32,10 @@ public partial class LobbyScreen : Control
 	private TextureButton _modeStyleBtn;
 	private Label _modeTeamLabel;
 	private Label _modeStyleLabel;
+	private TextureButton _startBtn;
+	private Label _startBtnLabel;
+	private Label _startSubLabel;
+	private LobbyMatchmakingController _matchmaking;
 	private PlayerDataManager _data;
 
 	private static readonly Texture2D TexLobbyTeamSlot = GD.Load<Texture2D>("res://assets/sprites/ui/buttons/mode_1vs1.png");
@@ -44,6 +49,8 @@ public partial class LobbyScreen : Control
 	private const string ModeSelectScenePath = "res://scenes/ui/mode_select_screen.tscn";
 	private const string SocialDrawerScenePath = "res://prefabs/ui/lobby_social_drawer.tscn";
 	private const string ProfileModalScenePath = "res://prefabs/ui/profile_modal.tscn";
+	private const string MatchFoundOverlayScenePath = "res://prefabs/ui/match_found_overlay.tscn";
+	private const string PreMatchPrepScenePath = "res://scenes/ui/pre_match_prep_screen.tscn";
 	private Control _embeddedHost;
 	private Control _modalOverlayHost;
 	private PackedScene _characterScene;
@@ -104,7 +111,8 @@ public partial class LobbyScreen : Control
 		var mapBtn = GetNodeOrNull<BaseButton>("RightColumn/ModeCard/MapBtn");
 		_modeTeamBtn = GetNodeOrNull<TextureButton>("RightColumn/ModeCard/ButtonsRow/Btn1vs1");
 		_modeStyleBtn = GetNodeOrNull<TextureButton>("RightColumn/ModeCard/ButtonsRow/BtnStyle");
-		var startBtn = GetNodeOrNull<BaseButton>("RightColumn/StartBtn");
+		_startBtn = GetNodeOrNull<TextureButton>("RightColumn/StartBtn");
+		_startBtnLabel = GetNodeOrNull<Label>("RightColumn/StartBtn/Label");
 		_modeMapTexture = GetNodeOrNull<TextureRect>("RightColumn/ModeCard/MapTexture");
 		_modeTeamLabel = GetNodeOrNull<Label>("RightColumn/ModeCard/ButtonsRow/Btn1vs1/Label");
 		_modeStyleLabel = GetNodeOrNull<Label>("RightColumn/ModeCard/ButtonsRow/BtnStyle/Label");
@@ -112,7 +120,9 @@ public partial class LobbyScreen : Control
 		if (mapBtn != null) mapBtn.Pressed += OnMapCardPressed;
 		if (_modeTeamBtn != null) _modeTeamBtn.Pressed += OnMode1vs1Pressed;
 		if (_modeStyleBtn != null) _modeStyleBtn.Pressed += OnModeStylePressed;
-		if (startBtn != null) startBtn.Pressed += OnStartPressed;
+		if (_startBtn != null) _startBtn.Pressed += OnStartPressed;
+
+		SetupMatchmaking();
 
 		// Setup Lobby content refs, compact ChatPreviewBar & SettingsPanel
 		_characterDisplay = GetNodeOrNull<Node2D>("CharacterDisplay");
@@ -304,6 +314,7 @@ public partial class LobbyScreen : Control
 
 	private void OpenModeSelect(string focusSection)
 	{
+		if (_matchmaking != null && _matchmaking.IsSearching) return;
 		if (!IsInstanceValid(_modeSelectScreen))
 		{
 			var host = _modalOverlayHost ?? (Control)this;
@@ -369,16 +380,171 @@ public partial class LobbyScreen : Control
 		}
 	}
 
+	private void SetupMatchmaking()
+	{
+		if (_startBtn != null && _startBtnLabel != null)
+		{
+			_startSubLabel = new Label
+			{
+				Name = "SearchInfoLabel",
+				Visible = false,
+				MouseFilter = MouseFilterEnum.Ignore,
+				HorizontalAlignment = HorizontalAlignment.Center,
+				VerticalAlignment = VerticalAlignment.Center,
+				ClipText = true
+			};
+			_startSubLabel.SetAnchorsPreset(LayoutPreset.BottomWide);
+			_startSubLabel.OffsetLeft = 72f;
+			_startSubLabel.OffsetRight = -24f;
+			_startSubLabel.OffsetTop = -74f;
+			_startSubLabel.OffsetBottom = -30f;
+
+			var font = _startBtnLabel.GetThemeFont("font");
+			if (font != null) _startSubLabel.AddThemeFontOverride("font", font);
+			_startSubLabel.AddThemeFontSizeOverride("font_size", 24);
+			_startSubLabel.AddThemeColorOverride("font_color", new Color(1f, 0.96f, 0.84f, 0.98f));
+			_startSubLabel.AddThemeColorOverride("font_outline_color", new Color(0f, 0f, 0f, 0.6f));
+			_startSubLabel.AddThemeConstantOverride("outline_size", 4);
+			_startBtn.AddChild(_startSubLabel);
+		}
+
+		_matchmaking = new LobbyMatchmakingController { Name = "MatchmakingController" };
+		_matchmaking.MatchmakingStateChanged += OnMatchmakingStateChanged;
+		_matchmaking.MatchmakingTick += OnMatchmakingTick;
+		_matchmaking.MatchFound += OnMatchFound;
+		_matchmaking.PenaltyTick += OnMatchmakingPenaltyTick;
+		_matchmaking.PenaltyEnded += OnMatchmakingPenaltyEnded;
+		AddChild(_matchmaking);
+	}
+
 	private void OnStartPressed()
 	{
-		if (_data != null)
+		if (_matchmaking == null) return;
+		if (_matchmaking.IsInPenalty) return;
+
+		if (_matchmaking.IsSearching)
 		{
-			var map = GameCatalog.FindMap(_data.SelectedMapId);
-			GD.Print($"[LobbyScreen] Bắt đầu ghép trận: {GameCatalog.GetPlayTypeShortLabel(_data.SelectedPlayType)} · {GameCatalog.GetTeamModeLabel(_data.SelectedTeamMode)} · {map?.Name}");
+			_matchmaking.CancelSearch();
+			GD.Print("[LobbyScreen] Đã hủy tìm trận.");
+			return;
+		}
+
+		var playType = _data != null ? _data.SelectedPlayType : PlayMatchType.Normal;
+		var teamMode = _data != null ? _data.SelectedTeamMode : TeamMode.Solo1v1;
+		string mapId = _data != null ? _data.SelectedMapId : "map_cho_dau_moi";
+		_matchmaking.StartSearch(playType, teamMode, mapId);
+	}
+
+	private void OnMatchmakingStateChanged(bool isSearching)
+	{
+		UpdateStartButtonVisual(isSearching, _matchmaking != null ? _matchmaking.ElapsedSeconds : 0);
+	}
+
+	private void OnMatchmakingTick(int elapsedSeconds)
+	{
+		if (_matchmaking != null && _matchmaking.IsSearching)
+		{
+			UpdateStartButtonVisual(true, elapsedSeconds);
+		}
+	}
+
+	private void OnMatchFound(int playTypeInt, int teamModeInt, string mapId)
+	{
+		var playType = (PlayMatchType)playTypeInt;
+		var teamMode = (TeamMode)teamModeInt;
+		var map = GameCatalog.FindMap(mapId);
+		GD.Print($"[LobbyScreen] Đã tìm thấy trận: {GameCatalog.GetPlayTypeShortLabel(playType)} · {GameCatalog.GetTeamModeLabel(teamMode)} · {map?.Name}");
+		OpenMatchFoundOverlay(playType, teamMode, mapId);
+	}
+
+	private void OpenMatchFoundOverlay(PlayMatchType playType, TeamMode teamMode, string mapId)
+	{
+		if (!IsInstanceValid(_matchFoundOverlay))
+		{
+			var host = _modalOverlayHost ?? (Control)this;
+			var packed = GD.Load<PackedScene>(MatchFoundOverlayScenePath);
+			_matchFoundOverlay = packed?.Instantiate<MatchFoundOverlay>();
+			if (_matchFoundOverlay != null)
+			{
+				_matchFoundOverlay.AllPlayersReady += OnAllPlayersReady;
+				_matchFoundOverlay.MatchDeclined += OnMatchDeclined;
+				host.AddChild(_matchFoundOverlay);
+			}
+		}
+
+		_matchFoundOverlay?.OpenForMatch(playType, teamMode, mapId);
+	}
+
+	private void OnMatchDeclined(bool selfTimedOut)
+	{
+		if (selfTimedOut)
+		{
+			_matchmaking?.ApplyDeclinePenalty(30f);
+			GD.Print("[LobbyScreen] Hết giờ không xác nhận trận — áp dụng phạt chờ 30s.");
 		}
 		else
 		{
-			GD.Print("[LobbyScreen] Bắt đầu ghép trận!");
+			GD.Print("[LobbyScreen] Trận đấu đã bị hủy do người chơi khác không xác nhận.");
+		}
+	}
+
+	private void OnMatchmakingPenaltyTick(int remainingSeconds)
+	{
+		UpdateStartButtonVisual(false, 0);
+	}
+
+	private void OnMatchmakingPenaltyEnded()
+	{
+		UpdateStartButtonVisual(false, 0);
+	}
+
+	private void OnAllPlayersReady(int playTypeInt, int teamModeInt, string mapId)
+	{
+		GetTree().ChangeSceneToFile(PreMatchPrepScenePath);
+	}
+
+	private void UpdateStartButtonVisual(bool isSearching, int elapsedSeconds)
+	{
+		if (_startBtn == null || _startBtnLabel == null) return;
+
+		if (_matchmaking != null && _matchmaking.IsInPenalty)
+		{
+			_startBtn.Disabled = true;
+			_startBtn.SelfModulate = new Color(0.68f, 0.56f, 0.56f, 0.92f);
+			_startBtnLabel.OffsetTop = -26f;
+			_startBtnLabel.AddThemeFontSizeOverride("font_size", 50);
+			_startBtnLabel.Text = $"Chờ  {LobbyMatchmakingController.FormatElapsed(_matchmaking.PenaltySecondsRemaining)}";
+
+			if (_startSubLabel != null)
+			{
+				_startSubLabel.Text = "Tự hủy trận · Chờ hết giờ để tìm lại";
+				_startSubLabel.Visible = true;
+			}
+			return;
+		}
+
+		_startBtn.Disabled = false;
+		if (isSearching)
+		{
+			_startBtn.SelfModulate = new Color(0.95f, 0.56f, 0.56f, 1f);
+			_startBtnLabel.OffsetTop = -26f;
+			_startBtnLabel.AddThemeFontSizeOverride("font_size", 54);
+			_startBtnLabel.Text = $"Hủy  {LobbyMatchmakingController.FormatElapsed(elapsedSeconds)}";
+
+			if (_startSubLabel != null && _matchmaking != null)
+			{
+				var map = GameCatalog.FindMap(_matchmaking.ActiveMapId);
+				_startSubLabel.Text = $"{GameCatalog.GetPlayTypeShortLabel(_matchmaking.ActivePlayType)} · {GameCatalog.GetTeamModeLabel(_matchmaking.ActiveTeamMode)} · {map?.Name}";
+				_startSubLabel.Visible = true;
+			}
+		}
+		else
+		{
+			_startBtn.SelfModulate = Colors.White;
+			_startBtnLabel.OffsetTop = 0f;
+			_startBtnLabel.AddThemeFontSizeOverride("font_size", 76);
+			_startBtnLabel.Text = "Bắt đầu!";
+			if (_startSubLabel != null) _startSubLabel.Visible = false;
 		}
 	}
 
