@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/icons/icon_social_add.png" id="7_friend_add"]
 [ext_resource type="Texture2D" path="res://assets/sprites/icons/icon_social_request.png" id="8_friend_req"]
 [ext_resource type="Texture2D" path="res://assets/sprites/icons/close_x.svg" id="10_close_x"]
+[ext_resource type="Texture2D" path="res://assets/sprites/icons/close_popup.png" id="11_close_popup"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_drawer_bg"]
 bg_color = Color(0.953, 0.922, 0.863, 1)
@@ -532,40 +533,36 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_send_btn")
 text = "Gửi"
 
 [node name="CollapseBtn" type="Button" parent="DrawerShell"]
+show_behind_parent = true
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -2.0
-offset_top = -70.0
-offset_right = 66.0
-offset_bottom = 70.0
+offset_left = -8.0
+offset_top = -90.0
+offset_right = 80.0
+offset_bottom = 90.0
 grow_horizontal = 0
 grow_vertical = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_collapse_handle")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_collapse_handle")
-theme_override_styles/hover = SubResource("StyleBoxFlat_collapse_handle")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_flat_icon")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_flat_icon")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_flat_icon")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_flat_icon")
+flat = true
 
 [node name="ChevronIcon" type="TextureRect" parent="DrawerShell/CollapseBtn"]
-modulate = Color(0.28, 0.38, 0.64, 1)
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -23.0
-offset_top = -23.0
-offset_right = 23.0
-offset_bottom = 23.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("4_chevron")
+texture = ExtResource("11_close_popup")
 expand_mode = 1
 stretch_mode = 5
 

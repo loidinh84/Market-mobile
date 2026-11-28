@@ -244,7 +244,7 @@ theme_override_colors/font_outline_color = Color(1, 0.96, 0.85, 0.65)
 theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("6_font")
 theme_override_font_sizes/font_size = 54
-text = "HỒ SƠ TIỂU THƯƠNG"
+text = "Hồ sơ thương lái"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -463,7 +463,7 @@ theme_override_colors/font_outline_color = Color(0.18, 0.03, 0.04, 0.85)
 theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("6_font")
 theme_override_font_sizes/font_size = 21
-text = "MÙA NÀY"
+text = "Mùa này"
 horizontal_alignment = 1
 
 [node name="BadgeIcon" type="TextureRect" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent/RanksRow/CurrentRankBtn/Card/VBox"]
@@ -531,7 +531,8 @@ theme_override_colors/font_outline_color = Color(0.18, 0.03, 0.04, 0.85)
 theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("6_font")
 theme_override_font_sizes/font_size = 21
-text = "CAO NHẤT"
+text = "Cao nhất"
+text = "Cao nhất"
 horizontal_alignment = 1
 
 [node name="BadgeIcon" type="TextureRect" parent="Center/DialogFrame/Body/ScrollColumn/ScrollContent/RanksRow/HighestRankBtn/Card/VBox"]
@@ -587,7 +588,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.98, 0.88, 0.62, 1)
 theme_override_fonts/font = ExtResource("6_font")
 theme_override_font_sizes/font_size = 33
-text = "THÔNG TIN TÀI KHOẢN"
+text = "Thông tin tài khoản"
 vertical_alignment = 1
 
 [node name="RenameCostBadge" type="PanelContainer" parent="Center/DialogFrame/Body/InfoColumn/RenameCard/RenameVBox/HeaderRow"]
@@ -710,7 +711,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.98, 0.88, 0.62, 1)
 theme_override_fonts/font = ExtResource("6_font")
 theme_override_font_sizes/font_size = 33
-text = "THÀNH TÍCH CHIẾN ĐẤU"
+text = "Thành tích chiến đấu"
 
 [node name="StatsGrid" type="GridContainer" parent="Center/DialogFrame/Body/InfoColumn/StatsCard/StatsVBox"]
 layout_mode = 2
