@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0xjqmty7e2qt"
-path="res://.godot/imported/tab_untick.png-a7fbce1a44a3a3546d22e18586d8647f.ctex"
+uid="uid://dilkm3ob5o3ba"
+path="res://.godot/imported/btn_close_pressed.png-4a160ee4e041a2a15f8f589140df4d5a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/ui/buttons/tab_untick.png"
-dest_files=["res://.godot/imported/tab_untick.png-a7fbce1a44a3a3546d22e18586d8647f.ctex"]
+source_file="res://assets/sprites/ui/buttons/btn_close_pressed.png"
+dest_files=["res://.godot/imported/btn_close_pressed.png-4a160ee4e041a2a15f8f589140df4d5a.ctex"]
 
 [params]
 

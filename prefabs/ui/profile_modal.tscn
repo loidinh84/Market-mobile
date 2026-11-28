@@ -12,21 +12,14 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/ui/icons_profile/icon_skin.png" id="10_skins"]
 [ext_resource type="Texture2D" uid="uid://bhfot3idbsn45" path="res://assets/sprites/ui/ranks_128x128/rank_04_ngoc_bich.png" id="11_rank_cur"]
 [ext_resource type="Texture2D" uid="uid://dn0jt5v5mf422" path="res://assets/sprites/ui/ranks_128x128/rank_07_trum_cho_lon.png" id="12_rank_max"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/buttons/btn_close_normal.png" id="13_close_normal"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/buttons/btn_close_pressed.png" id="14_close_pressed"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_close_btn"]
-bg_color = Color(0.76, 0.19, 0.21, 1)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.95, 0.80, 0.48, 1)
-corner_radius_top_left = 34
-corner_radius_top_right = 34
-corner_radius_bottom_right = 34
-corner_radius_bottom_left = 34
-shadow_color = Color(0, 0, 0, 0.35)
-shadow_size = 5
-shadow_offset = Vector2(0, 3)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_close_normal"]
+texture = ExtResource("13_close_normal")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_close_pressed"]
+texture = ExtResource("14_close_pressed")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avatar_frame"]
 bg_color = Color(0.49411765, 0.9490196, 0.8862745, 1)
@@ -261,14 +254,10 @@ offset_bottom = 86.0
 grow_horizontal = 0
 focus_mode = 0
 mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(1, 0.96, 0.86, 1)
-theme_override_fonts/font = ExtResource("6_font")
-theme_override_font_sizes/font_size = 40
-theme_override_styles/normal = SubResource("StyleBoxFlat_close_btn")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_close_btn")
-theme_override_styles/hover = SubResource("StyleBoxFlat_close_btn")
-theme_override_styles/focus = SubResource("StyleBoxFlat_close_btn")
-text = "✕"
+theme_override_styles/normal = SubResource("StyleBoxTexture_close_normal")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_close_pressed")
+theme_override_styles/hover = SubResource("StyleBoxTexture_close_normal")
+theme_override_styles/focus = SubResource("StyleBoxTexture_close_normal")
 
 [node name="Body" type="HBoxContainer" parent="Center/DialogFrame"]
 layout_mode = 1

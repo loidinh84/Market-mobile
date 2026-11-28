@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://py6k86kkpec5" path="res://assets/sprites/icons/rau.png" id="9_rau"]
 [ext_resource type="Texture2D" path="res://assets/sprites/icons/animation_chest/chest_full_00.png" id="10_chest"]
 [ext_resource type="Texture2D" uid="uid://bbq64ldrfdvte" path="res://assets/sprites/icons/back.png" id="11_back"]
-[ext_resource type="Texture2D" uid="uid://iet6ido3sk2t" path="res://assets/sprites/icons/close.png" id="12_close"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/buttons/btn_close_normal.png" id="12_close"]
 [ext_resource type="Texture2D" uid="uid://cy8gr4eifo602" path="res://assets/sprites/icons/avatar_character.png" id="13_avatar"]
 [ext_resource type="Texture2D" uid="uid://pwj0gm25rqlh" path="res://assets/sprites/icons/ao_dai.png" id="14_aodai"]
 [ext_resource type="Texture2D" uid="uid://cvlo6rthho87x" path="res://assets/sprites/icons/social/emotion.png" id="15_emotion"]

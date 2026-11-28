@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cy7sikbvc35k0"
-path="res://.godot/imported/tab_ticked.png-3e79ff0a40a7f584e04baf936ad1c6a5.ctex"
+uid="uid://ciqp8smwm0gkt"
+path="res://.godot/imported/btn_sidebar_tab_pressed.png-9ebd5c19af17f56fd2395bc0420ee4c2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/ui/buttons/tab_ticked.png"
-dest_files=["res://.godot/imported/tab_ticked.png-3e79ff0a40a7f584e04baf936ad1c6a5.ctex"]
+source_file="res://assets/sprites/ui/buttons/btn_sidebar_tab_pressed.png"
+dest_files=["res://.godot/imported/btn_sidebar_tab_pressed.png-9ebd5c19af17f56fd2395bc0420ee4c2.ctex"]
 
 [params]
 

@@ -3,10 +3,10 @@
 [ext_resource type="Script" path="res://scripts/UI/LeftSidebar.cs" id="1_sidebar_script"]
 [ext_resource type="Texture2D" uid="uid://cfpcheaj7fsph" path="res://assets/sprites/ui/backgrounds/background_navbar.png" id="1_bw1qk"]
 [ext_resource type="Script" uid="uid://q8sf68eptkfl" path="res://scripts/UI/SidebarTab.cs" id="2_7oy6l"]
-[ext_resource type="Texture2D" uid="uid://cy7sikbvc35k0" path="res://assets/sprites/ui/buttons/tab_ticked.png" id="3_hnh47"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/buttons/btn_sidebar_tab_normal.png" id="3_hnh47"]
 [ext_resource type="Texture2D" uid="uid://dq0icct61slao" path="res://assets/sprites/ui/buttons/tab_lobby.png" id="4_qx0kb"]
 [ext_resource type="FontFile" uid="uid://cjd25dmr5o11b" path="res://assets/fonts/FZ-Orcish.ttf" id="5_qmxam"]
-[ext_resource type="Texture2D" uid="uid://c0xjqmty7e2qt" path="res://assets/sprites/ui/buttons/tab_untick.png" id="6_jql8r"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/buttons/btn_sidebar_tab_pressed.png" id="6_jql8r"]
 [ext_resource type="Texture2D" uid="uid://4b781ymxkumt" path="res://assets/sprites/ui/buttons/tab_characters.png" id="7_uo5cp"]
 [ext_resource type="Texture2D" uid="uid://c4nltk5ryqhsf" path="res://assets/sprites/ui/buttons/tab_events.png" id="8_paoah"]
 [ext_resource type="Texture2D" uid="uid://db5h6pt774bp7" path="res://assets/sprites/ui/buttons/tab_shop.png" id="9_r2148"]
@@ -36,10 +36,10 @@ expand_mode = 1
 
 [node name="SettingBtn" type="TextureButton" parent="."]
 layout_mode = 0
-offset_left = 24.0
-offset_top = 18.0
-offset_right = 98.0
-offset_bottom = 92.0
+offset_left = 20.0
+offset_top = 40.0
+offset_right = 88.0
+offset_bottom = 108.0
 focus_mode = 0
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource("11_setting")
@@ -50,8 +50,9 @@ stretch_mode = 5
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
+offset_left = -9.0
 offset_top = 116.0
-offset_right = 460.0
+offset_right = 451.0
 grow_vertical = 2
 theme_override_constants/separation = 20
 
@@ -61,21 +62,23 @@ layout_mode = 2
 size_flags_horizontal = 0
 script = ExtResource("2_7oy6l")
 
-[node name="BgTexture" type="TextureRect" parent="TabsVBox/Tab0_Sanh" unique_id=1551150778]
+[node name="BgTexture" type="NinePatchRect" parent="TabsVBox/Tab0_Sanh" unique_id=1551150778]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -8.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_hnh47")
-expand_mode = 1
+patch_margin_left = 36
+patch_margin_right = 100
 
 [node name="IconRect" type="TextureRect" parent="TabsVBox/Tab0_Sanh" unique_id=931331457]
 layout_mode = 0
-offset_left = 242.0
+offset_left = 236.0
 offset_top = 18.0
-offset_right = 364.0
+offset_right = 358.0
 offset_bottom = 140.0
 texture = ExtResource("4_qx0kb")
 expand_mode = 1
@@ -83,15 +86,15 @@ stretch_mode = 5
 
 [node name="TitleLabel" type="Label" parent="TabsVBox/Tab0_Sanh" unique_id=1276157160]
 layout_mode = 0
-offset_left = 50.0
-offset_top = 45.0
-offset_right = 270.0
-offset_bottom = 110.0
+offset_left = 92.0
+offset_top = 40.0
+offset_right = 332.0
+offset_bottom = 106.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
 theme_override_constants/outline_size = 6
 theme_override_fonts/font = ExtResource("5_qmxam")
-theme_override_font_sizes/font_size = 80
+theme_override_font_sizes/font_size = 60
 text = "Sảnh"
 vertical_alignment = 1
 
@@ -116,36 +119,38 @@ layout_mode = 2
 size_flags_horizontal = 0
 script = ExtResource("2_7oy6l")
 
-[node name="BgTexture" type="TextureRect" parent="TabsVBox/Tab1_NhanVat" unique_id=1936879599]
+[node name="BgTexture" type="NinePatchRect" parent="TabsVBox/Tab1_NhanVat" unique_id=1936879599]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -8.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("6_jql8r")
-expand_mode = 1
+patch_margin_left = 36
+patch_margin_right = 100
 
 [node name="IconRect" type="TextureRect" parent="TabsVBox/Tab1_NhanVat" unique_id=453453670]
 layout_mode = 0
-offset_left = 103.0
-offset_top = -26.0
-offset_right = 207.0
-offset_bottom = 78.0
+offset_left = 102.0
+offset_top = -29.0
+offset_right = 208.0
+offset_bottom = 77.0
 texture = ExtResource("7_uo5cp")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="TitleLabel" type="Label" parent="TabsVBox/Tab1_NhanVat" unique_id=346343365]
 layout_mode = 0
-offset_top = 85.0
+offset_top = 72.0
 offset_right = 310.0
-offset_bottom = 151.0
+offset_bottom = 132.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
 theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("5_qmxam")
-theme_override_font_sizes/font_size = 65
+theme_override_font_sizes/font_size = 57
 text = "Nhân vật"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -171,36 +176,38 @@ layout_mode = 2
 size_flags_horizontal = 0
 script = ExtResource("2_7oy6l")
 
-[node name="BgTexture" type="TextureRect" parent="TabsVBox/Tab2_SuKien" unique_id=1154978893]
+[node name="BgTexture" type="NinePatchRect" parent="TabsVBox/Tab2_SuKien" unique_id=1154978893]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -8.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("6_jql8r")
-expand_mode = 1
+patch_margin_left = 36
+patch_margin_right = 100
 
 [node name="IconRect" type="TextureRect" parent="TabsVBox/Tab2_SuKien" unique_id=2065949173]
 layout_mode = 0
-offset_left = 103.0
-offset_top = -26.0
-offset_right = 207.0
-offset_bottom = 78.0
+offset_left = 107.5
+offset_top = -23.5
+offset_right = 202.5
+offset_bottom = 71.5
 texture = ExtResource("8_paoah")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="TitleLabel" type="Label" parent="TabsVBox/Tab2_SuKien" unique_id=1881548905]
 layout_mode = 0
-offset_top = 85.0
+offset_top = 72.0
 offset_right = 310.0
-offset_bottom = 137.0
+offset_bottom = 132.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
 theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("5_qmxam")
-theme_override_font_sizes/font_size = 65
+theme_override_font_sizes/font_size = 57
 text = "Sự kiện"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -226,36 +233,38 @@ layout_mode = 2
 size_flags_horizontal = 0
 script = ExtResource("2_7oy6l")
 
-[node name="BgTexture" type="TextureRect" parent="TabsVBox/Tab3_CuaHang" unique_id=1968547369]
+[node name="BgTexture" type="NinePatchRect" parent="TabsVBox/Tab3_CuaHang" unique_id=1968547369]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -8.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("6_jql8r")
-expand_mode = 1
+patch_margin_left = 36
+patch_margin_right = 100
 
 [node name="IconRect" type="TextureRect" parent="TabsVBox/Tab3_CuaHang" unique_id=779939281]
 layout_mode = 0
-offset_left = 103.0
-offset_top = -26.0
-offset_right = 207.0
-offset_bottom = 78.0
+offset_left = 106.0
+offset_top = -25.0
+offset_right = 204.0
+offset_bottom = 73.0
 texture = ExtResource("9_r2148")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="TitleLabel" type="Label" parent="TabsVBox/Tab3_CuaHang" unique_id=551037839]
 layout_mode = 0
-offset_top = 85.0
+offset_top = 72.0
 offset_right = 310.0
-offset_bottom = 137.0
+offset_bottom = 132.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
 theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("5_qmxam")
-theme_override_font_sizes/font_size = 65
+theme_override_font_sizes/font_size = 57
 text = "Cửa hàng"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -281,36 +290,38 @@ layout_mode = 2
 size_flags_horizontal = 0
 script = ExtResource("2_7oy6l")
 
-[node name="BgTexture" type="TextureRect" parent="TabsVBox/Tab4_TuiDo" unique_id=1801501194]
+[node name="BgTexture" type="NinePatchRect" parent="TabsVBox/Tab4_TuiDo" unique_id=1801501194]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -8.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("6_jql8r")
-expand_mode = 1
+patch_margin_left = 36
+patch_margin_right = 100
 
 [node name="IconRect" type="TextureRect" parent="TabsVBox/Tab4_TuiDo" unique_id=451792846]
 layout_mode = 0
-offset_left = 103.0
-offset_top = -26.0
-offset_right = 207.0
-offset_bottom = 78.0
+offset_left = 107.0
+offset_top = -24.0
+offset_right = 203.0
+offset_bottom = 72.0
 texture = ExtResource("10_backpack")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="TitleLabel" type="Label" parent="TabsVBox/Tab4_TuiDo" unique_id=952385674]
 layout_mode = 0
-offset_top = 85.0
+offset_top = 72.0
 offset_right = 310.0
-offset_bottom = 148.0
+offset_bottom = 132.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
 theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("5_qmxam")
-theme_override_font_sizes/font_size = 65
+theme_override_font_sizes/font_size = 57
 text = "Túi đồ"
 horizontal_alignment = 1
 vertical_alignment = 1
