@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://uclx23ccin4k"
-path="res://.godot/imported/mode_frame.png-3a4f5bae1c2c71d0878d08f604b30dd9.ctex"
+path="res://.godot/imported/mode_frame.png-d6e2fe8bd5a740df33bff51f8d8b9794.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/icons/mode_frame.png"
-dest_files=["res://.godot/imported/mode_frame.png-3a4f5bae1c2c71d0878d08f604b30dd9.ctex"]
+source_file="res://assets/sprites/ui/frames/mode_frame.png"
+dest_files=["res://.godot/imported/mode_frame.png-d6e2fe8bd5a740df33bff51f8d8b9794.ctex"]
 
 [params]
 

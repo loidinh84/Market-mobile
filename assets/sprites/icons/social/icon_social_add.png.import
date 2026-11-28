@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b4yf0eso32os1"
-path="res://.godot/imported/icon_social_add.png-6f5ac522040aed08f050824c67fb9140.ctex"
+path="res://.godot/imported/icon_social_add.png-772251add414bc942c1e64aa2e319c30.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/icons/icon_social_add.png"
-dest_files=["res://.godot/imported/icon_social_add.png-6f5ac522040aed08f050824c67fb9140.ctex"]
+source_file="res://assets/sprites/icons/social/icon_social_add.png"
+dest_files=["res://.godot/imported/icon_social_add.png-772251add414bc942c1e64aa2e319c30.ctex"]
 
 [params]
 

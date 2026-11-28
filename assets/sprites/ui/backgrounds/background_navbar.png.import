@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cfpcheaj7fsph"
-path="res://.godot/imported/background_navbar.png-e0bea918c5ec610fc306e25846209d76.ctex"
+path="res://.godot/imported/background_navbar.png-c6f3aa70b675faf95490d61f4688348e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/icons/background_navbar.png"
-dest_files=["res://.godot/imported/background_navbar.png-e0bea918c5ec610fc306e25846209d76.ctex"]
+source_file="res://assets/sprites/ui/backgrounds/background_navbar.png"
+dest_files=["res://.godot/imported/background_navbar.png-c6f3aa70b675faf95490d61f4688348e.ctex"]
 
 [params]
 

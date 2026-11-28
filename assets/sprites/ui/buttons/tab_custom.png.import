@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dxdadtswabad6"
-path="res://.godot/imported/tab_custom.png-a2486e044f264fdeb7d2c7bc55c57f31.ctex"
+path="res://.godot/imported/tab_custom.png-a21adcdc2d1279c28cbfe772a8b84296.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/icons/tab_custom.png"
-dest_files=["res://.godot/imported/tab_custom.png-a2486e044f264fdeb7d2c7bc55c57f31.ctex"]
+source_file="res://assets/sprites/ui/buttons/tab_custom.png"
+dest_files=["res://.godot/imported/tab_custom.png-a21adcdc2d1279c28cbfe772a8b84296.ctex"]
 
 [params]
 

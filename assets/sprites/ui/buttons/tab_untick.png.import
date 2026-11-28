@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c0xjqmty7e2qt"
-path="res://.godot/imported/tab_untick.png-abb4be4b0752156fe7aca958cf621fe7.ctex"
+path="res://.godot/imported/tab_untick.png-a7fbce1a44a3a3546d22e18586d8647f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/icons/tab_untick.png"
-dest_files=["res://.godot/imported/tab_untick.png-abb4be4b0752156fe7aca958cf621fe7.ctex"]
+source_file="res://assets/sprites/ui/buttons/tab_untick.png"
+dest_files=["res://.godot/imported/tab_untick.png-a7fbce1a44a3a3546d22e18586d8647f.ctex"]
 
 [params]
 

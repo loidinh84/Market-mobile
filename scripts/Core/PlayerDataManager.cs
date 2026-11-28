@@ -172,6 +172,13 @@ public partial class PlayerDataManager : Node
     /// </summary>
     public bool PendingOpenInventory { get; set; } = false;
 
+    /// <summary>
+    /// Dữ liệu đội hình & bản đồ của trận sắp vào (truyền từ PreMatchPrepScreen sang MatchLoadingScreen và Map).
+    /// </summary>
+    public int[] ActiveMatchCharacterIndices { get; set; } = new[] { 0 };
+    public string[] ActiveMatchItemIds { get; set; } = System.Array.Empty<string>();
+    public string ActiveMatchScenePath { get; set; } = "res://scenes/gameplay/map_01_street.tscn";
+
     private CharacterProfile[] _characters;
     private readonly Dictionary<string, int> _itemQuantities = new();
     private readonly List<string> _recentItemIds = new();

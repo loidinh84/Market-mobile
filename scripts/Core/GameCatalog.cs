@@ -29,6 +29,7 @@ public sealed class MapMeta
 	public string Name { get; init; }
 	public string Subtitle { get; init; }
 	public string TexturePath { get; init; }
+	public string ScenePath { get; init; } = "res://scenes/gameplay/map_01_street.tscn";
 	public Color BannerTint { get; init; } = Colors.White;
 	public Color TitleColor { get; init; } = Colors.White;
 	public bool AllowInRanked { get; init; } = true;
@@ -304,6 +305,7 @@ public static class GameCatalog
 			Name = "Ngã Tư Thủ Đức",
 			Subtitle = "Chỉ mở Đấu Thường / Máy / Custom",
 			TexturePath = "res://assets/sprites/ui/frames/map_demo.png",
+			ScenePath = "res://scenes/gameplay/map_02_village.tscn",
 			BannerTint = new Color(0.95f, 0.92f, 1.0f, 1f),
 			TitleColor = new Color(1.0f, 0.62f, 0.22f, 1f),
 			AllowInRanked = false
