@@ -1,0 +1,248 @@
+[gd_scene format=3]
+
+[ext_resource type="FontFile" uid="uid://cjd25dmr5o11b" path="res://assets/fonts/FZ-Orcish.ttf" id="1_font"]
+[ext_resource type="Script" path="res://scripts/UI/MatchLoadingScreen.cs" id="2_script"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_transparent"]
+content_margin_left = 36.0
+content_margin_top = 14.0
+content_margin_right = 36.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tip"]
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 6.0
+
+[sub_resource type="Gradient" id="Gradient_bottom_fade"]
+offsets = PackedFloat32Array(0, 1)
+colors = PackedColorArray(0.04, 0.04, 0.1, 0, 0.04, 0.04, 0.1, 0.62)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bottom_fade"]
+gradient = SubResource("Gradient_bottom_fade")
+width = 64
+height = 128
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_footer_fade"]
+content_margin_left = 34.0
+content_margin_top = 18.0
+content_margin_right = 34.0
+content_margin_bottom = 16.0
+texture = SubResource("GradientTexture2D_bottom_fade")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vs_badge"]
+bg_color = Color(0.95, 0.56, 0.14, 0.96)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 0.93, 0.65, 1)
+corner_radius_top_left = 60
+corner_radius_top_right = 60
+corner_radius_bottom_right = 60
+corner_radius_bottom_left = 60
+shadow_color = Color(0, 0, 0, 0.45)
+shadow_size = 16
+shadow_offset = Vector2(0, 6)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_progress_bg"]
+bg_color = Color(0.08, 0.09, 0.18, 0.65)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_progress_fill"]
+bg_color = Color(0.18, 0.78, 0.56, 0.95)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="MatchLoadingScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_script")
+
+[node name="MapBgFallback" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="MapBgViewportContainer" type="SubViewportContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stretch = true
+
+[node name="MapBgViewport" type="SubViewport" parent="MapBgViewportContainer"]
+disable_3d = true
+gui_disable_input = true
+handle_input_locally = false
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="MapBgVeil" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.04, 0.04, 0.1, 0.42)
+
+[node name="MainVBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="HeaderPanel" type="PanelContainer" parent="MainVBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_transparent")
+
+[node name="HBox" type="HBoxContainer" parent="MainVBox/HeaderPanel"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="MapTitleLabel" type="Label" parent="MainVBox/HeaderPanel/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.96, 0.78, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.8)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 38
+text = "Chợ Đầu Mối · Thường · 2 VS 2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ArenaCenter" type="CenterContainer" parent="MainVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VersusHBox" type="HBoxContainer" parent="MainVBox/ArenaCenter"]
+layout_mode = 2
+theme_override_constants/separation = 42
+alignment = 1
+
+[node name="BlueTeamVBox" type="VBoxContainer" parent="MainVBox/ArenaCenter/VersusHBox"]
+custom_minimum_size = Vector2(620, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 20
+
+[node name="VsBadge" type="PanelContainer" parent="MainVBox/ArenaCenter/VersusHBox"]
+custom_minimum_size = Vector2(118, 118)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_vs_badge")
+
+[node name="VsLabel" type="Label" parent="MainVBox/ArenaCenter/VersusHBox/VsBadge"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.32, 0.12, 0.02, 0.9)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 54
+text = "VS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RedTeamVBox" type="VBoxContainer" parent="MainVBox/ArenaCenter/VersusHBox"]
+custom_minimum_size = Vector2(620, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 20
+
+[node name="FooterPanel" type="PanelContainer" parent="MainVBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_footer_fade")
+
+[node name="VBox" type="VBoxContainer" parent="MainVBox/FooterPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TopRow" type="HBoxContainer" parent="MainVBox/FooterPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="EmoteBar" type="HBoxContainer" parent="MainVBox/FooterPanel/VBox/TopRow"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TipBtn" type="Button" parent="MainVBox/FooterPanel/VBox/TopRow"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.98, 0.96, 0.90, 0.98)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.82)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tip")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_tip")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_tip")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_tip")
+flat = true
+text = "Mẹo: Chạm vào thẻ người chơi để lật xem vật phẩm và chỉ số!"
+alignment = 0
+clip_text = true
+
+[node name="ProgressRow" type="HBoxContainer" parent="MainVBox/FooterPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="LoadingBar" type="ProgressBar" parent="MainVBox/FooterPanel/VBox/ProgressRow"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_progress_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_progress_fill")
+value = 5.0
+show_percentage = false
+
+[node name="LoadingStatusLabel" type="Label" parent="MainVBox/FooterPanel/VBox/ProgressRow"]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.98, 0.92, 0.98)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.82)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 24
+text = "Đang tải trận... 0%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="EmoteFloatLayer" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

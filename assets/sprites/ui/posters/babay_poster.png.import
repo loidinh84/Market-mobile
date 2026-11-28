@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://crnjhin4v0vt3"
-path="res://.godot/imported/babay_poster.png-98d1ade5fdcf3847840b26fc4a82c774.ctex"
+path="res://.godot/imported/babay_poster.png-4b01ee84a3b3a9d5a133c879585264c0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/icons/babay_poster.png"
-dest_files=["res://.godot/imported/babay_poster.png-98d1ade5fdcf3847840b26fc4a82c774.ctex"]
+source_file="res://assets/sprites/ui/posters/babay_poster.png"
+dest_files=["res://.godot/imported/babay_poster.png-4b01ee84a3b3a9d5a133c879585264c0.ctex"]
 
 [params]
 
